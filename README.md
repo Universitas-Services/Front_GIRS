@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IA Agent Platform
 
-## Getting Started
+Una aplicación web estática (mockeada) de agente conversacional con IA, construida con Next.js 14, Tailwind CSS, Shadcn UI y TypeScript.
 
-First, run the development server:
+## Características
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- UI/UX Premium siguiendo el diseño especificado.
+- Paleta de colores exacta: Petróleo, Verde vibrante, Fondos neutros y claros.
+- Módulos de Autenticación (Login, Registro, Recuperar contraseña) con validaciones usando Zod.
+- Dashboard conversacional con Sidebar colapsable responsivo.
+- Efectos de escritura tipo máquina de escribir ("typewriter") para los mensajes del agente.
+- Simulación de endpoints usando servicios asíncronos con retrasos (delay/sleep).
+- Componentes accesibles usando Shadcn UI.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Requisitos Previos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js 18+ recomendado.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Instalación y Configuración
 
-## Learn More
+1.  Abre la terminal en la raíz del proyecto.
+2.  Instala las dependencias:
+    ```bash
+    npm install
+    ```
+3.  Inicia el servidor de desarrollo:
+    ```bash
+    npm run dev
+    ```
+4.  Abre `http://localhost:3000` en tu navegador. 
+    Serás redirigido automáticamente al login.
 
-To learn more about Next.js, take a look at the following resources:
+### Variables de entorno (Opcional)
+Hay una constante en `src/config/app.config.ts` que busca un API URL (`NEXT_PUBLIC_API_URL`). Para efectos de esta demo estática no es requerido. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Personalización de Logos / Avatar
+Los logos y el avatar se deben referenciar en `src/config/app.config.ts`.
+Si no están definidos, la aplicación usará íconos vectoriales modernos (Lucide React) por defecto.
+Para reemplazar, simplemente asigna una URL a las constantes `PROJECT_LOGO_URL` o `AGENT_AVATAR_URL` y la UI los renderizará usando `<Image />` de Next.js.

@@ -1,0 +1,80 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Message } from '@/types/chat.types';
+import { AgentAvatar } from './AgentAvatar';
+import { cn, formatRelativeDate } from '@/lib/utils';
+import { APP_CONFIG } from '@/config/app.config';
+
+interface MessageBubbleProps {
+    message: Message;
+    isLast: boolean;
+}
+
+export function MessageBubble({ message, isLast }: MessageBubbleProps) {
+    const isAgent = message.role === 'assistant';
+    const [displayedText, setDisplayedText] = useState(isAgent && isLast ? '' : message.content);
+    const [isTyping, setIsTyping] = useState(isAgent && isLast);
+
+    useEffect(() => {
+        if (isAgent && isLast && isTyping) {
+            let currentIndex = 0;
+            const interval = setInterval(() => {
+                if (currentIndex < message.content.length) {
+                    setDisplayedText((prev) => prev + message.content.charAt(currentIndex));
+                    currentIndex++;
+                } else {
+                    setIsTyping(false);
+                    clearInterval(interval);
+                }
+            }, 20); // 20ms per character typing effect
+
+            return () => clearInterval(interval);
+        }
+    }, [message.content, isAgent, isLast, isTyping]);
+
+    const timestamp = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    return (
+        <div className={cn(
+            "flex w-full animate-fade-in group",
+            isAgent ? "justify-start" : "justify-end"
+        )}>
+            <div className={cn(
+                "flex max-w-[85%] sm:max-w-[75%] items-end gap-2",
+                isAgent ? "flex-row" : "flex-row-reverse"
+            )}>
+
+                {isAgent && (
+                    <div className="shrink-0 mb-1">
+                        <AgentAvatar size="sm" />
+                    </div>
+                )}
+
+                <div className="flex flex-col gap-1">
+                    <div className={cn(
+                        "p-4 relative max-w-full",
+                        isAgent
+                            ? "bg-[#EAEFEA] text-neutral-dark rounded-[20px] rounded-tl-sm border border-[#D0DCD4]/40"
+                            : "bg-primary text-on-primary rounded-[20px] rounded-tr-sm"
+                    )}>
+                        <p className="text-[15px] leading-relaxed break-words whitespace-pre-wrap">
+                            {displayedText}
+                            {isTyping && <span className="inline-block w-1.5 h-4 ml-1 bg-accent animate-pulse align-middle" />}
+                        </p>
+                    </div>
+
+                    <div className={cn(
+                        "flex items-center gap-2",
+                        isAgent ? "justify-start ml-1" : "justify-end mr-1"
+                    )}>
+                        {isAgent && <span className="text-[10px] font-medium text-neutral-dark/40 uppercase tracking-wider">{APP_CONFIG.AGENT_NAME}</span>}
+                        <span className="text-xs text-neutral-dark/40">{timestamp}</span>
+                        {!isAgent && <span className="text-[10px] font-medium text-neutral-dark/40 uppercase tracking-wider">TÚ</span>}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    );
+}
