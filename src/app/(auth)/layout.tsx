@@ -10,24 +10,17 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
                 {/* Panel Izquierdo (Móvil y Desktop) */}
                 <div className="flex md:w-[45%] bg-primary flex-col items-center justify-center p-8 lg:p-12 relative text-on-primary shrink-0 min-h-[300px] md:min-h-full">
-                    <div className="flex flex-col items-center justify-center z-10 space-y-4 text-center">
-                        {APP_CONFIG.AGENT_AVATAR_URL ? (
-                            <div className="w-20 h-20 rounded-full bg-surface-soft/10 flex items-center justify-center overflow-hidden mb-1 ring-4 ring-white/10">
-                                <Image src={APP_CONFIG.AGENT_AVATAR_URL} alt="Agent" width={80} height={80} className="object-cover" />
-                            </div>
-                        ) : (
-                            <div className="w-16 h-16 rounded-full bg-surface-soft/20 flex items-center justify-center mb-1">
-                                <span className="text-3xl text-white">🤖</span>
-                            </div>
-                        )}
-                        <h1 className="text-3xl font-bold tracking-tight">{APP_CONFIG.PROJECT_NAME}</h1>
-                        <p className="text-on-primary/80 max-w-xs text-sm leading-relaxed">
-                            Gestiona tus agentes conversacionales con la potencia de la inteligencia artificial avanzada.
+                    <div className="flex flex-col items-center justify-center z-10 space-y-6 text-center">
+                        <div className="w-80 h-auto flex items-center justify-center mb-2">
+                            <img
+                                src="/asset/LOGO UNIVERSITAS LEGAL (BLANCO).png"
+                                alt="Universitas Legal Logo"
+                                className="w-full h-auto object-contain drop-shadow-md"
+                            />
+                        </div>
+                        <p className="text-on-primary/90 max-w-sm text-[15px] font-medium leading-relaxed">
+                            Impulsa tus proyectos ambientales con la potencia de nuestra consultoría experta en Gestión Integral de Residuos Sólidos.
                         </p>
-                    </div>
-
-                    <div className="absolute bottom-6 opacity-20 hidden md:block">
-                        <Network size={120} strokeWidth={1} />
                     </div>
                 </div>
 

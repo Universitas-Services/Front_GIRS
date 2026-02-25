@@ -55,7 +55,7 @@ export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessa
                             value={content}
                             onChange={handleInput}
                             onKeyDown={handleKeyDown}
-                            placeholder="Type your message here..."
+                            placeholder="Escribe un mensaje..."
                             disabled={isSending}
                             className="flex-1 bg-transparent border-none focus:outline-none outline-none focus:ring-0 focus-visible:ring-0 resize-none max-h-[144px] py-4 text-[15px] text-neutral-dark placeholder:text-neutral-dark/40 font-medium"
                             rows={1}
@@ -71,9 +71,6 @@ export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessa
                             </Button>
                         </div>
                     </div>
-                    <p className="text-center text-[10px] sm:text-[11px] text-neutral-dark/40 mt-3 font-semibold tracking-wider uppercase">
-                        {APP_CONFIG.AGENT_NAME} PUEDE COMETER ERRORES. CONSIDERA VERIFICAR LA INFORMACIÓN IMPORTANTE.
-                    </p>
                 </div>
             </div>
         );
@@ -88,7 +85,7 @@ export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessa
                         value={content}
                         onChange={handleInput}
                         onKeyDown={handleKeyDown}
-                        placeholder="Escribe tu mensaje..."
+                        placeholder="Escribe un mensaje..."
                         disabled={isSending}
                         className="flex-1 bg-transparent border-none focus:outline-none outline-none focus:ring-0 focus-visible:ring-0 resize-none max-h-[144px] py-4 px-3 text-[15px] text-neutral-dark placeholder:text-neutral-dark/40 font-medium"
                         rows={1}
