@@ -19,7 +19,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                             />
                         </div>
                         <p className="text-on-primary/90 max-w-sm text-[15px] font-medium leading-relaxed">
-                            Impulsa tus proyectos ambientales con la potencia de nuestra consultoría experta en Gestión Integral de Residuos Sólidos.
+                            Consultoría experta en Gestión Integral de Residuos Sólidos.
                         </p>
                     </div>
                 </div>

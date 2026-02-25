@@ -35,7 +35,7 @@ export function MessageList({ onSuggestionClick }: { onSuggestionClick: (text: s
                     <h2 className="text-[32px] font-bold tracking-tight mb-2 text-center text-neutral-dark">
                         Hola, soy tu <span className="text-[#004A5C]">Consultor IA GIRS</span>
                     </h2>
-                    <p className="text-center text-neutral-dark/60 max-w-[600px] text-[15px] mx-auto">
+                    <p className="text-center text-[#3b4044] max-w-[600px] text-[15px] mx-auto">
                         Soy un agente IA experto en Gestión Integral de Residuos Sólidos - GIRS. Estoy aquí para resolver tus dudas técnicas, apoyarte en la planificación y asegurar el cumplimiento normativo.
                     </p>
                 </div>

@@ -147,8 +147,14 @@ export default function ChatDashboardPage() {
                     <div className="flex-1 max-w-5xl mx-auto w-full flex flex-col bg-white shadow-xl md:rounded-[24px] overflow-hidden md:mt-4 md:mb-6 border border-surface-soft/40">
                         {/* Header for Active Conversation inside the White Card */}
                         <div className="flex items-center px-6 py-4 border-b border-surface-soft/60 bg-white shrink-0 z-10 transition-all">
-                            <AgentAvatar size="sm" className="mr-3 ring-2 ring-white shadow-sm" />
-                            <h2 className="font-bold text-neutral-dark text-[17px]">{APP_CONFIG.AGENT_NAME} - Consultor IA</h2>
+                            <div className="relative mr-3 flex shrink-0">
+                                <AgentAvatar size="sm" className="ring-2 ring-white shadow-sm" />
+                                <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-[#20D36B] ring-[1.5px] ring-white shadow-sm"></span>
+                            </div>
+                            <div className="flex flex-col">
+                                <h2 className="font-bold text-neutral-dark text-[17px] leading-tight">{APP_CONFIG.AGENT_NAME} - Consultor IA</h2>
+                                <span className="text-[13px] font-medium text-[#20D36B]">En línea</span>
+                            </div>
                         </div>
 
                         <MessageList onSuggestionClick={handleSuggestionClick} />
