@@ -15,133 +15,242 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight, Eye, EyeOff, KeyRound, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { authService } from '@/lib/services/auth.service';
-// import { APP_CONFIG } from '@/config/app.config'; // Removed as per instruction
+import { useRouter } from 'next/navigation';
 
 export function ForgotPasswordForm() {
-    const [step, setStep] = useState<1 | 2>(1);
-    const [countdown, setCountdown] = useState(0);
+    const [step, setStep] = useState<1 | 2 | 3>(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof forgotPasswordSchema>>({
         resolver: zodResolver(forgotPasswordSchema),
-        defaultValues: { email: '' },
+        defaultValues: { email: '', code: '', password: '', confirmPassword: '' },
     });
 
     const emailValue = form.watch('email');
 
-    async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
+    async function onNextStep1() {
+        const isValid = await form.trigger(['email']);
+        if (!isValid) return;
+
         setIsSubmitting(true);
         try {
-            await authService.forgotPassword(values.email);
+            await authService.forgotPassword(emailValue);
+            toast.success('Código enviado a tu correo');
             setStep(2);
-            startCountdown();
         } catch (error) {
-            toast.error('Error al enviar el enlace');
+            toast.error('Error al enviar el código');
         } finally {
             setIsSubmitting(false);
         }
     }
 
-    const startCountdown = () => {
-        setCountdown(60);
-        const interval = setInterval(() => {
-            setCountdown((prev) => {
-                if (prev <= 1) {
-                    clearInterval(interval);
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-    };
+    async function onNextStep2() {
+        const isValid = await form.trigger(['code']);
+        if (!isValid) return;
 
-    const handleResend = async () => {
+        // Aquí iría la llamada real para validar código, como es mock, lo probamos simulando éxito
+        setIsSubmitting(true);
+        setTimeout(() => {
+            const code = form.getValues('code');
+            if (code && code.length === 6) {
+                toast.success('Código verificado correctamente');
+                setStep(3);
+            } else {
+                toast.error('Código inválido');
+            }
+            setIsSubmitting(false);
+        }, 1000);
+    }
+
+    async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
+        if (step !== 3) return;
         setIsSubmitting(true);
         try {
-            await authService.forgotPassword(emailValue);
-            startCountdown();
-            toast.success('Enlace reenviado');
+            // Simulamos guardado de la nueva contraseña
+            setTimeout(() => {
+                toast.success('Contraseña actualizada exitosamente');
+                router.push('/login');
+            }, 1000);
+        } catch (error) {
+            toast.error('Error al actualizar contraseña');
         } finally {
             setIsSubmitting(false);
         }
-    };
+    }
 
     return (
         <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in relative overflow-hidden">
 
-            <div className={`transition-all duration-300 ${step === 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full absolute invisible'}`}>
-                <div className="space-y-2 mb-8">
-                    <h2 className="text-3xl font-bold text-primary">Recuperar Contraseña</h2>
-                    <p className="text-neutral-dark/60 text-sm">
-                        Ingresa tu correo electrónico y te enviaremos un enlace para restablecerla.
-                    </p>
-                </div>
-
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-primary font-bold text-sm">Correo electrónico</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="nombre@empresa.com"
-                                            className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500 font-medium text-xs" />
-                                </FormItem>
-                            )}
-                        />
-
-                        <Button
-                            type="submit"
-                            className="w-full bg-accent hover:bg-accent/90 text-on-primary active:scale-95 transition-all text-base h-12 rounded-full font-bold shadow-lg shadow-accent/20"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? <Spinner size="sm" className="text-on-primary mr-2" /> : null}
-                            Enviar enlace
-                            {!isSubmitting && <ArrowRight size={18} className="ml-2" />}
-                        </Button>
-                    </form>
-                </Form>
+            <div className="space-y-2 mb-8 text-center">
+                <h2 className="text-3xl font-bold text-primary">Recuperar contraseña</h2>
+                <p className="text-neutral-dark/60 text-sm">
+                    {step === 1 && 'Ingresa tu correo para recibir un código.'}
+                    {step === 2 && 'Ingresa el código numérico de 6 dígitos.'}
+                    {step === 3 && 'Crea tu nueva contraseña segura.'}
+                </p>
             </div>
 
-            <div className={`transition-all duration-300 ${step === 2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full absolute invisible'}`}>
-                <div className="flex flex-col items-center justify-center space-y-6 text-center">
-                    <div className="w-20 h-20 bg-surface-light rounded-full flex items-center justify-center">
-                        <Mail size={40} className="text-accent" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-primary">Revisa tu correo</h2>
-                    <p className="text-neutral-dark/60 text-sm">
-                        Enviamos un enlace a <br /><span className="font-bold text-primary">{emailValue}</span>
-                    </p>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    {step === 1 && (
+                        <div className="space-y-6 animate-fade-in">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-primary font-bold text-sm">Correo electrónico</FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-dark/40">
+                                                    <Mail size={18} />
+                                                </div>
+                                                <Input
+                                                    placeholder="nombre@empresa.com"
+                                                    className="pl-10 bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
+                                                    {...field}
+                                                />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="text-red-500 font-medium text-xs" />
+                                    </FormItem>
+                                )}
+                            />
 
-                    <Button
-                        variant="outline"
-                        type="button"
-                        className="w-full border-surface-soft text-neutral-dark hover:bg-surface-soft disabled:opacity-50 h-12 rounded-full font-bold mt-4"
-                        onClick={handleResend}
-                        disabled={countdown > 0 || isSubmitting}
-                    >
-                        {isSubmitting ? (
-                            <Spinner size="sm" />
-                        ) : countdown > 0 ? (
-                            `Reenviar en ${countdown}s`
-                        ) : (
-                            'Reenviar código'
-                        )}
-                    </Button>
-                </div>
-            </div>
+                            <Button
+                                type="button"
+                                onClick={onNextStep1}
+                                className="w-full bg-accent hover:bg-accent/90 text-on-primary active:scale-95 transition-all text-base h-12 rounded-full font-bold shadow-lg shadow-accent/20"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? <Spinner size="sm" className="text-on-primary mr-2" /> : null}
+                                Siguiente
+                                {!isSubmitting && <ArrowRight size={18} className="ml-2" />}
+                            </Button>
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <div className="space-y-6 animate-fade-in">
+                            <FormField
+                                control={form.control}
+                                name="code"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-primary font-bold text-sm text-center block">Código de verificación</FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-dark/40">
+                                                    <KeyRound size={18} />
+                                                </div>
+                                                <Input
+                                                    placeholder="123456"
+                                                    maxLength={6}
+                                                    className="pl-10 text-center tracking-widest text-lg font-bold bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-14"
+                                                    {...field}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value.replace(/\D/g, '');
+                                                        field.onChange(val);
+                                                    }}
+                                                />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="text-red-500 font-medium text-xs text-center" />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <Button
+                                type="button"
+                                onClick={onNextStep2}
+                                className="w-full bg-accent hover:bg-accent/90 text-on-primary active:scale-95 transition-all text-base h-12 rounded-full font-bold shadow-lg shadow-accent/20"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? <Spinner size="sm" className="text-on-primary mr-2" /> : null}
+                                Verificar Código
+                                {!isSubmitting && <ShieldCheck size={18} className="ml-2" />}
+                            </Button>
+                        </div>
+                    )}
+
+                    {step === 3 && (
+                        <div className="space-y-6 animate-fade-in">
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-primary font-bold text-sm">Nueva contraseña</FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <Input
+                                                    type={showPassword ? 'text' : 'password'}
+                                                    placeholder="••••••••"
+                                                    className="bg-surface-light border-transparent focus:border-accent focus:ring-accent pr-10 text-neutral-dark h-11"
+                                                    {...field}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-dark/60 hover:text-neutral-dark"
+                                                >
+                                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                </button>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="text-red-500 font-medium text-xs" />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="confirmPassword"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-primary font-bold text-sm">Confirmar nueva contraseña</FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <Input
+                                                    type={showConfirmPassword ? 'text' : 'password'}
+                                                    placeholder="••••••••"
+                                                    className="bg-surface-light border-transparent focus:border-accent focus:ring-accent pr-10 text-neutral-dark h-11"
+                                                    {...field}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-dark/60 hover:text-neutral-dark"
+                                                >
+                                                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                </button>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="text-red-500 font-medium text-xs" />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <Button
+                                type="submit"
+                                className="w-full bg-accent hover:bg-accent/90 text-on-primary active:scale-95 transition-all text-base h-12 rounded-full font-bold shadow-lg shadow-accent/20"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? <Spinner size="sm" className="text-on-primary mr-2" /> : null}
+                                Guardar contraseña
+                            </Button>
+                        </div>
+                    )}
+                </form>
+            </Form>
 
             <div className="pt-6 border-t border-surface-soft/30 text-center mt-6">
                 <Link href="/login" className="text-sm text-accent hover:underline font-bold">

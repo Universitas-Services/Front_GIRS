@@ -50,10 +50,10 @@ export function Sidebar() {
     const SidebarContent = () => (
         <div className="flex flex-col h-full bg-primary text-on-primary border-r border-surface-soft/10">
             {/* Header */}
-            <div className="p-4 flex items-center h-[72px] shrink-0">
+            <div className={cn("flex items-center h-[72px] shrink-0", expanded ? "p-4" : "justify-center w-full")}>
                 <button
                     onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
-                    className="p-2 mr-2 rounded-md hover:bg-surface-soft/10 transition-colors text-on-primary shrink-0"
+                    className={cn("flex items-center justify-center rounded-md hover:bg-surface-soft/10 transition-colors text-on-primary shrink-0", expanded ? "p-2 mr-2" : "w-10 h-10")}
                 >
                     <Menu size={24} />
                 </button>
@@ -72,17 +72,17 @@ export function Sidebar() {
             </div>
 
             {/* Primary Actions */}
-            <div className="px-3 shrink-0 my-2">
+            <div className={cn("shrink-0 my-2", expanded ? "px-3" : "w-full flex justify-center")}>
                 <button
                     onClick={handleNewChat}
                     className={cn(
-                        "w-full flex items-center py-2.5 rounded-lg transition-colors border-accent/30",
-                        expanded ? "px-3 bg-surface-soft/10 border hover:bg-accent/20" : "justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10"
+                        "flex items-center py-2.5 rounded-lg transition-colors border-accent/30",
+                        expanded ? "w-full px-3 bg-surface-soft/10 border hover:bg-accent/20" : "w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10"
                     )}>
                     <PlusCircle size={20} className="shrink-0" />
                     <span className={cn(
-                        "ml-3 font-medium text-sm transition-all duration-300",
-                        expanded ? "opacity-100" : "opacity-0 w-0 hidden md:inline-block md:opacity-0"
+                        "font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden",
+                        expanded ? "ml-3 opacity-100" : "opacity-0 w-0 hidden"
                     )}>
                         Nuevo Chat
                     </span>
@@ -90,10 +90,10 @@ export function Sidebar() {
             </div>
 
             {/* Navigation / History */}
-            <div className="flex-1 overflow-y-auto px-3 py-2 custom-scrollbar">
+            <div className={cn("flex-1 py-2 custom-scrollbar", expanded ? "overflow-y-auto px-3" : "flex flex-col items-center")}>
                 {!expanded ? (
-                    <div className="flex flex-col items-center space-y-4 pt-4 text-on-primary/60 transition-opacity duration-300">
-                        <button className="p-2 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors" title="Historial">
+                    <div className="w-full flex justify-center pt-4 text-on-primary/60 transition-opacity duration-300">
+                        <button className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors" title="Historial">
                             <MessageSquare size={20} />
                         </button>
                     </div>
@@ -162,10 +162,13 @@ export function Sidebar() {
             </div>
 
             {/* Footer Settings / User */}
-            <div className="p-3 shrink-0 pb-4 relative h-20">
+            <div className={cn("shrink-0 pb-4 relative h-20", expanded ? "p-3" : "w-full flex flex-col items-center")}>
                 {!expanded ? (
-                    <div className="flex flex-col items-center space-y-4 text-on-primary/60 transition-all duration-300">
-                        <button className="p-2 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors">
+                    <div className="w-full flex justify-center text-on-primary/60 transition-all duration-300 mt-3">
+                        <button
+                            onClick={() => alert('Configuración de usuario (Próximamente)')}
+                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
+                        >
                             <Settings size={20} />
                         </button>
                     </div>

@@ -44,7 +44,7 @@ export function LoginForm() {
 
     return (
         <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in">
-            <div className="space-y-2">
+            <div className="space-y-2 text-center">
                 <h2 className="text-3xl font-bold text-primary">Bienvenido</h2>
                 <p className="text-neutral-dark/60 text-sm">Ingresa tus credenciales para continuar</p>
             </div>

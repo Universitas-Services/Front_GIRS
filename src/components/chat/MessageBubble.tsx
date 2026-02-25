@@ -33,7 +33,10 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps) {
         }
     }, [message.content, isAgent, isLast, isTyping]);
 
-    const timestamp = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const dateObj = new Date(message.createdAt);
+    const dateStr = dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const timeStr = dateObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const timestamp = `${dateStr} ${timeStr}`;
 
     return (
         <div className={cn(
