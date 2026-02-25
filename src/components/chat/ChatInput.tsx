@@ -50,9 +50,6 @@ export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessa
             <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col items-center pb-6">
                 <div className="w-full max-w-3xl px-4 mx-auto">
                     <div className="relative bg-white border border-surface-soft/60 rounded-full flex items-center min-h-[56px] pl-4 pr-2">
-                        <button className="p-2 text-neutral-dark/40 hover:text-neutral-dark transition-colors mr-2 hidden sm:block">
-                            <Paperclip size={20} />
-                        </button>
                         <textarea
                             ref={textareaRef}
                             value={content}
