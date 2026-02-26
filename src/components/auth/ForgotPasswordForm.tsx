@@ -7,14 +7,7 @@ import * as z from 'zod';
 import { forgotPasswordSchema } from '@/lib/validations/auth.schemas';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Mail, ArrowRight, Eye, EyeOff, KeyRound, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -88,7 +81,6 @@ export function ForgotPasswordForm() {
 
     return (
         <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in relative overflow-hidden">
-
             <div className="space-y-2 mb-8 text-center">
                 <h2 className="text-3xl font-bold text-primary">Recuperar contraseña</h2>
                 <p className="text-neutral-dark/60 text-sm">
@@ -107,7 +99,9 @@ export function ForgotPasswordForm() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Correo electrónico</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Correo electrónico
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-dark/40">
@@ -145,7 +139,9 @@ export function ForgotPasswordForm() {
                                 name="code"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm text-center block">Código de verificación</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm text-center block">
+                                            Código de verificación
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-dark/40">
@@ -188,7 +184,9 @@ export function ForgotPasswordForm() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Nueva contraseña</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Nueva contraseña
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <Input
@@ -216,7 +214,9 @@ export function ForgotPasswordForm() {
                                 name="confirmPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Confirmar nueva contraseña</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Confirmar nueva contraseña
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <Input

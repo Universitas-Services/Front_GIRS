@@ -21,7 +21,7 @@ export const chatService = {
             conversationId: id,
             role: 'user',
             content,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
         };
         return Promise.resolve(newMessage);
     },
@@ -33,7 +33,7 @@ export const chatService = {
             title: 'Nueva conversación',
             lastMessage: '',
             lastMessageAt: new Date().toISOString(),
-            messageCount: 0
+            messageCount: 0,
         };
         return Promise.resolve(newConv);
     },
@@ -41,5 +41,5 @@ export const chatService = {
     deleteConversation: async (id: string): Promise<void> => {
         await sleep(500);
         return Promise.resolve();
-    }
+    },
 };

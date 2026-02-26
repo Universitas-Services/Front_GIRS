@@ -7,7 +7,13 @@ import { Spinner } from '@/components/ui/spinner';
 import { APP_CONFIG } from '@/config/app.config';
 import { useChat } from '@/store/chat.context';
 
-export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessage: (msg: string) => void; variant?: 'floating' | 'inline' }) {
+export function ChatInput({
+    onSendMessage,
+    variant = 'floating',
+}: {
+    onSendMessage: (msg: string) => void;
+    variant?: 'floating' | 'inline';
+}) {
     const [content, setContent] = useState('');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const { isSending } = useChat();
@@ -67,7 +73,11 @@ export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessa
                                 onClick={handleSubmit}
                                 className="w-10 h-10 rounded-full bg-surface-soft/50 text-neutral-dark opacity-50 hover:bg-accent hover:text-white hover:opacity-100 disabled:bg-surface-soft disabled:text-neutral-dark/30 transition-all active:scale-95"
                             >
-                                {isSending ? <Spinner size="icon" /> : <Send size={16} className="translate-x-[-1px] translate-y-[1px]" />}
+                                {isSending ? (
+                                    <Spinner size="icon" />
+                                ) : (
+                                    <Send size={16} className="translate-x-[-1px] translate-y-[1px]" />
+                                )}
                             </Button>
                         </div>
                     </div>
@@ -97,7 +107,11 @@ export function ChatInput({ onSendMessage, variant = 'floating' }: { onSendMessa
                             onClick={handleSubmit}
                             className="w-11 h-11 rounded-full bg-[#6C7882] text-white hover:bg-[#5E6A74] disabled:bg-surface-soft disabled:text-neutral-dark/30 transition-all active:scale-95"
                         >
-                            {isSending ? <Spinner size="icon" /> : <Send size={18} className="translate-x-[-1px] translate-y-[1px]" />}
+                            {isSending ? (
+                                <Spinner size="icon" />
+                            ) : (
+                                <Send size={18} className="translate-x-[-1px] translate-y-[1px]" />
+                            )}
                         </Button>
                     </div>
                 </div>

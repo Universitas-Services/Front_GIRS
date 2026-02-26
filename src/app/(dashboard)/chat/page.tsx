@@ -8,12 +8,7 @@ import { Menu } from 'lucide-react';
 import { APP_CONFIG } from '@/config/app.config';
 
 export default function ChatDashboardPage() {
-    const {
-        dispatch,
-        activeConversationId,
-        conversations,
-        messages
-    } = useChat();
+    const { dispatch, activeConversationId, conversations, messages } = useChat();
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -79,15 +74,14 @@ export default function ChatDashboardPage() {
             conversationId: activeConversationId,
             content,
             role: 'user' as const,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
         };
         dispatch({ type: 'ADD_MESSAGE', payload: optimisticMsg });
-
 
         try {
             const newMsg = await chatService.sendMessage(activeConversationId, content);
 
-            // Since it's a mock, we already added the optimistic. 
+            // Since it's a mock, we already added the optimistic.
             // Replace it basically by doing nothing extra or we can simulate AI response:
 
             // Simulate AI thinking and replying
@@ -97,11 +91,10 @@ export default function ChatDashboardPage() {
                     conversationId: activeConversationId,
                     content: `He recibido tu mensaje solicitando: "${content}". En un entorno real, aquí te respondería con la información procesada.`,
                     role: 'assistant' as const,
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
                 };
                 dispatch({ type: 'ADD_MESSAGE', payload: aiMsg });
             }, 1000); // AI Delay
-
         } catch (error) {
             console.error('Failed to send target message', error);
         } finally {
@@ -115,7 +108,6 @@ export default function ChatDashboardPage() {
 
     return (
         <div className="flex flex-col h-full w-full bg-[#E5EBE7] relative animate-fade-in">
-
             {/* Mobile Header */}
             <div className="md:hidden sticky top-0 z-10 flex items-center p-4 bg-surface-light/95 backdrop-blur-sm border-b border-surface-soft/40 shadow-sm">
                 <button
@@ -152,7 +144,9 @@ export default function ChatDashboardPage() {
                                 <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-[#20D36B] ring-[1.5px] ring-white shadow-sm"></span>
                             </div>
                             <div className="flex flex-col">
-                                <h2 className="font-bold text-neutral-dark text-[17px] leading-tight">{APP_CONFIG.AGENT_NAME} - Consultor IA</h2>
+                                <h2 className="font-bold text-neutral-dark text-[17px] leading-tight">
+                                    {APP_CONFIG.AGENT_NAME} - Consultor IA
+                                </h2>
                                 <span className="text-[13px] font-medium text-[#20D36B]">En línea</span>
                             </div>
                         </div>

@@ -12,6 +12,6 @@ export const MOCK_CONVERSATIONS: Conversation[] = [
         title: '¿Cómo optimizar SQL...',
         lastMessage: 'Claro, aquí tienes una optimización.',
         lastMessageAt: today.toISOString(),
-        messageCount: 4
-    }
+        messageCount: 4,
+    },
 ];

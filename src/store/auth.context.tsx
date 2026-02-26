@@ -10,10 +10,7 @@ interface AuthState {
     isLoading: boolean;
 }
 
-type AuthAction =
-    | { type: 'LOGIN'; payload: User }
-    | { type: 'LOGOUT' }
-    | { type: 'SET_LOADING'; payload: boolean };
+type AuthAction = { type: 'LOGIN'; payload: User } | { type: 'LOGOUT' } | { type: 'SET_LOADING'; payload: boolean };
 
 const initialState: AuthState = {
     user: null,
@@ -68,17 +65,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'SET_LOADING', payload: true });
         try {
             await authService.logout();
+            // Destroy any and all locally persisted data to ensure complete wipe on logout
+            if (typeof window !== 'undefined') {
+                localStorage.clear();
+                sessionStorage.clear();
+            }
             dispatch({ type: 'LOGOUT' });
         } finally {
             dispatch({ type: 'SET_LOADING', payload: false });
         }
     };
 
-    return (
-        <AuthContext.Provider value={{ ...state, login, register, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    return <AuthContext.Provider value={{ ...state, login, register, logout }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

@@ -36,7 +36,8 @@ export function MessageList({ onSuggestionClick }: { onSuggestionClick: (text: s
                         Hola, soy tu <span className="text-[#004A5C]">Consultor IA GIRS</span>
                     </h2>
                     <p className="text-center text-[#3b4044] max-w-[600px] text-[15px] mx-auto">
-                        Soy un agente IA experto en Gestión Integral de Residuos Sólidos - GIRS. Estoy aquí para resolver tus dudas técnicas, apoyarte en la planificación y asegurar el cumplimiento normativo.
+                        Soy un agente IA experto en Gestión Integral de Residuos Sólidos - GIRS. Estoy aquí para
+                        resolver tus dudas técnicas, apoyarte en la planificación y asegurar el cumplimiento normativo.
                     </p>
                 </div>
             </div>
@@ -46,7 +47,6 @@ export function MessageList({ onSuggestionClick }: { onSuggestionClick: (text: s
     return (
         <div className="flex-1 overflow-y-auto w-full custom-scrollbar relative">
             <div className="w-full mx-auto p-4 sm:p-6 space-y-6">
-
                 {/* Mocked Initial Date Separator */}
                 <div className="flex items-center justify-center my-6">
                     <div className="bg-[#E5EBE7] px-4 py-1.5 rounded-full text-xs font-semibold text-neutral-dark/60 uppercase tracking-widest">
@@ -55,11 +55,7 @@ export function MessageList({ onSuggestionClick }: { onSuggestionClick: (text: s
                 </div>
 
                 {messages.map((msg, idx) => (
-                    <MessageBubble
-                        key={msg.id}
-                        message={msg}
-                        isLast={idx === messages.length - 1}
-                    />
+                    <MessageBubble key={msg.id} message={msg} isLast={idx === messages.length - 1} />
                 ))}
                 <div ref={bottomRef} className="h-4" />
             </div>

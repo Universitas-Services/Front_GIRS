@@ -7,14 +7,7 @@ import { registerSchema } from '@/lib/validations/auth.schemas';
 import { useAuth } from '@/store/auth.context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Eye, EyeOff, ArrowRight, ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -35,7 +28,15 @@ export function RegisterForm() {
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
-        defaultValues: { name: '', lastName: '', phone: '', email: '', password: '', confirmPassword: '', termsAccepted: false },
+        defaultValues: {
+            name: '',
+            lastName: '',
+            phone: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            termsAccepted: false,
+        },
     });
 
     const passwordValue = form.watch('password');
@@ -68,9 +69,9 @@ export function RegisterForm() {
         if (step !== 2) return;
         try {
             await register(values);
-            toast.success('¡Cuenta creada! Inicia sesión.');
+            toast.success('Te hemos enviado un enlace de activación a tu correo electrónico.');
             router.push('/login');
-        } catch (error: any) {
+        } catch (error) {
             toast.error('Error al registrar la cuenta');
         }
     }
@@ -82,25 +83,47 @@ export function RegisterForm() {
                     <h2 className="text-3xl font-bold text-primary">
                         {step === 1 ? 'Crea tu cuenta' : 'Completa tus datos'}
                     </h2>
-                    <p className="text-neutral-dark/60 text-sm">
-                        Por favor introduce tus datos para continuar.
-                    </p>
+                    <p className="text-neutral-dark/60 text-sm">Por favor introduce tus datos para continuar.</p>
                 </div>
 
                 <div className="flex justify-center items-center space-x-12">
                     <div className="flex flex-col items-center space-y-2">
-                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300", step === 1 ? "bg-primary text-white shadow-md shadow-primary/20" : "bg-surface-soft/20 text-neutral-dark/40")}>
+                        <div
+                            className={cn(
+                                'w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
+                                step === 1
+                                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                    : 'bg-surface-soft/20 text-neutral-dark/40'
+                            )}
+                        >
                             1
                         </div>
-                        <span className={cn("text-sm transition-colors", step === 1 ? "text-primary font-bold" : "text-neutral-dark/40 font-medium")}>
+                        <span
+                            className={cn(
+                                'text-sm transition-colors',
+                                step === 1 ? 'text-primary font-bold' : 'text-neutral-dark/40 font-medium'
+                            )}
+                        >
                             Credenciales
                         </span>
                     </div>
                     <div className="flex flex-col items-center space-y-2">
-                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300", step === 2 ? "bg-primary text-white shadow-md shadow-primary/20" : "bg-surface-soft/20 text-neutral-dark/40")}>
+                        <div
+                            className={cn(
+                                'w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
+                                step === 2
+                                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                    : 'bg-surface-soft/20 text-neutral-dark/40'
+                            )}
+                        >
                             2
                         </div>
-                        <span className={cn("text-sm transition-colors", step === 2 ? "text-primary font-bold" : "text-neutral-dark/40 font-medium")}>
+                        <span
+                            className={cn(
+                                'text-sm transition-colors',
+                                step === 2 ? 'text-primary font-bold' : 'text-neutral-dark/40 font-medium'
+                            )}
+                        >
                             Datos personales
                         </span>
                     </div>
@@ -116,7 +139,9 @@ export function RegisterForm() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Correo electrónico</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Correo electrónico
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="nombre@empresa.com"
@@ -159,11 +184,14 @@ export function RegisterForm() {
                                                     <div
                                                         key={level}
                                                         className={cn(
-                                                            "h-1 w-full rounded-full transition-all flex-1",
-                                                            strength >= level ? (
-                                                                level === 1 ? "bg-red-500" :
-                                                                    level === 2 ? "bg-yellow-500" : "bg-accent"
-                                                            ) : "bg-surface-soft/30"
+                                                            'h-1 w-full rounded-full transition-all flex-1',
+                                                            strength >= level
+                                                                ? level === 1
+                                                                    ? 'bg-red-500'
+                                                                    : level === 2
+                                                                      ? 'bg-yellow-500'
+                                                                      : 'bg-accent'
+                                                                : 'bg-surface-soft/30'
                                                         )}
                                                     />
                                                 ))}
@@ -179,7 +207,9 @@ export function RegisterForm() {
                                 name="confirmPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Confirmar contraseña</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Confirmar contraseña
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <Input
@@ -269,12 +299,26 @@ export function RegisterForm() {
                                                         }}
                                                         className="w-24 bg-transparent border-transparent focus:outline-none focus:ring-0 text-neutral-dark h-11 pl-3 appearance-none cursor-pointer relative z-10"
                                                     >
-                                                        {['0412', '0414', '0416', '0424', '0426', '0422'].map(p => (
-                                                            <option key={p} value={p}>{p}</option>
+                                                        {['0412', '0414', '0416', '0424', '0426', '0422'].map((p) => (
+                                                            <option key={p} value={p}>
+                                                                {p}
+                                                            </option>
                                                         ))}
                                                     </select>
                                                     <div className="absolute right-3 pointer-events-none text-neutral-dark/50">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="16"
+                                                            height="16"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        >
+                                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                                        </svg>
                                                     </div>
                                                 </div>
                                                 <Input
@@ -309,7 +353,15 @@ export function RegisterForm() {
                                         </FormControl>
                                         <div className="space-y-1 leading-none">
                                             <FormLabel className="text-sm font-medium text-neutral-dark/80 cursor-pointer !block leading-normal mt-0">
-                                                He leído y acepto los <span className="text-accent font-bold cursor-pointer hover:underline">Términos y condiciones</span> y la <span className="text-accent font-bold cursor-pointer hover:underline">Política de privacidad</span>.
+                                                He leído y acepto los{' '}
+                                                <span className="text-accent font-bold cursor-pointer hover:underline">
+                                                    Términos y condiciones
+                                                </span>{' '}
+                                                y la{' '}
+                                                <span className="text-accent font-bold cursor-pointer hover:underline">
+                                                    Política de privacidad
+                                                </span>
+                                                .
                                             </FormLabel>
                                             <FormMessage className="text-red-500 font-medium text-xs mt-1 absolute -bottom-5 left-0" />
                                         </div>

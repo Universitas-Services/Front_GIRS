@@ -17,7 +17,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
 export function Sidebar() {
     const { isSidebarOpen, dispatch, conversations, activeConversationId } = useChat();
@@ -42,26 +42,34 @@ export function Sidebar() {
 
     const handleLogout = async () => {
         await logout();
-        router.push('/login');
+        // Force a total hard refresh so Next.js router cache gets completely wiped,
+        // preventing trailing back-button navigation to protected dashboard routes.
+        window.location.href = '/login';
     };
 
     const expanded = isSidebarOpen;
 
-    const SidebarContent = () => (
+    const sidebarContent = (
         <div className="flex flex-col h-full bg-primary text-on-primary border-r border-surface-soft/10">
             {/* Header */}
-            <div className={cn("flex items-center h-[72px] shrink-0", expanded ? "p-4" : "justify-center w-full")}>
+            <div className={cn('flex items-center h-[72px] shrink-0', expanded ? 'p-4' : 'justify-center w-full')}>
                 <button
                     onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
-                    className={cn("flex items-center justify-center rounded-md hover:bg-surface-soft/10 transition-colors text-on-primary shrink-0", expanded ? "p-2 mr-2" : "w-10 h-10")}
+                    className={cn(
+                        'flex items-center justify-center rounded-md hover:bg-surface-soft/10 transition-colors text-on-primary shrink-0',
+                        expanded ? 'p-2 mr-2' : 'w-10 h-10'
+                    )}
                 >
                     <Menu size={24} />
                 </button>
-                <div className={cn(
-                    "flex-1 flex justify-center items-center transition-all duration-300 pr-12",
-                    expanded ? "opacity-100 min-w-[192px]" : "opacity-0 w-0 md:hidden"
-                )}>
+                <div
+                    className={cn(
+                        'flex-1 flex justify-center items-center transition-all duration-300 pr-12',
+                        expanded ? 'opacity-100 min-w-[192px]' : 'opacity-0 w-0 md:hidden'
+                    )}
+                >
                     <div className="relative h-12 w-48 flex items-center justify-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src="/asset/LOGO UNIVERSITAS LEGAL (BLANCO).png"
                             alt="Universitas Legal"
@@ -72,28 +80,41 @@ export function Sidebar() {
             </div>
 
             {/* Primary Actions */}
-            <div className={cn("shrink-0 my-2", expanded ? "px-3" : "w-full flex justify-center")}>
+            <div className={cn('shrink-0 my-2', expanded ? 'px-3' : 'w-full flex justify-center')}>
                 <button
                     onClick={handleNewChat}
                     className={cn(
-                        "flex items-center py-2.5 rounded-lg transition-colors border-accent/30",
-                        expanded ? "w-full px-3 bg-surface-soft/10 border hover:bg-accent/20" : "w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10"
-                    )}>
+                        'flex items-center py-2.5 rounded-lg transition-colors border-accent/30',
+                        expanded
+                            ? 'w-full px-3 bg-surface-soft/10 border hover:bg-accent/20'
+                            : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                    )}
+                >
                     <PlusCircle size={20} className="shrink-0" />
-                    <span className={cn(
-                        "font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden",
-                        expanded ? "ml-3 opacity-100" : "opacity-0 w-0 hidden"
-                    )}>
+                    <span
+                        className={cn(
+                            'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                            expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                        )}
+                    >
                         Nuevo Chat
                     </span>
                 </button>
             </div>
 
             {/* Navigation / History */}
-            <div className={cn("flex-1 py-2 custom-scrollbar", expanded ? "overflow-y-auto px-3" : "flex flex-col items-center")}>
+            <div
+                className={cn(
+                    'flex-1 py-2 custom-scrollbar',
+                    expanded ? 'overflow-y-auto px-3' : 'flex flex-col items-center'
+                )}
+            >
                 {!expanded ? (
                     <div className="w-full flex justify-center pt-4 text-on-primary/60 transition-opacity duration-300">
-                        <button className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors" title="Historial">
+                        <button
+                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
+                            title="Historial"
+                        >
                             <MessageSquare size={20} />
                         </button>
                     </div>
@@ -105,24 +126,32 @@ export function Sidebar() {
                             </p>
                             {/* Filter out empty/new chats with no messages from history */}
                             {(() => {
-                                const validConversations = conversations.filter(c => c.title !== 'Nueva conversación' && (!('messageCount' in c) || (c.messageCount as number) > 0));
+                                const validConversations = conversations.filter(
+                                    (c) =>
+                                        c.title !== 'Nueva conversación' &&
+                                        (!('messageCount' in c) || (c.messageCount as number) > 0)
+                                );
 
                                 const groups = [
                                     { label: 'Hoy', items: validConversations.slice(0, 2) },
                                     { label: 'Ayer', items: validConversations.slice(2, 4) },
                                     { label: 'Esta semana', items: validConversations.slice(4, 6) },
-                                    { label: 'Anteriores', items: validConversations.slice(6) }
-                                ].filter(g => g.items.length > 0);
+                                    { label: 'Anteriores', items: validConversations.slice(6) },
+                                ].filter((g) => g.items.length > 0);
 
                                 if (groups.length === 0) {
-                                    return <p className="text-sm px-3 text-on-primary/40 text-center py-4">No hay historial</p>;
+                                    return (
+                                        <p className="text-sm px-3 text-on-primary/40 text-center py-4">
+                                            No hay historial
+                                        </p>
+                                    );
                                 }
 
-                                return groups.map(group => (
+                                return groups.map((group) => (
                                     <div key={group.label} className="mb-4">
                                         <p className="text-xs text-on-primary/40 px-3 mb-1">{group.label}</p>
                                         <div className="space-y-0.5">
-                                            {group.items.map(conv => {
+                                            {group.items.map((conv) => {
                                                 const isActive = conv.id === activeConversationId;
                                                 return (
                                                     <div
@@ -132,22 +161,34 @@ export function Sidebar() {
                                                             if (isMobile) toggleSidebar();
                                                         }}
                                                         className={cn(
-                                                            "group flex items-center justify-between px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors whitespace-nowrap overflow-hidden",
+                                                            'group flex items-center justify-between px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors whitespace-nowrap overflow-hidden',
                                                             isActive
-                                                                ? "bg-accent/20 border-l-2 border-accent text-on-primary"
-                                                                : "text-on-primary/80 hover:bg-on-primary/10 border-l-2 border-transparent"
+                                                                ? 'bg-accent/20 border-l-2 border-accent text-on-primary'
+                                                                : 'text-on-primary/80 hover:bg-on-primary/10 border-l-2 border-transparent'
                                                         )}
                                                     >
-                                                        <span className={cn(
-                                                            "truncate pr-2 transition-opacity duration-300",
-                                                            expanded ? "opacity-100" : "opacity-0"
-                                                        )}>{conv.title}</span>
-                                                        <div className={cn(
-                                                            "flex items-center space-x-1 transition-opacity duration-300",
-                                                            expanded ? "group-hover:opacity-100 opacity-0" : "opacity-0 hidden"
-                                                        )}>
-                                                            <button className="p-1 hover:text-accent"><Pencil size={14} /></button>
-                                                            <button className="p-1 hover:text-red-400"><Trash size={14} /></button>
+                                                        <span
+                                                            className={cn(
+                                                                'truncate pr-2 transition-opacity duration-300',
+                                                                expanded ? 'opacity-100' : 'opacity-0'
+                                                            )}
+                                                        >
+                                                            {conv.title}
+                                                        </span>
+                                                        <div
+                                                            className={cn(
+                                                                'flex items-center space-x-1 transition-opacity duration-300',
+                                                                expanded
+                                                                    ? 'group-hover:opacity-100 opacity-0'
+                                                                    : 'opacity-0 hidden'
+                                                            )}
+                                                        >
+                                                            <button className="p-1 hover:text-accent">
+                                                                <Pencil size={14} />
+                                                            </button>
+                                                            <button className="p-1 hover:text-red-400">
+                                                                <Trash size={14} />
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 );
@@ -162,7 +203,7 @@ export function Sidebar() {
             </div>
 
             {/* Footer Settings / User */}
-            <div className={cn("shrink-0 pb-4 relative h-20", expanded ? "p-3" : "w-full flex flex-col items-center")}>
+            <div className={cn('shrink-0 pb-4 relative h-20', expanded ? 'p-3' : 'w-full flex flex-col items-center')}>
                 {!expanded ? (
                     <div className="w-full flex justify-center text-on-primary/60 transition-all duration-300 mt-3">
                         <button
@@ -179,7 +220,9 @@ export function Sidebar() {
                                 {user?.name?.charAt(0) || 'U'}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                                <p className="text-sm font-medium text-on-primary truncate">{user?.name || 'Usuario'}</p>
+                                <p className="text-sm font-medium text-on-primary truncate">
+                                    {user?.name || 'Usuario'}
+                                </p>
                                 <p className="text-xs text-on-primary/60 truncate">{user?.email || 'test@email.com'}</p>
                             </div>
                             <AlertDialogTrigger asChild>
@@ -195,14 +238,18 @@ export function Sidebar() {
                             <AlertDialogHeader>
                                 <AlertDialogTitle className="text-neutral-dark">¿Cerrar sesión?</AlertDialogTitle>
                                 <AlertDialogDescription className="text-neutral-dark/70">
-                                    Estás a punto de salir de tu cuenta. Necesitarás volver a iniciar sesión para continuar usando el Consultor IA.
+                                    Estás a punto de salir de tu cuenta. Necesitarás volver a iniciar sesión para
+                                    continuar usando el Consultor IA.
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter className="mt-4">
                                 <AlertDialogCancel className="bg-transparent text-neutral-dark hover:bg-surface-soft/20 border border-surface-soft/60">
                                     Cancelar
                                 </AlertDialogCancel>
-                                <AlertDialogAction onClick={handleLogout} className="bg-destructive hover:bg-destructive/90 text-white border-transparent">
+                                <AlertDialogAction
+                                    onClick={handleLogout}
+                                    className="bg-destructive hover:bg-destructive/90 text-white border-transparent"
+                                >
                                     Sí, cerrar sesión
                                 </AlertDialogAction>
                             </AlertDialogFooter>
@@ -226,10 +273,14 @@ export function Sidebar() {
             {/* Sidebar Container */}
             <aside
                 className={cn(
-                    "fixed md:relative top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none border-r border-surface-soft/10",
+                    'fixed md:relative top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none border-r border-surface-soft/10',
                     isMobile
-                        ? (isSidebarOpen ? "translate-x-0 w-72" : "-translate-x-full w-72")
-                        : (isSidebarOpen ? "w-[280px]" : "w-[72px]")
+                        ? isSidebarOpen
+                            ? 'translate-x-0 w-72'
+                            : '-translate-x-full w-72'
+                        : isSidebarOpen
+                          ? 'w-[280px]'
+                          : 'w-[72px]'
                 )}
             >
                 {isMobile && isSidebarOpen && (
@@ -240,7 +291,7 @@ export function Sidebar() {
                         <X size={20} />
                     </button>
                 )}
-                <SidebarContent />
+                {sidebarContent}
             </aside>
         </>
     );

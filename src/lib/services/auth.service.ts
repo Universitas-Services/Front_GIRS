@@ -10,7 +10,7 @@ export const authService = {
         }
         return {
             user: MOCK_USER,
-            token: 'mock-jwt-token-xyz'
+            token: 'mock-jwt-token-xyz',
         };
     },
 
@@ -24,5 +24,5 @@ export const authService = {
 
     logout: async (): Promise<void> => {
         await sleep(300);
-    }
+    },
 };
