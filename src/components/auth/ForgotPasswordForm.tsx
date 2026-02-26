@@ -39,6 +39,7 @@ export function ForgotPasswordForm() {
             toast.success('Código enviado a tu correo');
             setStep(2);
         } catch (error) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Error al enviar el código');
         } finally {
             setIsSubmitting(false);
@@ -49,30 +50,29 @@ export function ForgotPasswordForm() {
         const isValid = await form.trigger(['code']);
         if (!isValid) return;
 
-        // Aquí iría la llamada real para validar código, como es mock, lo probamos simulando éxito
         setIsSubmitting(true);
-        setTimeout(() => {
-            const code = form.getValues('code');
-            if (code && code.length === 6) {
-                toast.success('Código verificado correctamente');
-                setStep(3);
-            } else {
-                toast.error('Código inválido');
-            }
+        try {
+            const code = form.getValues('code') || '';
+            await authService.verifyOtp(emailValue, code);
+            toast.success('Código verificado correctamente');
+            setStep(3);
+        } catch (error) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
+            toast.error('Código inválido o expirado');
+        } finally {
             setIsSubmitting(false);
-        }, 1000);
+        }
     }
 
     async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
         if (step !== 3) return;
         setIsSubmitting(true);
         try {
-            // Simulamos guardado de la nueva contraseña
-            setTimeout(() => {
-                toast.success('Contraseña actualizada exitosamente');
-                router.push('/login');
-            }, 1000);
+            await authService.resetPassword(values.email, values.password || '');
+            toast.success('Contraseña actualizada exitosamente');
+            router.push('/login');
         } catch (error) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Error al actualizar contraseña');
         } finally {
             setIsSubmitting(false);

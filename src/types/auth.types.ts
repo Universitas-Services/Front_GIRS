@@ -17,8 +17,9 @@ export interface LoginInput {
 }
 
 export interface RegisterInput {
-    name: string;
+    nombre: string;
+    apellido?: string;
+    telefono?: string;
     email: string;
     password: string;
-    confirmPassword: string;
 }

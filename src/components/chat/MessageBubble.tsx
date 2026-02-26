@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Message } from '@/types/chat.types';
 import { AgentAvatar } from './AgentAvatar';
-import { cn, formatRelativeDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { APP_CONFIG } from '@/config/app.config';
 
 interface MessageBubbleProps {

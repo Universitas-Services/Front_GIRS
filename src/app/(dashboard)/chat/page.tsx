@@ -79,7 +79,7 @@ export default function ChatDashboardPage() {
         dispatch({ type: 'ADD_MESSAGE', payload: optimisticMsg });
 
         try {
-            const newMsg = await chatService.sendMessage(activeConversationId, content);
+            await chatService.sendMessage(activeConversationId, content);
 
             // Since it's a mock, we already added the optimistic.
             // Replace it basically by doing nothing extra or we can simulate AI response:
@@ -100,10 +100,6 @@ export default function ChatDashboardPage() {
         } finally {
             dispatch({ type: 'SET_SENDING', payload: false });
         }
-    };
-
-    const handleSuggestionClick = (text: string) => {
-        handleSendMessage(text);
     };
 
     return (
@@ -151,12 +147,12 @@ export default function ChatDashboardPage() {
                             </div>
                         </div>
 
-                        <MessageList onSuggestionClick={handleSuggestionClick} />
+                        <MessageList />
                         <ChatInput onSendMessage={handleSendMessage} variant="inline" />
                     </div>
                 ) : (
                     <div className="flex-1 flex flex-col w-full relative">
-                        <MessageList onSuggestionClick={handleSuggestionClick} />
+                        <MessageList />
                         <ChatInput onSendMessage={handleSendMessage} variant="floating" />
                     </div>
                 )}

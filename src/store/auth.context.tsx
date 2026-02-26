@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 import { User, LoginInput, RegisterInput } from '@/types/auth.types';
 import { authService } from '@/lib/services/auth.service';
 
@@ -46,6 +46,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'SET_LOADING', payload: true });
         try {
             const response = await authService.login(data);
+
+            // Persist the real auth state to localStorage so the Axios interceptor can read the token
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('authState', JSON.stringify({ token: response.token }));
+            }
+
             dispatch({ type: 'LOGIN', payload: response.user });
         } finally {
             dispatch({ type: 'SET_LOADING', payload: false });
@@ -75,6 +81,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             dispatch({ type: 'SET_LOADING', payload: false });
         }
     };
+
+    useEffect(() => {
+        const initAuth = async () => {
+            if (typeof window !== 'undefined') {
+                const authStateString = localStorage.getItem('authState');
+                if (authStateString) {
+                    try {
+                        dispatch({ type: 'SET_LOADING', payload: true });
+                        const user = await authService.getProfile();
+                        dispatch({ type: 'LOGIN', payload: user });
+                    } catch (error) {
+                        console.error('Error hydrating session on reload', error);
+                        // Interceptors will catch 401 and fire auth:unauthorized naturally
+                    } finally {
+                        dispatch({ type: 'SET_LOADING', payload: false });
+                    }
+                }
+            }
+        };
+
+        initAuth();
+
+        const handleUnauthorized = () => {
+            console.warn('Unauthorized event received, logging out globally');
+            logout();
+        };
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('auth:unauthorized', handleUnauthorized);
+            return () => {
+                window.removeEventListener('auth:unauthorized', handleUnauthorized);
+            };
+        }
+    }, []);
 
     return <AuthContext.Provider value={{ ...state, login, register, logout }}>{children}</AuthContext.Provider>;
 }

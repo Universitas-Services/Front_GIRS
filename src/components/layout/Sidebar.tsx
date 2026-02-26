@@ -3,10 +3,8 @@
 import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
-import { Bot, PlusCircle, MessageSquare, Settings, LogOut, Menu, X, Pencil, Trash } from 'lucide-react';
-import { APP_CONFIG } from '@/config/app.config';
+import { PlusCircle, MessageSquare, Settings, LogOut, Menu, X, Pencil, Trash } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -22,7 +20,6 @@ import {
 export function Sidebar() {
     const { isSidebarOpen, dispatch, conversations, activeConversationId } = useChat();
     const { user, logout } = useAuth();
-    const router = useRouter();
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {

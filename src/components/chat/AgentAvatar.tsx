@@ -1,6 +1,6 @@
 'use client';
 
-import { Bot, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { APP_CONFIG } from '@/config/app.config';
 import Image from 'next/image';

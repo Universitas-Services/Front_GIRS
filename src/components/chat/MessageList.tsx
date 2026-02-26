@@ -4,11 +4,8 @@ import { useRef, useEffect } from 'react';
 import { useChat } from '@/store/chat.context';
 import { MessageBubble } from './MessageBubble';
 import { AgentAvatar } from './AgentAvatar';
-import { APP_CONFIG } from '@/config/app.config';
-import { formatRelativeDate } from '@/lib/utils';
-import { Info, FileText, Code, Lightbulb, Sparkles } from 'lucide-react';
 
-export function MessageList({ onSuggestionClick }: { onSuggestionClick: (text: string) => void }) {
+export function MessageList() {
     const { messages, activeConversationId } = useChat();
     const bottomRef = useRef<HTMLDivElement>(null);
 

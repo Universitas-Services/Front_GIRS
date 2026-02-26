@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
-import { APP_CONFIG } from '@/config/app.config';
 import { cn } from '@/lib/utils';
 
 export function RegisterForm() {
@@ -42,6 +41,7 @@ export function RegisterForm() {
     const passwordValue = form.watch('password');
 
     // Evaluar fortaleza de la contraseña
+
     const getPasswordStrength = (pass: string) => {
         let score = 0;
         if (pass.length === 0) return 0;
@@ -68,7 +68,15 @@ export function RegisterForm() {
     async function onSubmit(values: z.infer<typeof registerSchema>) {
         if (step !== 2) return;
         try {
-            await register(values);
+            // Map the frontend form values to the backend DTO expected payload
+            const payload = {
+                nombre: values.name,
+                apellido: values.lastName,
+                telefono: values.phone,
+                email: values.email,
+                password: values.password,
+            };
+            await register(payload);
             toast.success('Te hemos enviado un enlace de activación a tu correo electrónico.');
             router.push('/login');
         } catch (error) {

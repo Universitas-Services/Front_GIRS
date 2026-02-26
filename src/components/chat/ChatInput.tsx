@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Paperclip } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { APP_CONFIG } from '@/config/app.config';
 import { useChat } from '@/store/chat.context';
 
 export function ChatInput({
