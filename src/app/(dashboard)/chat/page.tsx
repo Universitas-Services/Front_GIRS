@@ -53,17 +53,18 @@ export default function ChatDashboardPage() {
     }, [activeConversationId, dispatch]);
 
     const handleSendMessage = async (content: string) => {
-        if (!activeConversationId) {
-            // If no active, create one first (mock behavior)
-            const newConv = await chatService.createConversation();
-            dispatch({ type: 'SET_ACTIVE', payload: newConv.id });
-            dispatch({ type: 'SET_CONVERSATIONS', payload: [newConv, ...conversations] });
+        let currentTargetId = activeConversationId;
+        let isNew = false;
 
-            dispatch({ type: 'SET_SENDING', payload: true });
-            const newMsg = await chatService.sendMessage(newConv.id, content);
-            dispatch({ type: 'ADD_MESSAGE', payload: newMsg });
-            dispatch({ type: 'SET_SENDING', payload: false });
-            return;
+        if (!currentTargetId) {
+            // Generate temporary client-side uuid
+            const newConv = await chatService.createConversation();
+            currentTargetId = newConv.id;
+            isNew = true;
+            // Add to sidebar optimistically (title will be Nueva Conversación)
+            dispatch({ type: 'SET_CONVERSATIONS', payload: [newConv, ...conversations] });
+            // Clear current message list to prepare for new session
+            dispatch({ type: 'SET_MESSAGES', payload: [] });
         }
 
         dispatch({ type: 'SET_SENDING', payload: true });
@@ -71,7 +72,7 @@ export default function ChatDashboardPage() {
         // Optimistic UI for User Msg
         const optimisticMsg = {
             id: `optimistic_${Date.now()}`,
-            conversationId: activeConversationId,
+            conversationId: currentTargetId,
             content,
             role: 'user' as const,
             createdAt: new Date().toISOString(),
@@ -79,22 +80,23 @@ export default function ChatDashboardPage() {
         dispatch({ type: 'ADD_MESSAGE', payload: optimisticMsg });
 
         try {
-            await chatService.sendMessage(activeConversationId, content);
+            // Real target backend integration (POST /ai/message)
+            const aiMsg = await chatService.sendMessage(currentTargetId, content);
 
-            // Since it's a mock, we already added the optimistic.
-            // Replace it basically by doing nothing extra or we can simulate AI response:
+            if (isNew) {
+                // As requested: execute the 3rd endpoint right after the first message is processed
+                const msgs = await chatService.getMessages(currentTargetId);
+                dispatch({ type: 'SET_MESSAGES', payload: msgs });
 
-            // Simulate AI thinking and replying
-            setTimeout(() => {
-                const aiMsg = {
-                    id: `ai_${Date.now()}`,
-                    conversationId: activeConversationId,
-                    content: `He recibido tu mensaje solicitando: "${content}". En un entorno real, aquí te respondería con la información procesada.`,
-                    role: 'assistant' as const,
-                    createdAt: new Date().toISOString(),
-                };
+                // Fetch the grouped conversations again so the sidebar updates its real title and bot reply
+                const updatedConvs = await chatService.getConversations();
+                dispatch({ type: 'SET_CONVERSATIONS', payload: updatedConvs });
+
+                // Finally set it active, which connects everything without conflicting with optimistic msgs
+                dispatch({ type: 'SET_ACTIVE', payload: currentTargetId });
+            } else {
                 dispatch({ type: 'ADD_MESSAGE', payload: aiMsg });
-            }, 1000); // AI Delay
+            }
         } catch (error) {
             console.error('Failed to send target message', error);
         } finally {

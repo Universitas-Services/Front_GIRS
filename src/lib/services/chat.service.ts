@@ -5,13 +5,82 @@ export const chatService = {
     getConversations: async (): Promise<Conversation[]> => {
         try {
             const response = await api.get('/ai/conversations');
-            // We map the backend response to our Conversation interface
-            // If the backend returns a different structure, we'll need to adapt this mapping
-            const rawData = response.data?.agrupadoPorFecha || response.data;
-            if (Array.isArray(rawData)) {
-                return rawData as Conversation[];
+
+            // The backend returns an array in response.data.conversacion
+            // OR an object in response.data.agrupadoPorFecha
+            let rawData = response.data?.conversacion;
+
+            if (!rawData && response.data?.agrupadoPorFecha) {
+                // Flatten the grouped object into a single array
+                rawData = Object.values(response.data.agrupadoPorFecha).flat();
             }
-            return []; // Fallback
+
+            if (!Array.isArray(rawData)) {
+                return [];
+            }
+
+            interface RawConversationMessage {
+                sessionId?: string;
+                tipo?: string;
+                role?: string;
+                contenido?: string;
+                message?: string;
+                content?: string;
+                timestamp?: string;
+                createdAt?: string;
+            }
+
+            // We need to extract unique conversations based on sessionId
+            // because the backend returns individual messages here.
+            const uniqueSessions = new Map<string, Conversation>();
+            rawData.forEach((msg: RawConversationMessage) => {
+                const isUserMessage = msg.tipo === 'usuario' || msg.tipo === 'user';
+                const messageText = msg.contenido || 'Sin mensajes';
+
+                if (msg.sessionId) {
+                    if (!uniqueSessions.has(msg.sessionId)) {
+                        // First time seeing this session, initialize with this message
+                        uniqueSessions.set(msg.sessionId, {
+                            id: msg.sessionId,
+                            title: isUserMessage
+                                ? messageText.substring(0, 30) + (messageText.length > 30 ? '...' : '')
+                                : 'Nueva Conversación',
+                            lastMessage: messageText,
+                            lastMessageAt: msg.timestamp || new Date().toISOString(),
+                            messageCount: 1,
+                        });
+                    } else {
+                        // We already have this session, update it if this message is newer
+                        const existing = uniqueSessions.get(msg.sessionId)!;
+                        const msgDate = new Date(msg.timestamp || 0).getTime();
+                        const existingDate = new Date(existing.lastMessageAt).getTime();
+
+                        // If we find an older message and the current title is generic, update title to the first user question
+                        if (msgDate < existingDate && isUserMessage && existing.title === 'Nueva Conversación') {
+                            existing.title = messageText.substring(0, 30) + (messageText.length > 30 ? '...' : '');
+                        }
+
+                        // If this message is newer, it becomes the last message
+                        if (msgDate > existingDate) {
+                            if (!isUserMessage || existing.lastMessage === 'Sin mensajes') {
+                                existing.lastMessage = messageText;
+                            }
+                            existing.lastMessageAt = msg.timestamp || new Date().toISOString();
+
+                            // Also try to grab a better title if it's the newest user message and we don't have one
+                            if (isUserMessage && existing.title === 'Nueva Conversación') {
+                                existing.title = messageText.substring(0, 30) + (messageText.length > 30 ? '...' : '');
+                            }
+                        }
+
+                        existing.messageCount += 1;
+                    }
+                }
+            });
+
+            // Sort by latest message first
+            const grouped = Array.from(uniqueSessions.values());
+            return grouped.sort((a, b) => new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime());
         } catch (error) {
             console.error('Error fetching conversations:', error);
             return [];
@@ -21,16 +90,47 @@ export const chatService = {
     getMessages: async (id: string): Promise<Message[]> => {
         try {
             const response = await api.get(`/ai/conversations/${id}`);
-            // The swagger mentions "conversacion" holding the array
-            const rawMessages = response.data?.conversacion || (Array.isArray(response.data) ? response.data : []);
+            // The backend returns an array of { userMessage, botResponse, createdAt } objects
+            const rawMessages = response.data?.mensajes || (Array.isArray(response.data) ? response.data : []);
 
-            return rawMessages.map((msg: Record<string, unknown>) => ({
-                id: (msg.id as string) || crypto.randomUUID(),
-                conversationId: (msg.sessionId as string) || id,
-                role: msg.tipo === 'bot' || msg.tipo === 'assistant' || msg.role === 'assistant' ? 'assistant' : 'user',
-                content: (msg.contenido as string) || (msg.message as string) || (msg.content as string) || '',
-                createdAt: (msg.timestamp as string) || (msg.createdAt as string) || new Date().toISOString(),
-            }));
+            const messages: Message[] = [];
+
+            interface RawMessagePair {
+                id?: string;
+                userMessage?: string;
+                botResponse?: string;
+                createdAt?: string;
+            }
+
+            rawMessages.forEach((pair: RawMessagePair) => {
+                // Determine base timestamp
+                const baseTime = new Date(pair.createdAt || Date.now());
+                const botTime = new Date(baseTime.getTime() + 1000); // add 1 sec for bot to preserve UI order
+
+                // 1. Add User Message
+                if (pair.userMessage) {
+                    messages.push({
+                        id: `${pair.id || crypto.randomUUID()}-user`,
+                        conversationId: id,
+                        role: 'user',
+                        content: pair.userMessage,
+                        createdAt: baseTime.toISOString(),
+                    });
+                }
+
+                // 2. Add Bot Response
+                if (pair.botResponse) {
+                    messages.push({
+                        id: `${pair.id || crypto.randomUUID()}-bot`,
+                        conversationId: id,
+                        role: 'assistant',
+                        content: pair.botResponse,
+                        createdAt: botTime.toISOString(),
+                    });
+                }
+            });
+
+            return messages;
         } catch (error) {
             console.error('Error fetching messages for session', id, error);
             return [];
@@ -47,12 +147,16 @@ export const chatService = {
         const reply = response.data;
 
         // Map the Bot's response to our state
+        // It seems the API might return plain text sometimes or an object, let's protect the content assignment
+        const actualReplyContent =
+            typeof reply === 'string' ? reply : reply?.respuesta || reply?.message || reply?.botResponse || '...';
+
         return {
-            id: reply.id || crypto.randomUUID(),
-            conversationId: reply.sessionId || id,
+            id: crypto.randomUUID(), // Bot reply ID
+            conversationId: typeof reply === 'object' && reply?.sessionId ? reply.sessionId : id,
             role: 'assistant',
-            content: reply.respuesta || reply.message || reply.content || '...',
-            createdAt: reply.timestamp || new Date().toISOString(),
+            content: actualReplyContent,
+            createdAt: typeof reply === 'object' && reply?.timestamp ? reply.timestamp : new Date().toISOString(),
         };
     },
 
