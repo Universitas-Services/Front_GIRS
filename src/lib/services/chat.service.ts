@@ -146,10 +146,22 @@ export const chatService = {
 
         const reply = response.data;
 
-        // Map the Bot's response to our state
-        // It seems the API might return plain text sometimes or an object, let's protect the content assignment
-        const actualReplyContent =
-            typeof reply === 'string' ? reply : reply?.respuesta || reply?.message || reply?.botResponse || '...';
+        // The user says new messages get "..." meaning our current actualReplyContent parsing
+        // fails to find the right property. Let's make it very robust.
+        let actualReplyContent = '...';
+
+        if (typeof reply === 'string') {
+            actualReplyContent = reply;
+        } else if (reply) {
+            actualReplyContent =
+                reply.respuesta ||
+                reply.response ||
+                reply.message ||
+                reply.botResponse ||
+                reply.content ||
+                reply.contenido ||
+                (typeof reply.data === 'string' ? reply.data : '...');
+        }
 
         return {
             id: crypto.randomUUID(), // Bot reply ID

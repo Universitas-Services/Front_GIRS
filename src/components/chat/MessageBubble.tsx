@@ -18,10 +18,10 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps) {
 
     useEffect(() => {
         if (isAgent && isLast && isTyping) {
-            let currentIndex = 0;
+            let currentIndex = 1; // start at 1 to show first char, or 0
             const interval = setInterval(() => {
-                if (currentIndex < message.content.length) {
-                    setDisplayedText((prev) => prev + message.content.charAt(currentIndex));
+                if (currentIndex <= message.content.length) {
+                    setDisplayedText(message.content.substring(0, currentIndex));
                     currentIndex++;
                 } else {
                     setIsTyping(false);
