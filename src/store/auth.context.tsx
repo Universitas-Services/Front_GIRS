@@ -15,7 +15,7 @@ type AuthAction = { type: 'LOGIN'; payload: User } | { type: 'LOGOUT' } | { type
 const initialState: AuthState = {
     user: null,
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
 };
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
@@ -71,13 +71,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'SET_LOADING', payload: true });
         try {
             await authService.logout();
+        } catch (error) {
+            console.warn('Logout API failed, continuing local cleanup', error);
+        } finally {
             // Destroy any and all locally persisted data to ensure complete wipe on logout
             if (typeof window !== 'undefined') {
-                localStorage.clear();
+                localStorage.removeItem('authState');
                 sessionStorage.clear();
+                if (window.location.pathname !== '/login') {
+                    window.location.replace('/login');
+                }
             }
             dispatch({ type: 'LOGOUT' });
-        } finally {
             dispatch({ type: 'SET_LOADING', payload: false });
         }
     };
@@ -88,17 +93,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 const authStateString = localStorage.getItem('authState');
                 if (authStateString) {
                     try {
-                        dispatch({ type: 'SET_LOADING', payload: true });
                         const user = await authService.getProfile();
                         dispatch({ type: 'LOGIN', payload: user });
                     } catch (error) {
                         console.error('Error hydrating session on reload', error);
-                        // Interceptors will catch 401 and fire auth:unauthorized naturally
-                    } finally {
-                        dispatch({ type: 'SET_LOADING', payload: false });
+                        // Enforce immediate redirect to login if /users/my fails (e.g. 401)
+                        if (typeof window !== 'undefined') {
+                            localStorage.removeItem('authState');
+                            sessionStorage.clear();
+                            dispatch({ type: 'LOGOUT' });
+                            if (window.location.pathname !== '/login') {
+                                window.location.replace('/login');
+                            }
+                        }
                     }
                 }
             }
+            dispatch({ type: 'SET_LOADING', payload: false });
         };
 
         initAuth();

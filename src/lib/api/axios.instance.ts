@@ -39,8 +39,10 @@ api.interceptors.response.use(
         return response;
     },
     (error) => {
+        const originalUrl = error.config?.url || '';
         // Any status codes outside the range 2xx trigger this function
-        if (error.response?.status === 401) {
+        // If it's a 401 and not an explicit auth action (like login/logout which handle their own 401s), dispatch logout
+        if (error.response?.status === 401 && !originalUrl.includes('/auth/')) {
             // A 401 error means the token is expired or invalid.
             console.error('API Unauthorized Error: Forcing logout session wipe.');
             if (typeof window !== 'undefined') {

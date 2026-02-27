@@ -5,17 +5,9 @@ export const authService = {
     login: async (data: LoginInput): Promise<AuthResponse> => {
         const response = await api.post('/auth/login', data);
 
-        // Based on typical NestJS/Auth integrations, if the user object isn't returned directly
-        // with the token, we fetch the profile immediately after.
-        let user = response.data.user;
+        const user = response.data.user;
         const token = response.data.access_token || response.data.token;
 
-        if (!user && token) {
-            // Set the token temporarily to fetch the profile
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            const profileResponse = await api.get('/users/my');
-            user = profileResponse.data;
-        }
         if (user) {
             // Ensure the frontend 'name' property is populated from the backend's 'nombreCompleto' or 'nombre'
             if (!user.name && user.nombreCompleto) {
