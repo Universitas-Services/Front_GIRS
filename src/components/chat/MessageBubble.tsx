@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Message } from '@/types/chat.types';
 import { AgentAvatar } from './AgentAvatar';
-import { cn, formatRelativeDate } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { APP_CONFIG } from '@/config/app.config';
 
 interface MessageBubbleProps {
@@ -18,10 +18,10 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps) {
 
     useEffect(() => {
         if (isAgent && isLast && isTyping) {
-            let currentIndex = 0;
+            let currentIndex = 1; // start at 1 to show first char, or 0
             const interval = setInterval(() => {
-                if (currentIndex < message.content.length) {
-                    setDisplayedText((prev) => prev + message.content.charAt(currentIndex));
+                if (currentIndex <= message.content.length) {
+                    setDisplayedText(message.content.substring(0, currentIndex));
                     currentIndex++;
                 } else {
                     setIsTyping(false);
@@ -39,15 +39,13 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps) {
     const timestamp = `${dateStr} ${timeStr}`;
 
     return (
-        <div className={cn(
-            "flex w-full animate-fade-in group",
-            isAgent ? "justify-start" : "justify-end"
-        )}>
-            <div className={cn(
-                "flex max-w-[85%] sm:max-w-[75%] items-end gap-2",
-                isAgent ? "flex-row" : "flex-row-reverse"
-            )}>
-
+        <div className={cn('flex w-full animate-fade-in group', isAgent ? 'justify-start' : 'justify-end')}>
+            <div
+                className={cn(
+                    'flex max-w-[85%] sm:max-w-[75%] items-end gap-2',
+                    isAgent ? 'flex-row' : 'flex-row-reverse'
+                )}
+            >
                 {isAgent && (
                     <div className="shrink-0 mb-1">
                         <AgentAvatar size="sm" />
@@ -55,28 +53,36 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps) {
                 )}
 
                 <div className="flex flex-col gap-1">
-                    <div className={cn(
-                        "p-4 relative max-w-full",
-                        isAgent
-                            ? "bg-[#EAEFEA] text-neutral-dark rounded-[20px] rounded-tl-sm border border-[#D0DCD4]/40"
-                            : "bg-primary text-on-primary rounded-[20px] rounded-tr-sm"
-                    )}>
+                    <div
+                        className={cn(
+                            'p-4 relative max-w-full',
+                            isAgent
+                                ? 'bg-[#EAEFEA] text-neutral-dark rounded-[20px] rounded-tl-sm border border-[#D0DCD4]/40'
+                                : 'bg-primary text-on-primary rounded-[20px] rounded-tr-sm'
+                        )}
+                    >
                         <p className="text-[15px] leading-relaxed break-words whitespace-pre-wrap">
                             {displayedText}
-                            {isTyping && <span className="inline-block w-1.5 h-4 ml-1 bg-accent animate-pulse align-middle" />}
+                            {isTyping && (
+                                <span className="inline-block w-1.5 h-4 ml-1 bg-accent animate-pulse align-middle" />
+                            )}
                         </p>
                     </div>
 
-                    <div className={cn(
-                        "flex items-center gap-2",
-                        isAgent ? "justify-start ml-1" : "justify-end mr-1"
-                    )}>
-                        {isAgent && <span className="text-[10px] font-medium text-neutral-dark/40 uppercase tracking-wider">{APP_CONFIG.AGENT_NAME}</span>}
+                    <div className={cn('flex items-center gap-2', isAgent ? 'justify-start ml-1' : 'justify-end mr-1')}>
+                        {isAgent && (
+                            <span className="text-[10px] font-medium text-neutral-dark/40 uppercase tracking-wider">
+                                {APP_CONFIG.AGENT_NAME}
+                            </span>
+                        )}
                         <span className="text-xs text-neutral-dark/40">{timestamp}</span>
-                        {!isAgent && <span className="text-[10px] font-medium text-neutral-dark/40 uppercase tracking-wider">TÚ</span>}
+                        {!isAgent && (
+                            <span className="text-[10px] font-medium text-neutral-dark/40 uppercase tracking-wider">
+                                TÚ
+                            </span>
+                        )}
                     </div>
                 </div>
-
             </div>
         </div>
     );

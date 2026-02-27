@@ -8,12 +8,7 @@ import { Menu } from 'lucide-react';
 import { APP_CONFIG } from '@/config/app.config';
 
 export default function ChatDashboardPage() {
-    const {
-        dispatch,
-        activeConversationId,
-        conversations,
-        messages
-    } = useChat();
+    const { dispatch, activeConversationId, conversations, messages } = useChat();
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -58,17 +53,18 @@ export default function ChatDashboardPage() {
     }, [activeConversationId, dispatch]);
 
     const handleSendMessage = async (content: string) => {
-        if (!activeConversationId) {
-            // If no active, create one first (mock behavior)
-            const newConv = await chatService.createConversation();
-            dispatch({ type: 'SET_ACTIVE', payload: newConv.id });
-            dispatch({ type: 'SET_CONVERSATIONS', payload: [newConv, ...conversations] });
+        let currentTargetId = activeConversationId;
+        let isNew = false;
 
-            dispatch({ type: 'SET_SENDING', payload: true });
-            const newMsg = await chatService.sendMessage(newConv.id, content);
-            dispatch({ type: 'ADD_MESSAGE', payload: newMsg });
-            dispatch({ type: 'SET_SENDING', payload: false });
-            return;
+        if (!currentTargetId) {
+            // Generate temporary client-side uuid
+            const newConv = await chatService.createConversation();
+            currentTargetId = newConv.id;
+            isNew = true;
+            // Add to sidebar optimistically (title will be Nueva Conversación)
+            dispatch({ type: 'SET_CONVERSATIONS', payload: [newConv, ...conversations] });
+            // Clear current message list to prepare for new session
+            dispatch({ type: 'SET_MESSAGES', payload: [] });
         }
 
         dispatch({ type: 'SET_SENDING', payload: true });
@@ -76,32 +72,31 @@ export default function ChatDashboardPage() {
         // Optimistic UI for User Msg
         const optimisticMsg = {
             id: `optimistic_${Date.now()}`,
-            conversationId: activeConversationId,
+            conversationId: currentTargetId,
             content,
             role: 'user' as const,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
         };
         dispatch({ type: 'ADD_MESSAGE', payload: optimisticMsg });
 
-
         try {
-            const newMsg = await chatService.sendMessage(activeConversationId, content);
+            // Real target backend integration (POST /ai/message)
+            const aiMsg = await chatService.sendMessage(currentTargetId, content);
 
-            // Since it's a mock, we already added the optimistic. 
-            // Replace it basically by doing nothing extra or we can simulate AI response:
+            if (isNew) {
+                // As requested: execute the 3rd endpoint right after the first message is processed
+                const msgs = await chatService.getMessages(currentTargetId);
+                dispatch({ type: 'SET_MESSAGES', payload: msgs });
 
-            // Simulate AI thinking and replying
-            setTimeout(() => {
-                const aiMsg = {
-                    id: `ai_${Date.now()}`,
-                    conversationId: activeConversationId,
-                    content: `He recibido tu mensaje solicitando: "${content}". En un entorno real, aquí te respondería con la información procesada.`,
-                    role: 'assistant' as const,
-                    createdAt: new Date().toISOString()
-                };
+                // Fetch the grouped conversations again so the sidebar updates its real title and bot reply
+                const updatedConvs = await chatService.getConversations();
+                dispatch({ type: 'SET_CONVERSATIONS', payload: updatedConvs });
+
+                // Finally set it active, which connects everything without conflicting with optimistic msgs
+                dispatch({ type: 'SET_ACTIVE', payload: currentTargetId });
+            } else {
                 dispatch({ type: 'ADD_MESSAGE', payload: aiMsg });
-            }, 1000); // AI Delay
-
+            }
         } catch (error) {
             console.error('Failed to send target message', error);
         } finally {
@@ -109,13 +104,8 @@ export default function ChatDashboardPage() {
         }
     };
 
-    const handleSuggestionClick = (text: string) => {
-        handleSendMessage(text);
-    };
-
     return (
         <div className="flex flex-col h-full w-full bg-[#E5EBE7] relative animate-fade-in">
-
             {/* Mobile Header */}
             <div className="md:hidden sticky top-0 z-10 flex items-center p-4 bg-surface-light/95 backdrop-blur-sm border-b border-surface-soft/40 shadow-sm">
                 <button
@@ -152,17 +142,19 @@ export default function ChatDashboardPage() {
                                 <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-[#20D36B] ring-[1.5px] ring-white shadow-sm"></span>
                             </div>
                             <div className="flex flex-col">
-                                <h2 className="font-bold text-neutral-dark text-[17px] leading-tight">{APP_CONFIG.AGENT_NAME} - Consultor IA</h2>
+                                <h2 className="font-bold text-neutral-dark text-[17px] leading-tight">
+                                    {APP_CONFIG.AGENT_NAME} - Consultor IA
+                                </h2>
                                 <span className="text-[13px] font-medium text-[#20D36B]">En línea</span>
                             </div>
                         </div>
 
-                        <MessageList onSuggestionClick={handleSuggestionClick} />
+                        <MessageList />
                         <ChatInput onSendMessage={handleSendMessage} variant="inline" />
                     </div>
                 ) : (
                     <div className="flex-1 flex flex-col w-full relative">
-                        <MessageList onSuggestionClick={handleSuggestionClick} />
+                        <MessageList />
                         <ChatInput onSendMessage={handleSendMessage} variant="floating" />
                     </div>
                 )}

@@ -7,14 +7,7 @@ import * as z from 'zod';
 import { forgotPasswordSchema } from '@/lib/validations/auth.schemas';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Mail, ArrowRight, Eye, EyeOff, KeyRound, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -46,6 +39,7 @@ export function ForgotPasswordForm() {
             toast.success('Código enviado a tu correo');
             setStep(2);
         } catch (error) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Error al enviar el código');
         } finally {
             setIsSubmitting(false);
@@ -56,30 +50,29 @@ export function ForgotPasswordForm() {
         const isValid = await form.trigger(['code']);
         if (!isValid) return;
 
-        // Aquí iría la llamada real para validar código, como es mock, lo probamos simulando éxito
         setIsSubmitting(true);
-        setTimeout(() => {
-            const code = form.getValues('code');
-            if (code && code.length === 6) {
-                toast.success('Código verificado correctamente');
-                setStep(3);
-            } else {
-                toast.error('Código inválido');
-            }
+        try {
+            const code = form.getValues('code') || '';
+            await authService.verifyOtp(emailValue, code);
+            toast.success('Código verificado correctamente');
+            setStep(3);
+        } catch (error) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
+            toast.error('Código inválido o expirado');
+        } finally {
             setIsSubmitting(false);
-        }, 1000);
+        }
     }
 
     async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
         if (step !== 3) return;
         setIsSubmitting(true);
         try {
-            // Simulamos guardado de la nueva contraseña
-            setTimeout(() => {
-                toast.success('Contraseña actualizada exitosamente');
-                router.push('/login');
-            }, 1000);
+            await authService.resetPassword(values.email, values.password || '');
+            toast.success('Contraseña actualizada exitosamente');
+            router.push('/login');
         } catch (error) {
+            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Error al actualizar contraseña');
         } finally {
             setIsSubmitting(false);
@@ -88,7 +81,6 @@ export function ForgotPasswordForm() {
 
     return (
         <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in relative overflow-hidden">
-
             <div className="space-y-2 mb-8 text-center">
                 <h2 className="text-3xl font-bold text-primary">Recuperar contraseña</h2>
                 <p className="text-neutral-dark/60 text-sm">
@@ -107,7 +99,9 @@ export function ForgotPasswordForm() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Correo electrónico</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Correo electrónico
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-dark/40">
@@ -145,7 +139,9 @@ export function ForgotPasswordForm() {
                                 name="code"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm text-center block">Código de verificación</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm text-center block">
+                                            Código de verificación
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-dark/40">
@@ -188,7 +184,9 @@ export function ForgotPasswordForm() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Nueva contraseña</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Nueva contraseña
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <Input
@@ -216,7 +214,9 @@ export function ForgotPasswordForm() {
                                 name="confirmPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-primary font-bold text-sm">Confirmar nueva contraseña</FormLabel>
+                                        <FormLabel className="text-primary font-bold text-sm">
+                                            Confirmar nueva contraseña
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <Input

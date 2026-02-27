@@ -27,13 +27,15 @@ Una aplicación web estática (mockeada) de agente conversacional con IA, constr
     ```bash
     npm run dev
     ```
-4.  Abre `http://localhost:3000` en tu navegador. 
+4.  Abre `http://localhost:3000` en tu navegador.
     Serás redirigido automáticamente al login.
 
 ### Variables de entorno (Opcional)
-Hay una constante en `src/config/app.config.ts` que busca un API URL (`NEXT_PUBLIC_API_URL`). Para efectos de esta demo estática no es requerido. 
+
+Hay una constante en `src/config/app.config.ts` que busca un API URL (`NEXT_PUBLIC_API_URL`). Para efectos de esta demo estática no es requerido.
 
 ### Personalización de Logos / Avatar
+
 Los logos y el avatar se deben referenciar en `src/config/app.config.ts`.
 Si no están definidos, la aplicación usará íconos vectoriales modernos (Lucide React) por defecto.
 Para reemplazar, simplemente asigna una URL a las constantes `PROJECT_LOGO_URL` o `AGENT_AVATAR_URL` y la UI los renderizará usando `<Image />` de Next.js.

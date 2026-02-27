@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 import { User, LoginInput, RegisterInput } from '@/types/auth.types';
 import { authService } from '@/lib/services/auth.service';
 
@@ -10,15 +10,12 @@ interface AuthState {
     isLoading: boolean;
 }
 
-type AuthAction =
-    | { type: 'LOGIN'; payload: User }
-    | { type: 'LOGOUT' }
-    | { type: 'SET_LOADING'; payload: boolean };
+type AuthAction = { type: 'LOGIN'; payload: User } | { type: 'LOGOUT' } | { type: 'SET_LOADING'; payload: boolean };
 
 const initialState: AuthState = {
     user: null,
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
 };
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
@@ -49,6 +46,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'SET_LOADING', payload: true });
         try {
             const response = await authService.login(data);
+
+            // Persist the real auth state to localStorage so the Axios interceptor can read the token
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('authState', JSON.stringify({ token: response.token }));
+            }
+
             dispatch({ type: 'LOGIN', payload: response.user });
         } finally {
             dispatch({ type: 'SET_LOADING', payload: false });
@@ -68,17 +71,63 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'SET_LOADING', payload: true });
         try {
             await authService.logout();
-            dispatch({ type: 'LOGOUT' });
+        } catch (error) {
+            console.warn('Logout API failed, continuing local cleanup', error);
         } finally {
+            // Destroy any and all locally persisted data to ensure complete wipe on logout
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('authState');
+                sessionStorage.clear();
+                if (window.location.pathname !== '/login') {
+                    window.location.replace('/login');
+                }
+            }
+            dispatch({ type: 'LOGOUT' });
             dispatch({ type: 'SET_LOADING', payload: false });
         }
     };
 
-    return (
-        <AuthContext.Provider value={{ ...state, login, register, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    useEffect(() => {
+        const initAuth = async () => {
+            if (typeof window !== 'undefined') {
+                const authStateString = localStorage.getItem('authState');
+                if (authStateString) {
+                    try {
+                        const user = await authService.getProfile();
+                        dispatch({ type: 'LOGIN', payload: user });
+                    } catch (error) {
+                        console.error('Error hydrating session on reload', error);
+                        // Enforce immediate redirect to login if /users/my fails (e.g. 401)
+                        if (typeof window !== 'undefined') {
+                            localStorage.removeItem('authState');
+                            sessionStorage.clear();
+                            dispatch({ type: 'LOGOUT' });
+                            if (window.location.pathname !== '/login') {
+                                window.location.replace('/login');
+                            }
+                        }
+                    }
+                }
+            }
+            dispatch({ type: 'SET_LOADING', payload: false });
+        };
+
+        initAuth();
+
+        const handleUnauthorized = () => {
+            console.warn('Unauthorized event received, logging out globally');
+            logout();
+        };
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('auth:unauthorized', handleUnauthorized);
+            return () => {
+                window.removeEventListener('auth:unauthorized', handleUnauthorized);
+            };
+        }
+    }, []);
+
+    return <AuthContext.Provider value={{ ...state, login, register, logout }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
