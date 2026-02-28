@@ -52,7 +52,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 localStorage.setItem('authState', JSON.stringify({ token: response.token }));
             }
 
-            dispatch({ type: 'LOGIN', payload: response.user });
+            // Immediately fetch the full user profile since the login endpoint may return partial data
+            try {
+                const fullUser = await authService.getProfile();
+                dispatch({ type: 'LOGIN', payload: fullUser });
+            } catch (profileError) {
+                console.error('Failed to fetch full profile instantly, using basic login data', profileError);
+                dispatch({ type: 'LOGIN', payload: response.user });
+            }
         } finally {
             dispatch({ type: 'SET_LOADING', payload: false });
         }
@@ -78,9 +85,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('authState');
                 sessionStorage.clear();
-                if (window.location.pathname !== '/login') {
-                    window.location.replace('/login');
-                }
             }
             dispatch({ type: 'LOGOUT' });
             dispatch({ type: 'SET_LOADING', payload: false });

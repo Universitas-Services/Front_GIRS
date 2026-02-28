@@ -11,11 +11,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
-            router.push('/login');
+            router.replace('/login');
         }
     }, [isAuthenticated, isLoading, router]);
 
-    if (isLoading) {
+    if (isLoading || !isAuthenticated) {
         return (
             <div className="flex h-[100dvh] items-center justify-center bg-surface-light">
                 <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
