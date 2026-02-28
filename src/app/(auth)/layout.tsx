@@ -1,9 +1,20 @@
-import { ReactNode } from 'react';
+'use client';
+
+import { ReactNode, useEffect } from 'react';
 import Image from 'next/image';
-import { APP_CONFIG } from '@/config/app.config';
-import { Network } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/store/auth.context';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
+    const { isAuthenticated, isLoading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!isLoading && isAuthenticated) {
+            router.replace('/chat');
+        }
+    }, [isAuthenticated, isLoading, router]);
+
     return (
         <div className="min-h-screen bg-white flex">
             <div className="w-full flex flex-col md:flex-row h-screen">

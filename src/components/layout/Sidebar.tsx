@@ -39,9 +39,6 @@ export function Sidebar() {
 
     const handleLogout = async () => {
         await logout();
-        // Force a total hard refresh so Next.js router cache gets completely wiped,
-        // preventing trailing back-button navigation to protected dashboard routes.
-        window.location.href = '/login';
     };
 
     const expanded = isSidebarOpen;
@@ -166,27 +163,12 @@ export function Sidebar() {
                                                     >
                                                         <span
                                                             className={cn(
-                                                                'truncate pr-2 transition-opacity duration-300',
+                                                                'truncate transition-opacity duration-300',
                                                                 expanded ? 'opacity-100' : 'opacity-0'
                                                             )}
                                                         >
                                                             {conv.title}
                                                         </span>
-                                                        <div
-                                                            className={cn(
-                                                                'flex items-center space-x-1 transition-opacity duration-300',
-                                                                expanded
-                                                                    ? 'group-hover:opacity-100 opacity-0'
-                                                                    : 'opacity-0 hidden'
-                                                            )}
-                                                        >
-                                                            <button className="p-1 hover:text-accent">
-                                                                <Pencil size={14} />
-                                                            </button>
-                                                            <button className="p-1 hover:text-red-400">
-                                                                <Trash size={14} />
-                                                            </button>
-                                                        </div>
                                                     </div>
                                                 );
                                             })}
