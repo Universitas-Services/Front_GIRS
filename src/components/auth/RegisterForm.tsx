@@ -85,20 +85,28 @@ export function RegisterForm() {
     }
 
     return (
-        <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in">
-            <div className="space-y-6">
-                <div className="space-y-2 text-center">
-                    <h2 className="text-3xl font-bold text-primary">
+        <div className="w-full animate-fade-in">
+            <div className="flex justify-center mb-3 sm:mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src="/asset/LOGO UNIVERSITAS LEGAL.png"
+                    alt="Universitas Legal Logo"
+                    className="h-12 sm:h-14 w-auto object-contain drop-shadow-sm"
+                />
+            </div>
+            <div className="space-y-4 mb-4">
+                <div className="space-y-1 text-center">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-primary">
                         {step === 1 ? 'Crea tu cuenta' : 'Completa tus datos'}
                     </h2>
                     <p className="text-neutral-dark/60 text-sm">Por favor introduce tus datos para continuar.</p>
                 </div>
 
-                <div className="flex justify-center items-center space-x-12">
-                    <div className="flex flex-col items-center space-y-2">
+                <div className="flex justify-center items-center space-x-8 sm:space-x-12">
+                    <div className="flex flex-col items-center space-y-1 sm:space-y-2">
                         <div
                             className={cn(
-                                'w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
+                                'w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-base sm:text-lg font-bold transition-all duration-300',
                                 step === 1
                                     ? 'bg-primary text-white shadow-md shadow-primary/20'
                                     : 'bg-surface-soft/20 text-neutral-dark/40'
@@ -108,17 +116,17 @@ export function RegisterForm() {
                         </div>
                         <span
                             className={cn(
-                                'text-sm transition-colors',
+                                'text-xs sm:text-sm transition-colors',
                                 step === 1 ? 'text-primary font-bold' : 'text-neutral-dark/40 font-medium'
                             )}
                         >
                             Credenciales
                         </span>
                     </div>
-                    <div className="flex flex-col items-center space-y-2">
+                    <div className="flex flex-col items-center space-y-1 sm:space-y-2">
                         <div
                             className={cn(
-                                'w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
+                                'w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-base sm:text-lg font-bold transition-all duration-300',
                                 step === 2
                                     ? 'bg-primary text-white shadow-md shadow-primary/20'
                                     : 'bg-surface-soft/20 text-neutral-dark/40'
@@ -128,7 +136,7 @@ export function RegisterForm() {
                         </div>
                         <span
                             className={cn(
-                                'text-sm transition-colors',
+                                'text-xs sm:text-sm transition-colors',
                                 step === 2 ? 'text-primary font-bold' : 'text-neutral-dark/40 font-medium'
                             )}
                         >
@@ -139,9 +147,9 @@ export function RegisterForm() {
             </div>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     {step === 1 && (
-                        <div className="space-y-5 animate-fade-in">
+                        <div className="space-y-4 animate-fade-in">
                             <FormField
                                 control={form.control}
                                 name="email"
