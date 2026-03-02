@@ -21,12 +21,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 {/* Panel Izquierdo (Móvil y Desktop) */}
                 <div className="flex md:w-[45%] bg-primary flex-col items-center justify-center p-8 lg:p-12 relative text-on-primary shrink-0 min-h-[300px] md:min-h-full">
                     <div className="flex flex-col items-center justify-center z-10 space-y-6 text-center">
-                        <div className="w-80 h-auto flex items-center justify-center mb-2">
+                        <div className="w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center mb-4 bg-white rounded-full border-4 border-primary overflow-hidden shadow-2xl relative">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src="/asset/LOGO UNIVERSITAS LEGAL (BLANCO).png"
-                                alt="Universitas Legal Logo"
-                                className="w-full h-auto object-contain drop-shadow-md"
+                                src="/asset/Julio-AI-Fospuca.png"
+                                alt="Consultor IA GIRS"
+                                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                             />
                         </div>
                         <p className="text-on-primary/90 max-w-sm text-[15px] font-medium leading-relaxed">
@@ -36,8 +36,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 </div>
 
                 {/* Panel Derecho (Formularios) */}
-                <div className="w-full md:w-[55%] bg-white flex flex-col justify-center p-6 sm:p-10 lg:p-14 overflow-y-auto custom-scrollbar">
-                    {children}
+                <div className="w-full md:w-[55%] bg-white flex flex-col px-6 sm:px-10 lg:px-14 py-4 overflow-y-auto custom-scrollbar">
+                    <div className="m-auto w-full max-w-md py-4 sm:py-6">{children}</div>
                 </div>
             </div>
         </div>

@@ -39,7 +39,6 @@ export function ForgotPasswordForm() {
             toast.success('Código enviado a tu correo');
             setStep(2);
         } catch (error) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Error al enviar el código');
         } finally {
             setIsSubmitting(false);
@@ -57,7 +56,6 @@ export function ForgotPasswordForm() {
             toast.success('Código verificado correctamente');
             setStep(3);
         } catch (error) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Código inválido o expirado');
         } finally {
             setIsSubmitting(false);
@@ -72,7 +70,6 @@ export function ForgotPasswordForm() {
             toast.success('Contraseña actualizada exitosamente');
             router.push('/login');
         } catch (error) {
-            // eslint-disable-line @typescript-eslint/no-unused-vars
             toast.error('Error al actualizar contraseña');
         } finally {
             setIsSubmitting(false);
@@ -80,8 +77,16 @@ export function ForgotPasswordForm() {
     }
 
     return (
-        <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in relative overflow-hidden">
-            <div className="space-y-2 mb-8 text-center">
+        <div className="w-full animate-fade-in relative overflow-hidden">
+            <div className="flex justify-center mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src="/asset/LOGO UNIVERSITAS LEGAL.png"
+                    alt="Universitas Legal Logo"
+                    className="h-14 sm:h-16 w-auto object-contain drop-shadow-sm"
+                />
+            </div>
+            <div className="space-y-1 mb-5 text-center">
                 <h2 className="text-3xl font-bold text-primary">Recuperar contraseña</h2>
                 <p className="text-neutral-dark/60 text-sm">
                     {step === 1 && 'Ingresa tu correo para recibir un código.'}
@@ -91,7 +96,7 @@ export function ForgotPasswordForm() {
             </div>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     {step === 1 && (
                         <div className="space-y-6 animate-fade-in">
                             <FormField
