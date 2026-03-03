@@ -10,8 +10,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const router = useRouter();
 
     useEffect(() => {
-        if (!isLoading && !isAuthenticated) {
-            router.replace('/login');
+        if (!isLoading) {
+            if (!isAuthenticated) {
+                router.replace('/login');
+            } else {
+                document.title = 'Consultor IA - GIRS';
+            }
         }
     }, [isAuthenticated, isLoading, router]);
 

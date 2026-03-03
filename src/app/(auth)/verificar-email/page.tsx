@@ -93,7 +93,7 @@ function ConfirmEmailContent() {
                         <XCircle className="w-10 h-10 text-red-500" />
                     </div>
                     <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-red-600">Enlace Inválido o Expirado</h2>
+                        <h2 className="text-2xl font-bold text-red-600">Enlace inválido o expirado</h2>
                         <p className="text-neutral-dark/70 text-base">
                             No pudimos verificar tu correo. Es posible que el enlace ya haya sido utilizado o haya
                             caducado.
