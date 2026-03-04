@@ -65,4 +65,10 @@ export const authService = {
             console.warn('Logout API failed, continuing local cleanup', error);
         }
     },
+
+    deleteAccount: async (password: string): Promise<void> => {
+        await api.delete('/users/me', {
+            data: { password },
+        });
+    },
 };
