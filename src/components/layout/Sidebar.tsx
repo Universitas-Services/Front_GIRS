@@ -3,8 +3,9 @@
 import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
-import { PlusCircle, MessageSquare, Settings, LogOut, Menu, X, Pencil, Trash } from 'lucide-react';
+import { PlusCircle, MessageSquare, Settings, LogOut, Menu, X, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,13 +15,21 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export function Sidebar() {
     const { isSidebarOpen, dispatch, conversations, activeConversationId } = useChat();
     const { user, logout } = useAuth();
+    const router = useRouter();
     const [isMobile, setIsMobile] = useState(false);
+    const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
     useEffect(() => {
         const checkViewport = () => {
@@ -35,6 +44,7 @@ export function Sidebar() {
     const handleNewChat = () => {
         dispatch({ type: 'SET_ACTIVE', payload: null });
         if (isMobile) toggleSidebar();
+        router.push('/chat');
     };
 
     const handleLogout = async () => {
@@ -153,6 +163,7 @@ export function Sidebar() {
                                                         onClick={() => {
                                                             dispatch({ type: 'SET_ACTIVE', payload: conv.id });
                                                             if (isMobile) toggleSidebar();
+                                                            router.push('/chat');
                                                         }}
                                                         className={cn(
                                                             'group flex items-center justify-between px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors whitespace-nowrap overflow-hidden',
@@ -182,59 +193,103 @@ export function Sidebar() {
             </div>
 
             {/* Footer Settings / User */}
-            <div className={cn('shrink-0 pb-4 relative h-20', expanded ? 'p-3' : 'w-full flex flex-col items-center')}>
-                {!expanded ? (
-                    <div className="w-full flex justify-center text-on-primary/60 transition-all duration-300 mt-3">
-                        <button
-                            onClick={() => alert('Configuración de usuario (Próximamente)')}
-                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
-                        >
-                            <Settings size={20} />
-                        </button>
-                    </div>
-                ) : (
-                    <AlertDialog>
-                        <div className="flex items-center space-x-3 bg-surface-soft/10 p-3 rounded-xl border border-surface-soft/5 transition-opacity duration-300">
-                            <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sm font-bold text-on-primary shrink-0">
-                                {user?.name?.charAt(0) || 'U'}
+            <div className={cn('shrink-0 pb-4 relative mt-2', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        {!expanded ? (
+                            <button className="flex items-center justify-center w-10 h-10 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
+                                <Settings size={20} />
+                            </button>
+                        ) : (
+                            <div
+                                role="button"
+                                className="flex outline-none items-center space-x-3 bg-surface-soft/10 hover:bg-surface-soft/20 p-3 rounded-xl border border-surface-soft/5 transition-all duration-300 cursor-pointer focus-visible:ring-0"
+                            >
+                                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sm font-bold text-on-primary shrink-0">
+                                    {user?.name?.charAt(0) || 'U'}
+                                </div>
+                                <div className="flex-1 overflow-hidden text-left">
+                                    <p className="text-sm font-medium text-on-primary truncate">
+                                        {user?.name || 'Usuario'}
+                                    </p>
+                                    <p className="text-xs text-on-primary/60 truncate">
+                                        {user?.email || 'test@email.com'}
+                                    </p>
+                                </div>
+                                <Settings size={16} className="text-on-primary/60 shrink-0" />
+                            </div>
+                        )}
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent
+                        align={expanded ? 'start' : 'center'}
+                        alignOffset={expanded ? 0 : 0}
+                        sideOffset={12}
+                        className="w-[260px] bg-white border-surface-soft/30 shadow-2xl rounded-xl p-0"
+                    >
+                        {/* User Info Header Block */}
+                        <div className="flex items-center gap-3 p-4">
+                            <div className="w-10 h-10 rounded-full bg-neutral-dark text-white flex items-center justify-center text-sm font-bold shrink-0">
+                                {user?.name?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                                <p className="text-sm font-medium text-on-primary truncate">
+                                <p className="text-sm font-bold text-neutral-dark truncate leading-tight">
                                     {user?.name || 'Usuario'}
                                 </p>
-                                <p className="text-xs text-on-primary/60 truncate">{user?.email || 'test@email.com'}</p>
+                                <p className="text-sm text-neutral-dark/60 truncate leading-tight">
+                                    {user?.email || 'test@email.com'}
+                                </p>
                             </div>
-                            <AlertDialogTrigger asChild>
-                                <button
-                                    className="p-1.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
-                                    title="Cerrar sesión"
-                                >
-                                    <LogOut size={16} />
-                                </button>
-                            </AlertDialogTrigger>
                         </div>
-                        <AlertDialogContent className="sm:max-w-md bg-white border border-surface-soft">
-                            <AlertDialogHeader>
-                                <AlertDialogTitle className="text-neutral-dark">¿Cerrar sesión?</AlertDialogTitle>
-                                <AlertDialogDescription className="text-neutral-dark/70">
-                                    Estás a punto de salir de tu cuenta. Necesitarás volver a iniciar sesión para
-                                    continuar usando el Consultor IA.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter className="mt-4">
-                                <AlertDialogCancel className="bg-transparent text-neutral-dark hover:bg-surface-soft/20 border border-surface-soft/60">
-                                    Cancelar
-                                </AlertDialogCancel>
-                                <AlertDialogAction
-                                    onClick={handleLogout}
-                                    className="bg-destructive hover:bg-destructive/90 text-white border-transparent"
-                                >
-                                    Sí, cerrar sesión
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                )}
+
+                        <DropdownMenuSeparator className="m-0 bg-surface-soft/10" />
+
+                        <div className="p-1">
+                            <DropdownMenuItem
+                                className="px-3 py-2.5 cursor-pointer text-neutral-dark focus:bg-surface-soft/20 rounded-lg font-medium transition-colors"
+                                onClick={() => router.push('/perfil')}
+                            >
+                                <User className="mr-3 h-[18px] w-[18px]" />
+                                Perfil
+                            </DropdownMenuItem>
+
+                            <DropdownMenuSeparator className="my-1 bg-surface-soft/10" />
+
+                            <DropdownMenuItem
+                                className="px-3 py-2.5 cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50 rounded-lg font-medium transition-colors"
+                                onClick={() => setIsLogoutOpen(true)}
+                            >
+                                <LogOut className="mr-3 h-[18px] w-[18px]" />
+                                Cerrar sesión
+                            </DropdownMenuItem>
+                        </div>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <AlertDialog open={isLogoutOpen} onOpenChange={setIsLogoutOpen}>
+                    <AlertDialogContent className="sm:max-w-md bg-white border border-surface-soft shadow-2xl rounded-2xl">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-neutral-dark text-xl font-bold">
+                                ¿Cerrar sesión?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription className="text-neutral-dark/70 mt-2">
+                                Estás a punto de salir de tu cuenta. Necesitarás volver a iniciar sesión para continuar
+                                usando el Consultor IA.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter className="mt-6 gap-2 sm:gap-0">
+                            <AlertDialogCancel className="bg-transparent text-neutral-dark hover:bg-surface-soft/20 border border-surface-soft/60 rounded-lg">
+                                Cancelar
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                                onClick={handleLogout}
+                                className="bg-red-600 hover:bg-red-700 text-white border-transparent shadow shadow-red-600/20 font-bold rounded-lg"
+                            >
+                                Sí, cerrar sesión
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
         </div>
     );

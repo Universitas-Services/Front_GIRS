@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode, useEffect } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/store/auth.context';
 
@@ -17,7 +16,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
     return (
         <div className="min-h-screen bg-white flex">
-            <div className="w-full flex flex-col md:flex-row h-screen">
+            <div className="w-full flex flex-col md:flex-row min-h-screen md:h-screen">
                 {/* Panel Izquierdo (Móvil y Desktop) */}
                 <div className="flex md:w-[45%] bg-primary flex-col items-center justify-center p-8 lg:p-12 relative text-on-primary shrink-0 min-h-[300px] md:min-h-full">
                     <div className="flex flex-col items-center justify-center z-10 space-y-6 text-center">
@@ -36,7 +35,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 </div>
 
                 {/* Panel Derecho (Formularios) */}
-                <div className="w-full md:w-[55%] bg-white flex flex-col px-6 sm:px-10 lg:px-14 py-4 overflow-y-auto custom-scrollbar">
+                <div className="w-full md:w-[55%] bg-white flex flex-col px-6 sm:px-10 lg:px-14 py-8 md:py-4 md:overflow-y-auto custom-scrollbar">
                     <div className="m-auto w-full max-w-md py-4 sm:py-6">{children}</div>
                 </div>
             </div>
