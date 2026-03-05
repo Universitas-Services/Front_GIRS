@@ -10,7 +10,11 @@ interface AuthState {
     isLoading: boolean;
 }
 
-type AuthAction = { type: 'LOGIN'; payload: User } | { type: 'LOGOUT' } | { type: 'SET_LOADING'; payload: boolean };
+type AuthAction =
+    | { type: 'LOGIN'; payload: User }
+    | { type: 'LOGOUT' }
+    | { type: 'SET_LOADING'; payload: boolean }
+    | { type: 'UPDATE_USER'; payload: User };
 
 const initialState: AuthState = {
     user: null,
@@ -26,6 +30,8 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
             return { ...state, user: null, isAuthenticated: false, isLoading: false };
         case 'SET_LOADING':
             return { ...state, isLoading: action.payload };
+        case 'UPDATE_USER':
+            return { ...state, user: action.payload };
         default:
             return state;
     }
@@ -35,6 +41,7 @@ interface AuthContextProps extends AuthState {
     login: (data: LoginInput) => Promise<void>;
     register: (data: RegisterInput) => Promise<void>;
     logout: () => Promise<void>;
+    updateUser: (user: User) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -131,7 +138,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
-    return <AuthContext.Provider value={{ ...state, login, register, logout }}>{children}</AuthContext.Provider>;
+    const updateUser = (user: User) => {
+        dispatch({ type: 'UPDATE_USER', payload: user });
+    };
+
+    return (
+        <AuthContext.Provider value={{ ...state, login, register, logout, updateUser }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth() {

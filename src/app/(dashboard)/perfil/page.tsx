@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/store/auth.context';
-import { Settings, Key, Trash2, X } from 'lucide-react';
+import { Settings, Key, Trash2, X, Eye, EyeOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,9 +23,101 @@ import { toast } from 'sonner';
 
 type Tab = 'edit' | 'security' | 'delete';
 
+const profileSchema = z.object({
+    nombre: z.string().min(1, 'El nombre es obligatorio'),
+    apellido: z.string().min(1, 'El apellido es obligatorio'),
+    telefono: z.string(),
+});
+type ProfileFormValues = z.infer<typeof profileSchema>;
+
+const passwordSchema = z
+    .object({
+        currentPassword: z.string().min(1, 'La contraseña actual es obligatoria'),
+        newPassword: z
+            .string()
+            .min(8, 'La nueva contraseña debe tener al menos 8 caracteres')
+            .max(50, 'La nueva contraseña es demasiado larga'),
+        confirmPassword: z.string().min(1, 'Debes confirmar tu contraseña'),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: 'Las contraseñas no coinciden',
+        path: ['confirmPassword'],
+    });
+type PasswordFormValues = z.infer<typeof passwordSchema>;
+
 export default function ProfilePage() {
-    const { logout } = useAuth();
-    const [activeTab, setActiveTab] = useState<Tab>('delete'); // Default to delete for testing visibility based on user request
+    const { user, logout, updateUser } = useAuth();
+    const [activeTab, setActiveTab] = useState<Tab>('edit'); // Changed default to edit since it's the main page
+
+    const {
+        register: registerProfile,
+        handleSubmit: handleSubmitProfile,
+        reset: resetProfile,
+        formState: { errors: profileErrors },
+    } = useForm<ProfileFormValues>({
+        resolver: zodResolver(profileSchema),
+        values: {
+            nombre: user?.nombre || '',
+            apellido: user?.apellido || '',
+            telefono: user?.telefono || '',
+        },
+    });
+    const [isEditingProfile, setIsEditingProfile] = useState(false);
+    const [isEditingProfileMode, setIsEditingProfileMode] = useState(false);
+
+    // Password Hook Form
+    const {
+        register: registerPassword,
+        handleSubmit: handleSubmitPassword,
+        reset: resetPassword,
+        formState: { errors: passwordErrors },
+    } = useForm<PasswordFormValues>({
+        resolver: zodResolver(passwordSchema),
+        defaultValues: { currentPassword: '', newPassword: '', confirmPassword: '' },
+    });
+    const [isChangingPassword, setIsChangingPassword] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleUpdateProfile = async (data: ProfileFormValues) => {
+        setIsEditingProfile(true);
+        try {
+            const updatedUser = await authService.updateProfile({
+                nombre: data.nombre,
+                apellido: data.apellido,
+                telefono: data.telefono || '',
+            });
+            updateUser(updatedUser);
+            setIsEditingProfileMode(false);
+            toast.success('Perfil actualizado correctamente.');
+        } catch (error) {
+            console.error('Failed to update profile', error);
+            const errMsg =
+                (error as { response?: { data?: { message?: string } } }).response?.data?.message ||
+                'Error al actualizar el perfil.';
+            toast.error(errMsg);
+        } finally {
+            setIsEditingProfile(false);
+        }
+    };
+
+    const handleChangePassword = async (data: PasswordFormValues) => {
+        setIsChangingPassword(true);
+        try {
+            await authService.changePassword({ currentPassword: data.currentPassword, newPassword: data.newPassword });
+            toast.success('Contraseña actualizada correctamente.');
+            resetPassword();
+        } catch (error) {
+            console.error('Failed to change password', error);
+            const errMsg =
+                (error as { response?: { data?: { message?: string } } }).response?.data?.message ||
+                'Error al cambiar la contraseña.';
+            toast.error(errMsg);
+        } finally {
+            setIsChangingPassword(false);
+        }
+    };
 
     // First modal state
     const [isFirstModalOpen, setIsFirstModalOpen] = useState(false);
@@ -61,9 +156,9 @@ export default function ProfilePage() {
             window.location.href = '/login';
         } catch (error) {
             console.error('Failed to delete account', error);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const errMsg =
-                (error as any).response?.data?.message || 'Contraseña incorrecta o error al procesar tu solicitud.';
+                (error as { response?: { data?: { message?: string } } }).response?.data?.message ||
+                'Contraseña incorrecta o error al procesar tu solicitud.';
             toast.error(errMsg);
         } finally {
             setIsDeleting(false);
@@ -71,30 +166,30 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="flex-1 overflow-y-auto bg-surface flex flex-col pt-6 px-4 sm:px-8">
+        <div className="flex-1 overflow-y-auto bg-surface flex flex-col pt-4 px-4 sm:px-8 pb-4">
             <div className="w-full max-w-5xl mx-auto flex flex-col flex-1">
                 {/* Header */}
-                <div className="mb-4 flex justify-center">
-                    <h1 className="text-2xl font-bold text-neutral-dark">Gestión de perfil</h1>
+                <div className="mb-2 flex justify-center">
+                    <h1 className="text-xl font-bold text-neutral-dark">Gestión de perfil</h1>
                 </div>
 
                 {/* Main Card */}
-                <div className="bg-white rounded-2xl shadow-sm border border-surface-soft overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-sm border border-surface-soft overflow-hidden flex flex-col flex-1">
                     {/* Inner Header */}
-                    <div className="p-6 border-b border-surface-soft/40">
-                        <h2 className="text-xl font-bold text-neutral-dark">Configuración de tu perfil</h2>
-                        <p className="text-sm text-neutral-dark/60 mt-1">
+                    <div className="p-4 border-b border-surface-soft/40">
+                        <h2 className="text-lg font-bold text-neutral-dark">Configuración de tu perfil</h2>
+                        <p className="text-[13px] text-neutral-dark/60 mt-0.5">
                             Gestiona la información de tu cuenta y tu configuración de seguridad.
                         </p>
                     </div>
 
-                    <div className="flex flex-col md:flex-row min-h-[400px]">
+                    <div className="flex flex-col md:flex-row flex-1 min-h-0">
                         {/* Sidebar Navigation */}
-                        <div className="w-full md:w-56 border-r border-surface-soft/40 p-3 space-y-1">
+                        <div className="w-full md:w-56 border-r border-surface-soft/40 p-2 space-y-0.5">
                             <button
                                 onClick={() => setActiveTab('edit')}
                                 className={cn(
-                                    'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors cursor-pointer text-left',
+                                    'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] transition-colors cursor-pointer text-left',
                                     activeTab === 'edit'
                                         ? 'bg-transparent text-neutral-dark font-bold'
                                         : 'text-neutral-dark/70 hover:bg-surface-soft/10 font-medium'
@@ -107,7 +202,7 @@ export default function ProfilePage() {
                             <button
                                 onClick={() => setActiveTab('security')}
                                 className={cn(
-                                    'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors cursor-pointer text-left',
+                                    'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] transition-colors cursor-pointer text-left',
                                     activeTab === 'security'
                                         ? 'bg-transparent text-neutral-dark font-bold'
                                         : 'text-neutral-dark/70 hover:bg-surface-soft/10 font-medium'
@@ -117,33 +212,276 @@ export default function ProfilePage() {
                                 Cambiar contraseña
                             </button>
 
-                            <div className="px-2 pt-2">
+                            <div className="px-1 pt-1">
                                 <button
                                     onClick={() => setActiveTab('delete')}
                                     className={cn(
-                                        'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors cursor-pointer text-left',
+                                        'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] transition-colors cursor-pointer text-left',
                                         activeTab === 'delete'
                                             ? 'bg-surface-soft/20 text-[#ee3f46] font-semibold'
                                             : 'text-neutral-dark/70 hover:bg-surface-soft/10 font-medium hover:text-[#ee3f46]'
                                     )}
                                 >
-                                    <Trash2 className="w-5 h-5" />
+                                    <Trash2 className="w-4 h-4" />
                                     Eliminar cuenta
                                 </button>
                             </div>
                         </div>
 
                         {/* Content Area */}
-                        <div className="flex-1 p-6">
+                        <div className="flex-1 p-5 overflow-y-auto">
                             {activeTab === 'edit' && (
-                                <div className="text-neutral-dark/60">
-                                    <p>Opciones de edición de perfil (Próximamente)</p>
+                                <div className="w-full">
+                                    <form
+                                        onSubmit={handleSubmitProfile(handleUpdateProfile)}
+                                        className="w-full rounded-xl border border-surface-soft bg-white overflow-hidden shadow-sm animate-fade-in"
+                                    >
+                                        <div className="p-4">
+                                            <h3 className="text-[14px] font-bold text-neutral-dark mb-0.5">
+                                                Información personal
+                                            </h3>
+                                            <p className="text-neutral-dark/70 text-[12px] leading-relaxed mb-4">
+                                                Actualiza tu información personal y detalles de contacto.
+                                            </p>
+                                            <div className="space-y-3">
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Correo electrónico
+                                                    </label>
+                                                    <Input
+                                                        value={user?.email || ''}
+                                                        disabled
+                                                        className="border-surface-soft bg-surface/50 text-neutral-dark/70 font-medium h-9 text-[13px]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Nombre
+                                                    </label>
+                                                    <Input
+                                                        {...registerProfile('nombre')}
+                                                        disabled={!isEditingProfileMode}
+                                                        className={cn(
+                                                            'border-surface-soft focus-visible:ring-primary/20 focus-visible:border-primary text-neutral-dark font-medium h-9 text-[13px]',
+                                                            !isEditingProfileMode
+                                                                ? 'bg-surface/50 text-neutral-dark/70'
+                                                                : 'bg-surface-light',
+                                                            profileErrors.nombre && 'border-red-500'
+                                                        )}
+                                                    />
+                                                    {profileErrors.nombre && (
+                                                        <p className="text-red-500 text-[12px] mt-1">
+                                                            {profileErrors.nombre.message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Apellido
+                                                    </label>
+                                                    <Input
+                                                        {...registerProfile('apellido')}
+                                                        disabled={!isEditingProfileMode}
+                                                        className={cn(
+                                                            'border-surface-soft focus-visible:ring-primary/20 focus-visible:border-primary text-neutral-dark font-medium h-9 text-[13px]',
+                                                            !isEditingProfileMode
+                                                                ? 'bg-surface/50 text-neutral-dark/70'
+                                                                : 'bg-surface-light',
+                                                            profileErrors.apellido && 'border-red-500'
+                                                        )}
+                                                    />
+                                                    {profileErrors.apellido && (
+                                                        <p className="text-red-500 text-[12px] mt-1">
+                                                            {profileErrors.apellido.message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Teléfono
+                                                    </label>
+                                                    <Input
+                                                        {...registerProfile('telefono')}
+                                                        disabled={!isEditingProfileMode}
+                                                        className={cn(
+                                                            'border-surface-soft focus-visible:ring-primary/20 focus-visible:border-primary text-neutral-dark font-medium h-9 text-[13px]',
+                                                            !isEditingProfileMode
+                                                                ? 'bg-surface/50 text-neutral-dark/70'
+                                                                : 'bg-surface-light',
+                                                            profileErrors.telefono && 'border-red-500'
+                                                        )}
+                                                    />
+                                                    {profileErrors.telefono && (
+                                                        <p className="text-red-500 text-[12px] mt-1">
+                                                            {profileErrors.telefono.message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-surface-soft px-4 py-3 flex justify-end gap-2.5">
+                                            {!isEditingProfileMode ? (
+                                                <Button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setIsEditingProfileMode(true);
+                                                    }}
+                                                    className="w-full sm:w-auto px-6 bg-[#003d52] hover:bg-[#002a3a] text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
+                                                >
+                                                    Editar perfil
+                                                </Button>
+                                            ) : (
+                                                <>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        onClick={() => {
+                                                            setIsEditingProfileMode(false);
+                                                            resetProfile({
+                                                                nombre: user?.nombre || '',
+                                                                apellido: user?.apellido || '',
+                                                                telefono: user?.telefono || '',
+                                                            });
+                                                        }}
+                                                        className="w-full sm:w-auto px-6 rounded-lg h-9 text-[13px] font-medium transition-all"
+                                                    >
+                                                        Cancelar
+                                                    </Button>
+                                                    <Button
+                                                        type="submit"
+                                                        disabled={isEditingProfile}
+                                                        className="w-full sm:w-auto px-6 bg-[#003d52] hover:bg-[#002a3a] text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
+                                                    >
+                                                        {isEditingProfile ? 'Guardando...' : 'Guardar cambios'}
+                                                    </Button>
+                                                </>
+                                            )}
+                                        </div>
+                                    </form>
                                 </div>
                             )}
 
                             {activeTab === 'security' && (
-                                <div className="text-neutral-dark/60">
-                                    <p>Opciones de seguridad (Próximamente)</p>
+                                <div className="w-full">
+                                    <form
+                                        onSubmit={handleSubmitPassword(handleChangePassword)}
+                                        className="w-full rounded-xl border border-surface-soft bg-white overflow-hidden shadow-sm animate-fade-in"
+                                    >
+                                        <div className="p-4">
+                                            <h3 className="text-[14px] font-bold text-neutral-dark mb-0.5">
+                                                Cambiar contraseña
+                                            </h3>
+                                            <p className="text-neutral-dark/70 text-[12px] leading-relaxed mb-4">
+                                                Para mayor seguridad, te recomendamos usar una contraseña única que no
+                                                utilices en otros sitios.
+                                            </p>
+                                            <div className="space-y-3">
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Contraseña actual
+                                                    </label>
+                                                    <div className="relative">
+                                                        <Input
+                                                            type={showCurrentPassword ? 'text' : 'password'}
+                                                            {...registerPassword('currentPassword')}
+                                                            className={cn(
+                                                                'border-surface-soft focus-visible:ring-primary/20 focus-visible:border-primary bg-surface-light text-neutral-dark font-medium h-9 text-[13px] pr-10',
+                                                                passwordErrors.currentPassword && 'border-red-500'
+                                                            )}
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-dark/50 hover:text-neutral-dark"
+                                                        >
+                                                            {showCurrentPassword ? (
+                                                                <EyeOff className="h-4 w-4" />
+                                                            ) : (
+                                                                <Eye className="h-4 w-4" />
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                    {passwordErrors.currentPassword && (
+                                                        <p className="text-red-500 text-[12px] mt-1">
+                                                            {passwordErrors.currentPassword.message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Nueva contraseña
+                                                    </label>
+                                                    <div className="relative">
+                                                        <Input
+                                                            type={showNewPassword ? 'text' : 'password'}
+                                                            {...registerPassword('newPassword')}
+                                                            className={cn(
+                                                                'border-surface-soft focus-visible:ring-primary/20 focus-visible:border-primary bg-surface-light text-neutral-dark font-medium h-9 text-[13px] pr-10',
+                                                                passwordErrors.newPassword && 'border-red-500'
+                                                            )}
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setShowNewPassword(!showNewPassword)}
+                                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-dark/50 hover:text-neutral-dark"
+                                                        >
+                                                            {showNewPassword ? (
+                                                                <EyeOff className="h-4 w-4" />
+                                                            ) : (
+                                                                <Eye className="h-4 w-4" />
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                    {passwordErrors.newPassword && (
+                                                        <p className="text-red-500 text-[12px] mt-1">
+                                                            {passwordErrors.newPassword.message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Confirmar nueva contraseña
+                                                    </label>
+                                                    <div className="relative">
+                                                        <Input
+                                                            type={showConfirmPassword ? 'text' : 'password'}
+                                                            {...registerPassword('confirmPassword')}
+                                                            className={cn(
+                                                                'border-surface-soft focus-visible:ring-primary/20 focus-visible:border-primary bg-surface-light text-neutral-dark font-medium h-9 text-[13px] pr-10',
+                                                                passwordErrors.confirmPassword && 'border-red-500'
+                                                            )}
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-dark/50 hover:text-neutral-dark"
+                                                        >
+                                                            {showConfirmPassword ? (
+                                                                <EyeOff className="h-4 w-4" />
+                                                            ) : (
+                                                                <Eye className="h-4 w-4" />
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                    {passwordErrors.confirmPassword && (
+                                                        <p className="text-red-500 text-[12px] mt-1">
+                                                            {passwordErrors.confirmPassword.message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-surface-soft px-4 py-3 flex justify-end">
+                                            <Button
+                                                type="submit"
+                                                disabled={isChangingPassword}
+                                                className="w-full sm:w-auto px-6 bg-[#003d52] hover:bg-[#002a3a] text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
+                                            >
+                                                {isChangingPassword ? 'Actualizando...' : 'Actualizar contraseña'}
+                                            </Button>
+                                        </div>
+                                    </form>
                                 </div>
                             )}
 
