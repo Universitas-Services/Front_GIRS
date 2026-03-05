@@ -1,9 +1,13 @@
 export interface User {
     id: string;
-    name: string;
     email: string;
+    nombre?: string;
+    apellido?: string;
+    telefono?: string;
+    name?: string; // Derived full name
     avatar?: string | null;
-    createdAt: string;
+    createdAt?: string;
+    role?: string;
 }
 
 export interface AuthResponse {
@@ -22,4 +26,15 @@ export interface RegisterInput {
     telefono?: string;
     email: string;
     password: string;
+}
+
+export interface UpdateProfileInput {
+    nombre: string;
+    apellido: string;
+    telefono: string;
+}
+
+export interface ChangePasswordInput {
+    currentPassword?: string;
+    newPassword?: string;
 }
