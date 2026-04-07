@@ -14,7 +14,7 @@ Una aplicación web estática (mockeada) de agente conversacional con IA, constr
 
 ## Requisitos Previos
 
-- Node.js 18+ recomendado.
+- Node.js 18+ recomendado.s
 
 ## Instalación y Configuración
 
