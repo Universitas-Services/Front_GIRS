@@ -637,7 +637,7 @@ export function RegisterForm() {
                                                                     <SelectItem value="VIGENTE">
                                                                         Sí está vigente
                                                                     </SelectItem>
-                                                                    <SelectItem value="MORA">
+                                                                    <SelectItem value="EN_MORA">
                                                                         No posee / En mora
                                                                     </SelectItem>
                                                                     <SelectItem value="EN_REVISION">
