@@ -218,8 +218,8 @@ export default function ProfilePage() {
                                     className={cn(
                                         'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] transition-colors cursor-pointer text-left',
                                         activeTab === 'delete'
-                                            ? 'bg-surface-soft/20 text-[#ee3f46] font-semibold'
-                                            : 'text-neutral-dark/70 hover:bg-surface-soft/10 font-medium hover:text-[#ee3f46]'
+                                            ? 'bg-surface-soft/20 text-status-error font-semibold'
+                                            : 'text-neutral-dark/70 hover:bg-surface-soft/10 font-medium hover:text-status-error'
                                     )}
                                 >
                                     <Trash2 className="w-4 h-4" />
@@ -327,7 +327,7 @@ export default function ProfilePage() {
                                                         e.preventDefault();
                                                         setIsEditingProfileMode(true);
                                                     }}
-                                                    className="w-full sm:w-auto px-6 bg-[#003d52] hover:bg-[#002a3a] text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
+                                                    className="w-full sm:w-auto px-6 bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
                                                 >
                                                     Editar perfil
                                                 </Button>
@@ -351,7 +351,7 @@ export default function ProfilePage() {
                                                     <Button
                                                         type="submit"
                                                         disabled={isEditingProfile}
-                                                        className="w-full sm:w-auto px-6 bg-[#003d52] hover:bg-[#002a3a] text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
+                                                        className="w-full sm:w-auto px-6 bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
                                                     >
                                                         {isEditingProfile ? 'Guardando...' : 'Guardar cambios'}
                                                     </Button>
@@ -476,7 +476,7 @@ export default function ProfilePage() {
                                             <Button
                                                 type="submit"
                                                 disabled={isChangingPassword}
-                                                className="w-full sm:w-auto px-6 bg-[#003d52] hover:bg-[#002a3a] text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
+                                                className="w-full sm:w-auto px-6 bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg h-9 text-[13px] transition-all"
                                             >
                                                 {isChangingPassword ? 'Actualizando...' : 'Actualizar contraseña'}
                                             </Button>
@@ -501,7 +501,7 @@ export default function ProfilePage() {
                                         <div className="border-t border-red-400 px-5 py-3 flex justify-end">
                                             <Button
                                                 variant="destructive"
-                                                className="w-full sm:w-auto px-6 bg-[#ee3f46] hover:bg-red-600 text-white font-semibold rounded-lg h-9 text-sm transition-all"
+                                                className="w-full sm:w-auto px-6 bg-status-error hover:bg-red-600 text-white font-semibold rounded-lg h-9 text-sm transition-all"
                                                 onClick={() => setIsFirstModalOpen(true)}
                                             >
                                                 Eliminar cuenta
@@ -564,8 +564,9 @@ export default function ProfilePage() {
                                 Confirmación final requerida
                             </AlertDialogTitle>
                             <AlertDialogDescription className="text-neutral-dark/70 text-[15px] pt-1 leading-relaxed">
-                                Para confirmar, escribe <span className="font-bold text-[#ee3f46]">{targetPhrase}</span>{' '}
-                                en el campo de abajo y proporciona tu contraseña actual.
+                                Para confirmar, escribe{' '}
+                                <span className="font-bold text-status-error">{targetPhrase}</span> en el campo de abajo
+                                y proporciona tu contraseña actual.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
 
@@ -602,7 +603,7 @@ export default function ProfilePage() {
                                 variant="destructive"
                                 onClick={handleFinalDelete}
                                 disabled={isDeleting || confirmationPhrase !== targetPhrase || !deletePassword}
-                                className="w-full bg-[#ee3f46] hover:bg-red-600 focus:ring-[#ee3f46] text-white font-bold rounded-xl h-[52px] text-[16px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full bg-status-error hover:bg-red-600 focus:ring-status-error text-white font-bold rounded-xl h-[52px] text-[16px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isDeleting ? 'Eliminando...' : 'Eliminar cuenta permanentemente'}
                             </Button>

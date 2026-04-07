@@ -68,7 +68,7 @@ export function Sidebar() {
                         expanded ? 'p-2 mr-2' : 'w-10 h-10'
                     )}
                 >
-                    <Menu size={24} color="#FFFFFF" />
+                    <Menu size={24} color="var(--color-white)" />
                 </button>
                 <div
                     className={cn(
@@ -110,7 +110,7 @@ export function Sidebar() {
                         )}
                         title="Inicio"
                     >
-                        <IoHomeSharp size={20} color="#FFFFFF" className="shrink-0" />
+                        <IoHomeSharp size={20} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -134,7 +134,7 @@ export function Sidebar() {
                         )}
                         title="Iniciar nuevo chat"
                     >
-                        <IoAddCircleOutline size={22} color="#FFFFFF" className="shrink-0" />
+                        <IoAddCircleOutline size={22} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -160,7 +160,7 @@ export function Sidebar() {
                             className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
                             title="Historial"
                         >
-                            <MessageSquare size={20} color="#FFFFFF" />
+                            <MessageSquare size={20} color="var(--color-white)" />
                         </button>
                     </div>
                 ) : (
@@ -257,7 +257,7 @@ export function Sidebar() {
                         )}
                         title="Biblioteca girs"
                     >
-                        <IoMdBookmarks size={20} color="#FFFFFF" className="shrink-0" />
+                        <IoMdBookmarks size={20} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -280,7 +280,7 @@ export function Sidebar() {
                         )}
                         title="Contactanos"
                     >
-                        <BsFillTelephoneFill size={20} color="#FFFFFF" className="shrink-0" />
+                        <BsFillTelephoneFill size={20} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -299,7 +299,7 @@ export function Sidebar() {
                     <DropdownMenuTrigger asChild>
                         {!expanded ? (
                             <button className="flex items-center justify-center w-10 h-10 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
-                                <Settings size={20} color="#FFFFFF" />
+                                <Settings size={20} color="var(--color-white)" />
                             </button>
                         ) : (
                             <div
@@ -317,7 +317,7 @@ export function Sidebar() {
                                         {user?.email || 'test@email.com'}
                                     </p>
                                 </div>
-                                <Settings size={16} color="#FFFFFF" className="shrink-0" />
+                                <Settings size={16} color="var(--color-white)" className="shrink-0" />
                             </div>
                         )}
                     </DropdownMenuTrigger>

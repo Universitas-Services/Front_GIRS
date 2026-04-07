@@ -105,7 +105,7 @@ export default function ChatDashboardPage() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full bg-[#E5EBE7] relative animate-fade-in">
+        <div className="flex flex-col h-full w-full bg-[var(--color-chat-bg)] relative animate-fade-in">
             {/* Mobile Header */}
             <div className="md:hidden sticky top-0 z-10 flex items-center p-4 bg-surface-light/95 backdrop-blur-sm border-b border-surface-soft/40 shadow-sm">
                 <button
@@ -139,13 +139,15 @@ export default function ChatDashboardPage() {
                         <div className="flex items-center px-6 py-4 border-b border-surface-soft/60 bg-white shrink-0 z-10 transition-all">
                             <div className="relative mr-3 flex shrink-0">
                                 <AgentAvatar size="sm" className="ring-2 ring-white shadow-sm" />
-                                <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-[#20D36B] ring-[1.5px] ring-white shadow-sm"></span>
+                                <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-[var(--color-status-online)] ring-[1.5px] ring-white shadow-sm"></span>
                             </div>
                             <div className="flex flex-col">
                                 <h2 className="font-bold text-neutral-dark text-[17px] leading-tight">
                                     {APP_CONFIG.AGENT_NAME} - Consultor IA
                                 </h2>
-                                <span className="text-[13px] font-medium text-[#20D36B]">En línea</span>
+                                <span className="text-[13px] font-medium text-[var(--color-status-online)]">
+                                    En línea
+                                </span>
                             </div>
                         </div>
 
