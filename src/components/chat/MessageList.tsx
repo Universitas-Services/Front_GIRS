@@ -25,14 +25,14 @@ export function MessageList() {
                     <div className="relative mb-6">
                         <AgentAvatar size="lg" className="shadow-xl ring-[6px] ring-white/60" />
                         <span className="absolute bottom-1 right-1 flex h-[18px] w-[18px]">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#20D36B] opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-[18px] w-[18px] bg-[#20D36B] border-[3px] border-[#E5EBE7]"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-status-online)] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-[18px] w-[18px] bg-[var(--color-status-online)] border-[3px] border-[var(--color-chat-bg)]"></span>
                         </span>
                     </div>
                     <h2 className="text-[32px] font-bold tracking-tight mb-2 text-center text-neutral-dark">
-                        Hola, soy tu <span className="text-[#004A5C]">Consultor IA GIRS</span>
+                        Hola, soy tu <span className="text-[var(--color-consultant-text)]">Consultor IA GIRS</span>
                     </h2>
-                    <p className="text-center text-[#3b4044] max-w-[600px] text-[15px] mx-auto">
+                    <p className="text-center text-neutral-dark max-w-[600px] text-[15px] mx-auto">
                         Soy un agente IA experto en Gestión Integral de Residuos Sólidos - GIRS. Estoy aquí para
                         resolver tus dudas técnicas, apoyarte en la planificación y asegurar el cumplimiento normativo.
                     </p>
@@ -46,7 +46,7 @@ export function MessageList() {
             <div className="w-full mx-auto p-4 sm:p-6 space-y-6">
                 {/* Mocked Initial Date Separator */}
                 <div className="flex items-center justify-center my-6">
-                    <div className="bg-[#E5EBE7] px-4 py-1.5 rounded-full text-xs font-semibold text-neutral-dark/60 uppercase tracking-widest">
+                    <div className="bg-[var(--color-chat-bg)] px-4 py-1.5 rounded-full text-xs font-semibold text-neutral-dark/60 uppercase tracking-widest">
                         Hoy
                     </div>
                 </div>

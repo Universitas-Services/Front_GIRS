@@ -45,14 +45,28 @@
     --radius-4xl: calc(var(--radius) + 16px);
 
     /* Custom Theme Colors as specified */
-    --color-primary: #003d52;
-    --color-accent: #00b800;
-    --color-surface-soft: #c5d1ce;
-    --color-surface-light: #d9e8e3;
-    --color-neutral-dark: #3b4044;
-    --color-neutral-bg: #666868;
-    --color-on-primary: #f0f6f8;
-    --color-on-surface: #1a2426;
+    --color-primary: oklch(0.337 0.066 228.778);
+    --color-primary-hover: oklch(0.267 0.053 229.3);
+    --color-accent: oklch(0.678 0.231 142.495);
+    --color-surface-soft: oklch(0.851 0.014 179.402);
+    --color-surface-light: oklch(0.918 0.017 174.028);
+    --color-neutral-dark: oklch(0.368 0.01 241.911);
+    --color-neutral-bg: oklch(0.516 0.002 197.08);
+    --color-on-primary: oklch(0.969 0.007 219.56);
+    --color-on-surface: oklch(0.252 0.015 211.197);
+    --color-white: oklch(1 0 0);
+    --color-gray-soft: oklch(0.566 0.021 243.202);
+    --color-gray-dark: oklch(0.518 0.022 243.262);
+    --color-status-online: oklch(0.761 0.198 150.905);
+    --color-chat-bg: oklch(0.934 0.008 157.083);
+    --color-consultant-text: oklch(0.379 0.07 221.116);
+    --color-msg-user-bg: oklch(0.947 0.008 145.508);
+    --color-msg-user-border: oklch(0.883 0.017 156.872);
+    --color-status-error: oklch(0.631 0.211 23.725);
+    --color-dashboard-bg: oklch(0.962 0.003 174.483);
+    --color-avatar-bg: oklch(0.86 0.042 70.788);
+    --color-btn-green: oklch(0.627 0.152 144.266);
+    --color-btn-green-hover: oklch(0.566 0.136 144.182);
 
     /* Custom Animations */
     --animate-fade-in: fadeIn 0.3s ease-out;

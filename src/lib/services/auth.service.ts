@@ -31,7 +31,7 @@ export const authService = {
     },
 
     getProfile: async (): Promise<User> => {
-        const profileResponse = await api.get('/users/profile');
+        const profileResponse = await api.get('/users/my');
         const data = profileResponse.data;
 
         let name = data.name || data.nombreCompleto || '';

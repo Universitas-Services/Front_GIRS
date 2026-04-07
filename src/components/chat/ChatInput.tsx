@@ -104,7 +104,7 @@ export function ChatInput({
                             size="icon"
                             disabled={!content.trim() || isSending}
                             onClick={handleSubmit}
-                            className="w-11 h-11 rounded-full bg-[#6C7882] text-white hover:bg-[#5E6A74] disabled:bg-surface-soft disabled:text-neutral-dark/30 transition-all active:scale-95"
+                            className="w-11 h-11 rounded-full bg-[var(--color-gray-soft)] text-white hover:bg-[var(--color-gray-dark)] disabled:bg-surface-soft disabled:text-neutral-dark/30 transition-all active:scale-95"
                         >
                             {isSending ? (
                                 <Spinner size="icon" />
