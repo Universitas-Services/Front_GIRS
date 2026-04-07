@@ -29,7 +29,7 @@ export function LoginForm() {
         try {
             await login(values);
             toast.success('¡Bienvenido!');
-            router.replace('/chat');
+            router.replace('/inicio');
         } catch (error) {
             toast.error((error as Error).message || 'Credenciales incorrectas');
         }

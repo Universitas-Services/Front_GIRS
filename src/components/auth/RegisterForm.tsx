@@ -8,14 +8,17 @@ import { useAuth } from '@/store/auth.context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Eye, EyeOff, ArrowRight, ChevronLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+import { territorioService, Estado, Municipio } from '@/lib/services/territorio.service';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export function RegisterForm() {
     const [step, setStep] = useState(1);
@@ -25,6 +28,13 @@ export function RegisterForm() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isTermsOpen, setIsTermsOpen] = useState(false);
     const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+    const [estados, setEstados] = useState<Estado[]>([]);
+    const [municipios, setMunicipios] = useState<Municipio[]>([]);
+    const [selectedEstadoId, setSelectedEstadoId] = useState<number | null>(null);
+    const [isLoadingEstados, setIsLoadingEstados] = useState(false);
+    const [isLoadingMunicipios, setIsLoadingMunicipios] = useState(false);
+    const [showEnteFields, setShowEnteFields] = useState(false);
+    const [showCargoNormativa, setShowCargoNormativa] = useState(false);
     const { register, isLoading } = useAuth();
     const router = useRouter();
 
@@ -34,6 +44,12 @@ export function RegisterForm() {
             name: '',
             lastName: '',
             phone: '',
+            estado: '',
+            municipio: '',
+            tipo_usuario: '',
+            nombre_ente: '',
+            cargo: '',
+            estatus_normativa_girs: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -57,6 +73,40 @@ export function RegisterForm() {
 
     const strength = getPasswordStrength(passwordValue);
 
+    useEffect(() => {
+        const loadEstados = async () => {
+            setIsLoadingEstados(true);
+            try {
+                const data = await territorioService.getEstados();
+                setEstados(data);
+            } catch (error) {
+                console.error('Error loading estados:', error);
+            } finally {
+                setIsLoadingEstados(false);
+            }
+        };
+        loadEstados();
+    }, []);
+
+    useEffect(() => {
+        const loadMunicipios = async () => {
+            if (!selectedEstadoId) {
+                setMunicipios([]);
+                return;
+            }
+            setIsLoadingMunicipios(true);
+            try {
+                const data = await territorioService.getMunicipios(selectedEstadoId);
+                setMunicipios(data);
+            } catch (error) {
+                console.error('Error loading municipios:', error);
+            } finally {
+                setIsLoadingMunicipios(false);
+            }
+        };
+        loadMunicipios();
+    }, [selectedEstadoId]);
+
     const onNextStep = async () => {
         const isValid = await form.trigger(['email', 'password', 'confirmPassword']);
         if (isValid) {
@@ -71,11 +121,16 @@ export function RegisterForm() {
     async function onSubmit(values: z.infer<typeof registerSchema>) {
         if (step !== 2) return;
         try {
-            // Map the frontend form values to the backend DTO expected payload
             const payload = {
                 nombre: values.name,
                 apellido: values.lastName,
                 telefono: values.phone,
+                estado: values.estado,
+                municipio: values.municipio,
+                tipo_usuario: values.tipo_usuario,
+                nombre_ente: values.nombre_ente,
+                cargo: values.cargo,
+                estatus_normativa_girs: values.estatus_normativa_girs,
                 email: values.email,
                 password: values.password,
             };
@@ -359,6 +414,245 @@ export function RegisterForm() {
                                         </FormItem>
                                     )}
                                 />
+
+                                <div className="flex gap-3">
+                                    <FormField
+                                        control={form.control}
+                                        name="estado"
+                                        render={({ field }) => (
+                                            <FormItem className="flex-1">
+                                                <FormLabel className="text-primary font-bold text-sm">
+                                                    Ubicación
+                                                </FormLabel>
+                                                <Select
+                                                    onValueChange={(value) => {
+                                                        const estadoId = parseInt(value);
+                                                        field.onChange(value);
+                                                        setSelectedEstadoId(estadoId);
+                                                        form.setValue('municipio', '');
+                                                        setMunicipios([]);
+                                                    }}
+                                                    defaultValue={field.value}
+                                                    value={field.value}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger
+                                                            className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
+                                                            disabled={isLoadingEstados}
+                                                        >
+                                                            <SelectValue
+                                                                placeholder={
+                                                                    isLoadingEstados
+                                                                        ? 'Cargando...'
+                                                                        : 'Selecciona un estado'
+                                                                }
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent className="z-50">
+                                                        {estados.map((estado) => (
+                                                            <SelectItem key={estado.id} value={estado.id.toString()}>
+                                                                {estado.nombre}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage className="text-red-500 font-medium text-xs" />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="municipio"
+                                        render={({ field }) => (
+                                            <FormItem className="flex-1">
+                                                <FormLabel className="text-primary font-bold text-sm">&nbsp;</FormLabel>
+                                                <Select
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    value={field.value}
+                                                    disabled={!selectedEstadoId || isLoadingMunicipios}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11">
+                                                            <SelectValue
+                                                                placeholder={
+                                                                    isLoadingMunicipios
+                                                                        ? 'Cargando...'
+                                                                        : 'Selecciona un municipio'
+                                                                }
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent className="z-50">
+                                                        {municipios.map((municipio) => (
+                                                            <SelectItem
+                                                                key={municipio.id}
+                                                                value={municipio.id.toString()}
+                                                            >
+                                                                {municipio.nombre}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage className="text-red-500 font-medium text-xs" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name="tipo_usuario"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <div className="flex gap-40">
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox
+                                                            id="servidor-publico"
+                                                            className="cursor-pointer"
+                                                            checked={field.value === 'SERVIDOR_PUBLICO'}
+                                                            onCheckedChange={(checked) => {
+                                                                if (checked) {
+                                                                    field.onChange('SERVIDOR_PUBLICO');
+                                                                    setShowEnteFields(true);
+                                                                    setShowCargoNormativa(true);
+                                                                } else {
+                                                                    field.onChange('');
+                                                                    setShowEnteFields(false);
+                                                                    setShowCargoNormativa(false);
+                                                                    form.setValue('nombre_ente', '');
+                                                                    form.setValue('cargo', '');
+                                                                    form.setValue('estatus_normativa_girs', '');
+                                                                }
+                                                            }}
+                                                        />
+                                                        <label
+                                                            htmlFor="servidor-publico"
+                                                            className="text-primary font-bold text-sm"
+                                                        >
+                                                            Servidor público
+                                                        </label>
+                                                    </div>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox
+                                                            id="asesor-privado"
+                                                            className="cursor-pointer"
+                                                            checked={field.value === 'ASESOR_PRIVADO'}
+                                                            onCheckedChange={(checked) => {
+                                                                if (checked) {
+                                                                    field.onChange('ASESOR_PRIVADO');
+                                                                    setShowEnteFields(true);
+                                                                    setShowCargoNormativa(false);
+                                                                    form.setValue('cargo', '');
+                                                                    form.setValue('estatus_normativa_girs', '');
+                                                                } else {
+                                                                    field.onChange('');
+                                                                    setShowEnteFields(false);
+                                                                    setShowCargoNormativa(false);
+                                                                    form.setValue('nombre_ente', '');
+                                                                    form.setValue('cargo', '');
+                                                                    form.setValue('estatus_normativa_girs', '');
+                                                                }
+                                                            }}
+                                                        />
+                                                        <label
+                                                            htmlFor="asesor-privado"
+                                                            className="text-primary font-bold text-sm"
+                                                        >
+                                                            Asesor privado
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-red-500 font-medium text-xs mt-1" />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {showEnteFields && (
+                                    <div className="space-y-4 animate-fade-in">
+                                        <FormField
+                                            control={form.control}
+                                            name="nombre_ente"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-primary font-bold text-sm">
+                                                        Ente/Institución
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            placeholder="Ej. Ministerio del Poder Popular..."
+                                                            className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage className="text-red-500 font-medium text-xs" />
+                                                </FormItem>
+                                            )}
+                                        />
+
+                                        {showCargoNormativa && (
+                                            <>
+                                                <FormField
+                                                    control={form.control}
+                                                    name="cargo"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className="text-primary font-bold text-sm">
+                                                                Cargo
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="Ej. Director de..."
+                                                                    className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage className="text-red-500 font-medium text-xs" />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="estatus_normativa_girs"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className="text-primary font-bold text-sm">
+                                                                ¿Posee tu ente normativa GIRS actualmente?
+                                                            </FormLabel>
+                                                            <Select
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11">
+                                                                        <SelectValue placeholder="Selecciona una opción" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    <SelectItem value="VIGENTE">
+                                                                        Sí está vigente
+                                                                    </SelectItem>
+                                                                    <SelectItem value="EN_MORA">
+                                                                        No posee / En mora
+                                                                    </SelectItem>
+                                                                    <SelectItem value="EN_REVISION">
+                                                                        En revisión técnica
+                                                                    </SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                            <FormMessage className="text-red-500 font-medium text-xs" />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </>
+                                        )}
+                                    </div>
+                                )}
 
                                 <FormField
                                     control={form.control}

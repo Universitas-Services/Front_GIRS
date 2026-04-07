@@ -10,6 +10,12 @@ export const registerSchema = z
         name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').max(50, 'Máximo 50 caracteres'),
         lastName: z.string().min(2, 'El apellido debe tener al menos 2 caracteres').max(50, 'Máximo 50 caracteres'),
         phone: z.string().min(7, 'Teléfono inválido').max(20, 'Teléfono inválido'),
+        estado: z.string().min(1, 'Selecciona un estado'),
+        municipio: z.string().min(1, 'Selecciona un municipio'),
+        tipo_usuario: z.string().min(1, 'Selecciona un tipo de usuario'),
+        nombre_ente: z.string().optional(),
+        cargo: z.string().optional(),
+        estatus_normativa_girs: z.string().optional(),
         email: z.string().email('Ingresa un correo válido'),
         password: z
             .string()
@@ -21,7 +27,19 @@ export const registerSchema = z
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Las contraseñas no coinciden',
         path: ['confirmPassword'],
-    });
+    })
+    .refine(
+        (data) => {
+            if (data.tipo_usuario === 'SERVIDOR_PUBLICO' || data.tipo_usuario === 'ASESOR_PRIVADO') {
+                return data.nombre_ente && data.nombre_ente.length > 0;
+            }
+            return true;
+        },
+        {
+            message: 'Ingresa el nombre del ente/institución',
+            path: ['nombre_ente'],
+        }
+    );
 
 export const forgotPasswordSchema = z
     .object({
