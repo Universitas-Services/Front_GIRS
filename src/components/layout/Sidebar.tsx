@@ -3,9 +3,13 @@
 import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
-import { PlusCircle, MessageSquare, Settings, LogOut, Menu, X, User } from 'lucide-react';
+import { MessageSquare, Settings, LogOut, Menu, X, User } from 'lucide-react';
+import { IoMdBookmarks } from 'react-icons/io';
+import { BsFillTelephoneFill } from 'react-icons/bs';
+import { IoHomeSharp, IoAddCircleOutline } from 'react-icons/io5';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -64,7 +68,7 @@ export function Sidebar() {
                         expanded ? 'p-2 mr-2' : 'w-10 h-10'
                     )}
                 >
-                    <Menu size={24} />
+                    <Menu size={24} color="#FFFFFF" />
                 </button>
                 <div
                     className={cn(
@@ -83,27 +87,64 @@ export function Sidebar() {
                 </div>
             </div>
 
-            {/* Primary Actions */}
-            <div className={cn('shrink-0 my-2', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                <button
-                    onClick={handleNewChat}
+            {/* Menú Principal Section */}
+            <div className="w-full flex-shrink-0 mt-4">
+                <div
                     className={cn(
-                        'flex items-center py-2.5 rounded-lg transition-colors border-accent/30',
-                        expanded
-                            ? 'w-full px-3 bg-surface-soft/10 border hover:bg-accent/20'
-                            : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                        'mb-2 transition-opacity duration-300',
+                        expanded ? 'px-3 opacity-100' : 'opacity-0 hidden'
                     )}
                 >
-                    <PlusCircle size={20} className="shrink-0" />
-                    <span
+                    <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider">Menú principal</p>
+                </div>
+
+                {/* Home Button */}
+                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    <button
+                        onClick={() => router.push('/inicio')}
                         className={cn(
-                            'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
-                            expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            'flex items-center py-2.5 rounded-lg transition-colors',
+                            expanded
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
+                        title="Inicio"
                     >
-                        Nuevo Chat
-                    </span>
-                </button>
+                        <IoHomeSharp size={20} color="#FFFFFF" className="shrink-0" />
+                        <span
+                            className={cn(
+                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            )}
+                        >
+                            Inicio
+                        </span>
+                    </button>
+                </div>
+
+                {/* New Chat Button */}
+                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    <button
+                        onClick={handleNewChat}
+                        className={cn(
+                            'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
+                            expanded
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                        )}
+                        title="Iniciar nuevo chat"
+                    >
+                        <IoAddCircleOutline size={22} color="#FFFFFF" className="shrink-0" />
+                        <span
+                            className={cn(
+                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            )}
+                        >
+                            Iniciar nuevo chat
+                        </span>
+                    </button>
+                </div>
             </div>
 
             {/* Navigation / History */}
@@ -119,13 +160,13 @@ export function Sidebar() {
                             className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
                             title="Historial"
                         >
-                            <MessageSquare size={20} />
+                            <MessageSquare size={20} color="#FFFFFF" />
                         </button>
                     </div>
                 ) : (
                     <div className="space-y-6 mt-2 transition-opacity duration-300">
                         <div>
-                            <p className="text-xs font-semibold text-on-primary/50 tracking-wider mb-2 px-3 uppercase">
+                            <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider mb-2 px-3">
                                 Historial
                             </p>
                             {/* Filter out empty/new chats with no messages from history */}
@@ -192,13 +233,73 @@ export function Sidebar() {
                 )}
             </div>
 
+            {/* Otros Servicios Section */}
+            <div className="w-full flex-shrink-0 mb-2 mt-4 pt-4 border-t border-surface-soft/10">
+                <div
+                    className={cn(
+                        'mb-2 transition-opacity duration-300',
+                        expanded ? 'px-3 opacity-100' : 'opacity-0 hidden'
+                    )}
+                >
+                    <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider">Otros Servicios</p>
+                </div>
+
+                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    <a
+                        href="https://universitas.legal/biblioteca-girs/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                            'flex items-center py-2.5 rounded-lg transition-colors',
+                            expanded
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                        )}
+                        title="Biblioteca girs"
+                    >
+                        <IoMdBookmarks size={20} color="#FFFFFF" className="shrink-0" />
+                        <span
+                            className={cn(
+                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            )}
+                        >
+                            Biblioteca girs
+                        </span>
+                    </a>
+                </div>
+
+                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    <button
+                        onClick={() => toast.info('Contáctanos próximamente.')}
+                        className={cn(
+                            'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
+                            expanded
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                        )}
+                        title="Contactanos"
+                    >
+                        <BsFillTelephoneFill size={20} color="#FFFFFF" className="shrink-0" />
+                        <span
+                            className={cn(
+                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            )}
+                        >
+                            Contactanos
+                        </span>
+                    </button>
+                </div>
+            </div>
+
             {/* Footer Settings / User */}
             <div className={cn('shrink-0 pb-4 relative mt-2', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         {!expanded ? (
                             <button className="flex items-center justify-center w-10 h-10 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
-                                <Settings size={20} />
+                                <Settings size={20} color="#FFFFFF" />
                             </button>
                         ) : (
                             <div
@@ -216,7 +317,7 @@ export function Sidebar() {
                                         {user?.email || 'test@email.com'}
                                     </p>
                                 </div>
-                                <Settings size={16} className="text-on-primary/60 shrink-0" />
+                                <Settings size={16} color="#FFFFFF" className="shrink-0" />
                             </div>
                         )}
                     </DropdownMenuTrigger>
