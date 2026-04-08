@@ -3,6 +3,7 @@ import {
     LoginInput,
     RegisterInput,
     User,
+    UserProfile,
     UpdateProfileInput,
     ChangePasswordInput,
 } from '@/types/auth.types';
@@ -47,6 +48,11 @@ export const authService = {
 
     register: async (data: RegisterInput): Promise<void> => {
         await api.post('/auth/register', data);
+    },
+
+    getFullProfile: async (): Promise<UserProfile> => {
+        const response = await api.get('/users/profile');
+        return response.data;
     },
 
     confirmEmail: async (token: string): Promise<void> => {

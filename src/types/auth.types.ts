@@ -10,6 +10,26 @@ export interface User {
     role?: string;
 }
 
+export interface UserProfile {
+    id: string;
+    email: string;
+    nombre: string | null;
+    apellido: string | null;
+    telefono: string | null;
+    role: string;
+    isEmailVerified: boolean;
+    isActive: boolean;
+    estado: string | null;
+    municipio: string | null;
+    tipo_usuario: string | null;
+    nombre_ente: string | null;
+    cargo: string | null;
+    estatus_normativa_girs: string | null;
+    profileCompleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface AuthResponse {
     user: User;
     token: string;
