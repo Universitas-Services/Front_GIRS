@@ -137,7 +137,7 @@ export function RegisterForm() {
             await register(payload);
             toast.success('Te hemos enviado un enlace de activación a tu correo electrónico.');
             router.push('/login');
-        } catch (error) {
+        } catch {
             toast.error('Error al registrar la cuenta');
         }
     }
@@ -427,13 +427,15 @@ export function RegisterForm() {
                                                 <Select
                                                     onValueChange={(value) => {
                                                         const estadoId = parseInt(value);
-                                                        field.onChange(value);
+                                                        const estadoNombre =
+                                                            estados.find((e) => e.id === estadoId)?.nombre ?? value;
+                                                        field.onChange(estadoNombre);
                                                         setSelectedEstadoId(estadoId);
                                                         form.setValue('municipio', '');
                                                         setMunicipios([]);
                                                     }}
-                                                    defaultValue={field.value}
-                                                    value={field.value}
+                                                    defaultValue={selectedEstadoId?.toString() ?? ''}
+                                                    value={selectedEstadoId?.toString() ?? ''}
                                                 >
                                                     <FormControl>
                                                         <SelectTrigger
@@ -487,10 +489,7 @@ export function RegisterForm() {
                                                     </FormControl>
                                                     <SelectContent className="z-50">
                                                         {municipios.map((municipio) => (
-                                                            <SelectItem
-                                                                key={municipio.id}
-                                                                value={municipio.id.toString()}
-                                                            >
+                                                            <SelectItem key={municipio.id} value={municipio.nombre}>
                                                                 {municipio.nombre}
                                                             </SelectItem>
                                                         ))}
