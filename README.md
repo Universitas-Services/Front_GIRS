@@ -14,11 +14,11 @@ Una aplicación web estática (mockeada) de agente conversacional con IA, constr
 
 ## Requisitos Previos
 
-- Node.js 18+ recomendado.
+- Node.js 18+ recomendado.s
 
 ## Instalación y Configuración
 
-1.  Abre la terminal en la raíz del proyecto.
+1.  Abre la terminal en la raíz del proyecto.s
 2.  Instala las dependencias:
     ```bash
     npm install

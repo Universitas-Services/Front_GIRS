@@ -270,15 +270,17 @@ export function Sidebar() {
                 </div>
 
                 <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => toast.info('Contáctanos próximamente.')}
+                    <a
+                        href="https://wa.me/584145051716"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={cn(
                             'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
-                        title="Contactanos"
+                        title="Contáctanos"
                     >
                         <BsFillTelephoneFill size={20} color="var(--color-white)" className="shrink-0" />
                         <span
@@ -287,9 +289,9 @@ export function Sidebar() {
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
-                            Contactanos
+                            Contáctanos
                         </span>
-                    </button>
+                    </a>
                 </div>
             </div>
 

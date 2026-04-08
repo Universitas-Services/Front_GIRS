@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { authService } from '@/lib/services/auth.service';
+import { UserProfile } from '@/types/auth.types';
 import { toast } from 'sonner';
 
 type Tab = 'edit' | 'security' | 'delete';
@@ -47,7 +48,24 @@ type PasswordFormValues = z.infer<typeof passwordSchema>;
 
 export default function ProfilePage() {
     const { user, logout, updateUser } = useAuth();
-    const [activeTab, setActiveTab] = useState<Tab>('edit'); // Changed default to edit since it's the main page
+    const [activeTab, setActiveTab] = useState<Tab>('edit');
+    const [fullProfile, setFullProfile] = useState<UserProfile | null>(null);
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+
+    useEffect(() => {
+        const fetchFullProfile = async () => {
+            setIsLoadingProfile(true);
+            try {
+                const data = await authService.getFullProfile();
+                setFullProfile(data);
+            } catch {
+                toast.error('Error al cargar la información del perfil.');
+            } finally {
+                setIsLoadingProfile(false);
+            }
+        };
+        fetchFullProfile();
+    }, []);
 
     const {
         register: registerProfile,
@@ -57,9 +75,9 @@ export default function ProfilePage() {
     } = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),
         values: {
-            nombre: user?.nombre || '',
-            apellido: user?.apellido || '',
-            telefono: user?.telefono || '',
+            nombre: fullProfile?.nombre || user?.nombre || '',
+            apellido: fullProfile?.apellido || user?.apellido || '',
+            telefono: fullProfile?.telefono || user?.telefono || '',
         },
     });
     const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -249,7 +267,11 @@ export default function ProfilePage() {
                                                         Correo electrónico
                                                     </label>
                                                     <Input
-                                                        value={user?.email || ''}
+                                                        value={
+                                                            isLoadingProfile
+                                                                ? 'Cargando...'
+                                                                : fullProfile?.email || user?.email || ''
+                                                        }
                                                         disabled
                                                         className="border-surface-soft bg-surface/50 text-neutral-dark/70 font-medium h-9 text-[13px]"
                                                     />
@@ -317,6 +339,66 @@ export default function ProfilePage() {
                                                         </p>
                                                     )}
                                                 </div>
+
+                                                {/* Campos de solo lectura del perfil extendido */}
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Tipo de usuario
+                                                    </label>
+                                                    <Input
+                                                        value={
+                                                            isLoadingProfile
+                                                                ? 'Cargando...'
+                                                                : fullProfile?.tipo_usuario === 'SERVIDOR_PUBLICO'
+                                                                  ? 'Servidor público'
+                                                                  : fullProfile?.tipo_usuario === 'ASESOR_PRIVADO'
+                                                                    ? 'Asesor privado'
+                                                                    : fullProfile?.tipo_usuario || '—'
+                                                        }
+                                                        disabled
+                                                        className="border-surface-soft bg-surface/50 text-neutral-dark/70 font-medium h-9 text-[13px]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Ente/Institución a la que es asesor
+                                                    </label>
+                                                    <Input
+                                                        value={
+                                                            isLoadingProfile
+                                                                ? 'Cargando...'
+                                                                : fullProfile?.nombre_ente || '—'
+                                                        }
+                                                        disabled
+                                                        className="border-surface-soft bg-surface/50 text-neutral-dark/70 font-medium h-9 text-[13px]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Cargo
+                                                    </label>
+                                                    <Input
+                                                        value={
+                                                            isLoadingProfile ? 'Cargando...' : fullProfile?.cargo || '—'
+                                                        }
+                                                        disabled
+                                                        className="border-surface-soft bg-surface/50 text-neutral-dark/70 font-medium h-9 text-[13px]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[12px] font-bold text-neutral-dark mb-1">
+                                                        Estatus
+                                                    </label>
+                                                    <Input
+                                                        value={
+                                                            isLoadingProfile
+                                                                ? 'Cargando...'
+                                                                : fullProfile?.estatus_normativa_girs || '—'
+                                                        }
+                                                        disabled
+                                                        className="border-surface-soft bg-surface/50 text-neutral-dark/70 font-medium h-9 text-[13px]"
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="border-t border-surface-soft px-4 py-3 flex justify-end gap-2.5">
@@ -339,9 +421,9 @@ export default function ProfilePage() {
                                                         onClick={() => {
                                                             setIsEditingProfileMode(false);
                                                             resetProfile({
-                                                                nombre: user?.nombre || '',
-                                                                apellido: user?.apellido || '',
-                                                                telefono: user?.telefono || '',
+                                                                nombre: fullProfile?.nombre || user?.nombre || '',
+                                                                apellido: fullProfile?.apellido || user?.apellido || '',
+                                                                telefono: fullProfile?.telefono || user?.telefono || '',
                                                             });
                                                         }}
                                                         className="w-full sm:w-auto px-6 rounded-lg h-9 text-[13px] font-medium transition-all"
