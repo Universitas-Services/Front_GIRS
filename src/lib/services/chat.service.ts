@@ -82,7 +82,11 @@ export const chatService = {
             const grouped = Array.from(uniqueSessions.values());
             return grouped.sort((a, b) => new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime());
         } catch (error) {
-            console.error('Error fetching conversations:', error);
+            const err = error as { response?: { status?: number } };
+            // Evitamos imprimir en consola si es error 403 (suspensión) para no detonar el Overlay de Next.js
+            if (err?.response?.status !== 403) {
+                console.error('Error fetching conversations:', error);
+            }
             return [];
         }
     },
@@ -132,7 +136,10 @@ export const chatService = {
 
             return messages;
         } catch (error) {
-            console.error('Error fetching messages for session', id, error);
+            const err = error as { response?: { status?: number } };
+            if (err?.response?.status !== 403) {
+                console.error('Error fetching messages for session', id, error);
+            }
             return [];
         }
     },
