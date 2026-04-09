@@ -328,7 +328,7 @@ export function RegisterForm() {
                                             <FormLabel className="text-primary font-bold text-sm">Nombre</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Ej. Juan"
+                                                    placeholder="Ejemplo: Juan"
                                                     className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
                                                     {...field}
                                                 />
@@ -346,7 +346,7 @@ export function RegisterForm() {
                                             <FormLabel className="text-primary font-bold text-sm">Apellido</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Ej. Pérez"
+                                                    placeholder="Ejemplo: Pérez"
                                                     className="bg-surface-light border-transparent focus:border-accent focus:ring-accent text-neutral-dark h-11"
                                                     {...field}
                                                 />

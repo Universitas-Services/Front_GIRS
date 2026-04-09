@@ -6,11 +6,13 @@ import { chatService } from '@/lib/services/chat.service';
 import { MessageList, ChatInput, AgentAvatar } from '@/components/chat';
 import { Menu } from 'lucide-react';
 import { APP_CONFIG } from '@/config/app.config';
+import { FeatureBlockedModal } from '@/components/Modales';
 
 export default function ChatDashboardPage() {
     const { dispatch, activeConversationId, conversations, messages } = useChat();
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
 
     // Initial fetch mock
     useEffect(() => {
@@ -99,6 +101,12 @@ export default function ChatDashboardPage() {
             }
         } catch (error) {
             console.error('Failed to send target message', error);
+            const err = error as { response?: { status?: number } };
+            if (err?.response?.status === 403) {
+                // Revertimos el mensaje optimista tomando el estado 'messages' inicial de la función
+                dispatch({ type: 'SET_MESSAGES', payload: messages });
+                setIsBlockedModalOpen(true);
+            }
         } finally {
             dispatch({ type: 'SET_SENDING', payload: false });
         }
@@ -161,6 +169,8 @@ export default function ChatDashboardPage() {
                     </div>
                 )}
             </div>
+
+            <FeatureBlockedModal isOpen={isBlockedModalOpen} onClose={() => setIsBlockedModalOpen(false)} />
         </div>
     );
 }
