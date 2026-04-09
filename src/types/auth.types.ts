@@ -26,6 +26,11 @@ export interface UserProfile {
     cargo: string | null;
     estatus_normativa_girs: string | null;
     profileCompleted: boolean;
+    estadoCuenta?: string;
+    alertaVencimiento?: {
+        mensaje: string;
+        diasRestantes: number;
+    } | null;
     createdAt: string;
     updatedAt: string;
 }
