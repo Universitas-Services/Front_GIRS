@@ -14,11 +14,11 @@ interface MembershipExpiringModalProps {
 export function MembershipExpiringModal({ isOpen, onClose, daysLeft = 2 }: MembershipExpiringModalProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[440px] p-8 gap-0 rounded-3xl" showCloseButton={false}>
+            <DialogContent className="sm:max-w-[440px] p-6 gap-0 rounded-3xl" showCloseButton={false}>
                 <div className="flex flex-col items-center">
                     {/* Top Icon Section */}
                     <div
-                        className={`flex items-center justify-center w-16 h-16 rounded-2xl mb-6 ${daysLeft <= 0 ? 'bg-red-50' : 'bg-[#FFF9EB]'}`}
+                        className={`flex items-center justify-center w-16 h-16 rounded-2xl mb-4 ${daysLeft <= 0 ? 'bg-red-50' : 'bg-[#FFF9EB]'}`}
                     >
                         <AlertTriangle
                             className={`w-8 h-8 ${daysLeft <= 0 ? 'text-red-500' : 'text-[#D97706]'}`}
@@ -27,21 +27,21 @@ export function MembershipExpiringModal({ isOpen, onClose, daysLeft = 2 }: Membe
                     </div>
 
                     {/* Title */}
-                    <DialogHeader className="p-0 mb-4">
+                    <DialogHeader className="p-0 mb-3">
                         <DialogTitle className="text-3xl font-bold text-[#001D29] text-center leading-tight">
                             {daysLeft <= 0 ? 'Membresía vencida' : 'Membresía por vencer'}
                         </DialogTitle>
                     </DialogHeader>
 
                     {/* Description */}
-                    <p className="text-[#4B5E7C] text-center text-[15px] leading-relaxed mb-6 px-4">
+                    <p className="text-[#4B5E7C] text-center text-[15px] leading-relaxed mb-4 px-4">
                         {daysLeft <= 0
-                            ? 'Tu comprobación ha finalizado. No pierdas el acceso a tus chats y herramientas de investigación.'
-                            : `Tu comprobación finaliza en ${daysLeft} día(s). No pierdas el acceso a tus chats y herramientas de investigación.`}
+                            ? 'Tu membresía ha finalizado. Renueva tu membresía para acceder nuevamente a tu historial de chats y herramientas de investigación.'
+                            : `Tu membresía finaliza en ${daysLeft} día(s). Contacta a soporte para extender tu acceso y puedas tener acceso completo a las herramientas y al historial de chats.`}
                     </p>
 
                     {/* Simulated Progress Bar */}
-                    <div className="w-full h-2 bg-[#E9EFFF] rounded-full mb-10 overflow-hidden">
+                    <div className="w-full h-2 bg-[#E9EFFF] rounded-full mb-6 overflow-hidden">
                         <div
                             className={`h-full rounded-full transition-all duration-500 ${daysLeft <= 0 ? 'bg-red-500' : 'bg-[#F59E0B]'}`}
                             style={{ width: daysLeft <= 0 ? '100%' : '85%' }}
@@ -49,7 +49,7 @@ export function MembershipExpiringModal({ isOpen, onClose, daysLeft = 2 }: Membe
                     </div>
 
                     {/* Benefits Box */}
-                    <div className="bg-[#F4F7FF] p-6 rounded-xl w-full mb-8">
+                    <div className="bg-[#F4F7FF] p-4 rounded-xl w-full mb-6">
                         <h4 className="text-[#003D52] font-bold text-center text-sm mb-4">
                             Actualiza tu plan ahora para continuar sin interrupciones.
                         </h4>

@@ -18,8 +18,8 @@ export function FeatureBlockedModal({
 }: FeatureBlockedModalProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[400px] p-8 gap-6 rounded-3xl" showCloseButton={false}>
-                <div className="flex flex-col items-center gap-6">
+            <DialogContent className="sm:max-w-[400px] p-6 gap-4 rounded-3xl" showCloseButton={false}>
+                <div className="flex flex-col items-center gap-4">
                     {/* Top Icon Section */}
                     <div className="flex items-center justify-center w-16 h-16 bg-red-50 rounded-2xl">
                         <Lock className="w-8 h-8 text-red-500" strokeWidth={2.5} />
@@ -33,7 +33,7 @@ export function FeatureBlockedModal({
                     </DialogHeader>
 
                     {/* Description Box */}
-                    <div className="bg-[#F4F7FF] p-6 rounded-xl w-full">
+                    <div className="bg-[#F4F7FF] p-4 rounded-xl w-full">
                         <p className="text-[#4B5E7C] text-center text-sm leading-relaxed">
                             Esta función está bloqueada. No puedes chatear hasta que se renueve la membresía. Por favor,
                             contacta a soporte para más información.
@@ -51,7 +51,7 @@ export function FeatureBlockedModal({
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col w-full gap-3 mt-2">
+                    <div className="flex flex-col w-full gap-3 mt-0">
                         <Button className="bg-[#003d52] hover:bg-[#003d52]/90 text-white rounded-xl h-12 text-base font-semibold transition-all flex items-center justify-center gap-2">
                             <Headset className="w-5 h-5" />
                             Contactar a Soporte
