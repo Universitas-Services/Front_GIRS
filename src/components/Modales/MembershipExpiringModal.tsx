@@ -67,7 +67,16 @@ export function MembershipExpiringModal({ isOpen, onClose, daysLeft = 2 }: Membe
 
                     {/* Action Buttons */}
                     <div className="flex flex-col w-full gap-3">
-                        <Button className="bg-[#00b800] hover:bg-[#00484f]/90 text-white rounded-xl h-12 text-base font-semibold shadow-sm transition-all">
+                        <Button
+                            onClick={() => {
+                                const whatsappUrl =
+                                    daysLeft <= 0
+                                        ? 'https://api.whatsapp.com/send?phone=+584145051716&text=%F0%9F%91%8B%20Hola,%20soy%20usuario%20de%20la%20*Plataforma%20GIRS*%20de%20Universitas%20y%20quiero%20renovar%20mi%20membres%C3%ADa'
+                                        : 'https://api.whatsapp.com/send?phone=+584145051716&text=%F0%9F%91%8B%20Hola,%20soy%20usuario%20de%20la%20*Plataforma%20GIRS*%20de%20Universitas,%20mi%20membres%C3%ADa%20est%C3%A1%20por%20vencer%20y%20deseo%20renovarla';
+                                window.open(whatsappUrl, '_blank');
+                            }}
+                            className="bg-[#00b800] hover:bg-[#00484f]/90 text-white rounded-xl h-12 text-base font-semibold shadow-sm transition-all"
+                        >
                             Renovar membresía
                         </Button>
                         <Button
