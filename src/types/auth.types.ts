@@ -60,9 +60,13 @@ export interface RegisterInput {
 }
 
 export interface UpdateProfileInput {
-    nombre: string;
-    apellido: string;
-    telefono: string;
+    nombre?: string;
+    apellido?: string;
+    telefono?: string;
+    tipoUsuario?: string;
+    nombre_ente?: string;
+    cargo?: string;
+    estatus_normativa_girs?: string;
 }
 
 export interface ChangePasswordInput {
