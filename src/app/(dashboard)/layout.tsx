@@ -5,7 +5,8 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { useAuth } from '@/store/auth.context';
 import { useRouter } from 'next/navigation';
 import { authService } from '@/lib/services/auth.service';
-import { MembershipExpiringModal } from '@/components/Modales';
+import { UserProfile } from '@/types/auth.types';
+import { MembershipExpiringModal, ProfileIncompleteModal } from '@/components/Modales';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const { isAuthenticated, isLoading } = useAuth();
@@ -13,6 +14,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
     const [membershipDaysLeft, setMembershipDaysLeft] = useState<number>(0);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
     useEffect(() => {
         if (!isLoading) {
@@ -31,6 +33,24 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             if (isAuthenticated) {
                 try {
                     const profile = await authService.getFullProfile();
+
+                    const checkProfileFields = () => {
+                        // Comprobación de campos nulos o vacíos requeridos
+                        const { tipo_usuario, tipoUsuario, nombre_ente, cargo, estatus_normativa_girs } =
+                            profile as UserProfile & { tipoUsuario?: string };
+                        const assignedTipo = tipoUsuario || tipo_usuario;
+
+                        if (!assignedTipo || !nombre_ente) return true;
+
+                        if (assignedTipo === 'SERVIDOR_PUBLICO') {
+                            if (!cargo || !estatus_normativa_girs) return true;
+                        }
+                        return false;
+                    };
+
+                    if (checkProfileFields()) {
+                        setIsProfileModalOpen(true);
+                    }
 
                     if (profile.alertaVencimiento) {
                         setMembershipDaysLeft(profile.alertaVencimiento.diasRestantes);
@@ -72,6 +92,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 onClose={() => setIsMembershipModalOpen(false)}
                 daysLeft={membershipDaysLeft}
             />
+
+            <ProfileIncompleteModal isOpen={isProfileModalOpen} onSuccess={() => setIsProfileModalOpen(false)} />
         </div>
     );
 }
