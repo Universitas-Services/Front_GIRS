@@ -211,3 +211,39 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
 }
+.titulos-cards {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-weight: 800;
+    font-size: 23px;
+    line-height: 40px;
+    color: #003d52;
+}
+.descripcion-cards {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 22px;
+    color: #5b686c;
+}
+.descripcion-cards-small {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #5b686c;
+}
+
+.descripcion-cards-small li::marker {
+    color: #00b800;
+}
