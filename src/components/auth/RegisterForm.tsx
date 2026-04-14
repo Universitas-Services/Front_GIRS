@@ -17,7 +17,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import { territorioService, Estado, Municipio } from '@/lib/services/territorio.service';
+import { UniversitasAPI, type Estado, type Municipio } from 'sdk-global-universitas';
+
+const api = new UniversitasAPI(process.env.NEXT_PUBLIC_UNIVERSITAS_SDK_URL);
+
 import { Checkbox } from '@/components/ui/checkbox';
 
 export function RegisterForm() {
@@ -77,7 +80,8 @@ export function RegisterForm() {
         const loadEstados = async () => {
             setIsLoadingEstados(true);
             try {
-                const data = await territorioService.getEstados();
+                const response = await api.territorio.getEstados();
+                const data = response.data;
                 setEstados(data);
             } catch (error) {
                 console.error('Error loading estados:', error);
@@ -96,7 +100,8 @@ export function RegisterForm() {
             }
             setIsLoadingMunicipios(true);
             try {
-                const data = await territorioService.getMunicipios(selectedEstadoId);
+                const response = await api.territorio.getMunicipios(selectedEstadoId);
+                const data = response.data;
                 setMunicipios(data);
             } catch (error) {
                 console.error('Error loading municipios:', error);
