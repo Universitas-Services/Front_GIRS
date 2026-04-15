@@ -253,11 +253,48 @@ export function Sidebar() {
                                         (!('messageCount' in c) || (c.messageCount as number) > 0)
                                 );
 
+                                const todayDate = new Date();
+                                todayDate.setHours(0, 0, 0, 0);
+
+                                const yesterdayDate = new Date(todayDate);
+                                yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+
+                                const startOfWeekDate = new Date(todayDate);
+                                startOfWeekDate.setDate(startOfWeekDate.getDate() - 7);
+
+                                const grouped = {
+                                    Hoy: [] as typeof validConversations,
+                                    Ayer: [] as typeof validConversations,
+                                    'Esta semana': [] as typeof validConversations,
+                                    Anteriores: [] as typeof validConversations,
+                                };
+
+                                validConversations.forEach((conv) => {
+                                    const convDateStr = conv.lastMessageAt;
+                                    if (!convDateStr) {
+                                        grouped.Anteriores.push(conv);
+                                        return;
+                                    }
+
+                                    const convDate = new Date(convDateStr);
+                                    convDate.setHours(0, 0, 0, 0);
+
+                                    if (convDate.getTime() === todayDate.getTime()) {
+                                        grouped.Hoy.push(conv);
+                                    } else if (convDate.getTime() === yesterdayDate.getTime()) {
+                                        grouped.Ayer.push(conv);
+                                    } else if (convDate.getTime() >= startOfWeekDate.getTime()) {
+                                        grouped['Esta semana'].push(conv);
+                                    } else {
+                                        grouped.Anteriores.push(conv);
+                                    }
+                                });
+
                                 const groups = [
-                                    { label: 'Hoy', items: validConversations.slice(0, 2) },
-                                    { label: 'Ayer', items: validConversations.slice(2, 4) },
-                                    { label: 'Esta semana', items: validConversations.slice(4, 6) },
-                                    { label: 'Anteriores', items: validConversations.slice(6) },
+                                    { label: 'Hoy', items: grouped.Hoy },
+                                    { label: 'Ayer', items: grouped.Ayer },
+                                    { label: 'Esta semana', items: grouped['Esta semana'] },
+                                    { label: 'Anteriores', items: grouped.Anteriores },
                                 ].filter((g) => g.items.length > 0);
 
                                 if (groups.length === 0) {
