@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { FaInstagram, FaLinkedin, FaTwitter, FaYoutube, FaBook } from 'react-icons/fa6';
+import { FaInstagram, FaLinkedin, FaTwitter, FaXTwitter, FaFacebook, FaBook } from 'react-icons/fa6';
 import { BsChatRight } from 'react-icons/bs';
 
 export default function InicioPage() {
@@ -14,17 +14,19 @@ export default function InicioPage() {
     };
 
     const handleMasInformacion = () => {
-        toast.info('Más información próximamente disponible.');
+        window.open('https://agora.universitasfundacion.com/', '_blank');
     };
 
     return (
-        <div className="flex-1 overflow-hidden bg-[var(--color-dashboard-bg)] flex items-center justify-center p-2 sm:p-4 md:p-6">
-            {/* Contenedor principal — ocupa el alto disponible sin scroll */}
-            <div className="w-full max-w-4xl flex flex-col gap-2 shrink-0">
+        <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-2 sm:p-4 md:p-6">
+            {/* Contenedor principal — se centra verticalmente y permite scroll si no cabe */}
+            <div className="w-full max-w-4xl mx-auto my-auto flex flex-col gap-2 shrink-0 py-2">
                 {/* ── Card 1: ¿Qué es la Plataforma GIRS? ── */}
                 <div className="rounded-xl bg-white border border-gray-200/70 text-gray-800 px-4 py-2 shadow-sm">
-                    <h1 className="titulos-cards mb-0 tracking-tight leading-tight">¿Qué es la Plataforma GIRS?</h1>
-                    <p className="text-xs md:text-[0.8rem] font-semibold italic text-[var(--color-btn-green)] mb-1.5 leading-snug">
+                    <h1 className="titulos-cards mb-0 tracking-tight leading-tight mb-2">
+                        ¿Qué es la Plataforma GIRS?
+                    </h1>
+                    <p className="text-xs md:text-[0.8rem] font-semibold italic text-[var(--color-btn-green)] mb-2 leading-snug">
                         Tu infraestructura jurídica y técnica para la Gestión Integral de Residuos Sólidos (GIRS)
                     </p>
                     <p className="descripcion-cards leading-snug">
@@ -79,7 +81,7 @@ export default function InicioPage() {
                                 <h2 className="titulos-cards leading-tight">Consultor IA – GIRS</h2>
                             </div>
 
-                            <p className="descripcion-cards leading-[1.1] mb-1 line-clamp-3">
+                            <p className="descripcion-cards leading-snug mb-7">
                                 Es un agente IA conversacional especializado en normativa de residuos sólidos. El
                                 Consultor responde preguntas y aclara conceptos jurídicos usando exclusivamente la
                                 Biblioteca Digital GIRS.
@@ -115,15 +117,6 @@ export default function InicioPage() {
                                     <FaInstagram size={27} />
                                 </a>
                                 <a
-                                    href="https://www.linkedin.com/company/universitas-legal/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="hover:opacity-80 transition-all hover:scale-110"
-                                    title="LinkedIn"
-                                >
-                                    <FaLinkedin size={27} />
-                                </a>
-                                <a
                                     href="https://twitter.com/contratosve"
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -133,19 +126,28 @@ export default function InicioPage() {
                                     <FaTwitter size={27} />
                                 </a>
                                 <a
-                                    href="https://www.youtube.com/@universitas.legal"
+                                    href="https://twitter.com/contratarve"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="hover:opacity-80 transition-all hover:scale-110"
-                                    title="YouTube"
+                                    title="X"
                                 >
-                                    <FaYoutube size={27} />
+                                    <FaXTwitter size={27} />
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/company/universitas-legal/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="LinkedIn"
+                                >
+                                    <FaLinkedin size={27} />
                                 </a>
                             </div>
 
                             <Button
                                 onClick={handleMasInformacion}
-                                className="bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg px-5 h-8 text-xs transition-all active:scale-95 w-fit"
+                                className="bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg px-5 h-8 text-xs transition-all active:scale-95 w-fit cursor-pointer"
                             >
                                 Más Información
                             </Button>
