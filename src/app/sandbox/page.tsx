@@ -1,12 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { UniversitasAPI } from '@universitas/sdk-global';
+import { sdkApi } from '@/lib/api/universitas.sdk';
 import { MembershipExpiringModal } from '@/components/Modales/MembershipExpiringModal';
 import { ProfileIncompleteModal } from '@/components/Modales/ProfileIncompleteModal';
 import { FeatureBlockedModal } from '@/components/Modales/FeatureBlockedModal';
-
-const api = new UniversitasAPI(process.env.NEXT_PUBLIC_UNIVERSITAS_SDK_URL);
 
 export default function SandboxPage() {
     const [activeModal, setActiveModal] = useState<'expiring' | 'profile' | 'blocked' | null>(null);
@@ -21,7 +19,7 @@ export default function SandboxPage() {
         setLoading(true);
         setError(null);
         try {
-            const result = await api.economia.getBCV();
+            const result = await sdkApi.economia.getBCV();
             setBcvData(result.data);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Error desconocido');
