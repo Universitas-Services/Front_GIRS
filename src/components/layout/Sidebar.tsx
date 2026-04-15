@@ -61,7 +61,7 @@ export function Sidebar() {
     const sidebarContent = (
         <div className="flex flex-col h-full bg-primary text-on-primary border-r border-surface-soft/10">
             {/* Header */}
-            <div className={cn('flex items-center h-[72px] shrink-0', expanded ? 'p-4' : 'justify-center w-full')}>
+            <div className={cn('flex items-center h-[60px] shrink-0', expanded ? 'p-4' : 'justify-center w-full')}>
                 <button
                     onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
                     className={cn(
@@ -89,7 +89,7 @@ export function Sidebar() {
             </div>
 
             {/* Menú Principal Section */}
-            <div className="w-full flex-shrink-0 mt-4">
+            <div className="w-full flex-shrink-0 mt-2">
                 <div
                     className={cn(
                         'mb-2 transition-opacity duration-300',
@@ -100,21 +100,21 @@ export function Sidebar() {
                 </div>
 
                 {/* Home Button */}
-                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
                         onClick={() => router.push('/inicio')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
                         title="Inicio"
                     >
-                        <IoHomeSharp size={20} color="var(--color-white)" className="shrink-0" />
+                        <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
@@ -124,21 +124,21 @@ export function Sidebar() {
                 </div>
 
                 {/* Proyecto Ley Button */}
-                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
                         onClick={() => toast.info('Próximamente disponible.')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
                         title="Proyecto ley"
                     >
-                        <FaGavel size={20} color="var(--color-white)" className="shrink-0" />
+                        <FaGavel size={18} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
@@ -148,21 +148,21 @@ export function Sidebar() {
                 </div>
 
                 {/* Repositorio Legal Button */}
-                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
                         onClick={() => toast.info('Próximamente disponible.')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
                         title="Repositorio legal"
                     >
-                        <FaBalanceScale size={20} color="var(--color-white)" className="shrink-0" />
+                        <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
@@ -172,23 +172,23 @@ export function Sidebar() {
                 </div>
 
                 {/* Biblioteca GIRS Button */}
-                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <a
                         href="https://universitas.legal/biblioteca-girs/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
                         title="Biblioteca girs"
                     >
-                        <IoMdBook size={20} color="var(--color-white)" className="shrink-0" />
+                        <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
@@ -222,21 +222,21 @@ export function Sidebar() {
                             </p>
 
                             {/* New Chat Button */}
-                            <div className={cn('shrink-0 mb-2', expanded ? '' : 'w-full flex justify-center')}>
+                            <div className={cn('shrink-0 mb-1', expanded ? '' : 'w-full flex justify-center')}>
                                 <button
                                     onClick={handleNewChat}
                                     className={cn(
-                                        'flex items-center py-2.5 rounded-lg transition-colors border-transparent cursor-pointer',
+                                        'flex items-center py-1.5 rounded-lg transition-colors border-transparent cursor-pointer',
                                         expanded
                                             ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
                                             : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                                     )}
                                     title="Iniciar nuevo chat"
                                 >
-                                    <IoAddCircleOutline size={22} color="var(--color-white)" className="shrink-0" />
+                                    <IoAddCircleOutline size={20} color="var(--color-white)" className="shrink-0" />
                                     <span
                                         className={cn(
-                                            'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                            'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                             expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                                         )}
                                     >
@@ -283,7 +283,7 @@ export function Sidebar() {
                                                             router.push('/chat');
                                                         }}
                                                         className={cn(
-                                                            'group flex items-center justify-between px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors whitespace-nowrap overflow-hidden',
+                                                            'group flex items-center justify-between px-3 py-1.5 rounded-lg text-[13px] cursor-pointer transition-colors whitespace-nowrap overflow-hidden',
                                                             isActive
                                                                 ? 'bg-accent/20 border-l-2 border-accent text-on-primary'
                                                                 : 'text-on-primary/80 hover:bg-on-primary/10 border-l-2 border-transparent'
@@ -320,21 +320,21 @@ export function Sidebar() {
                     <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider">Otros Servicios</p>
                 </div>
 
-                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
                         onClick={() => toast.info('Próximamente disponible.')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
                         title="Acerca de"
                     >
-                        <IoMdInformationCircleOutline size={20} color="var(--color-white)" className="shrink-0" />
+                        <IoMdInformationCircleOutline size={18} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
@@ -343,23 +343,23 @@ export function Sidebar() {
                     </button>
                 </div>
 
-                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 mb-0', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <a
                         href="https://wa.me/584145051716"
                         target="_blank"
                         rel="noopener noreferrer"
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
+                            'flex items-center py-1.5 rounded-lg transition-colors border-transparent',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border cursor-pointer'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 cursor-pointer'
                         )}
                         title="Soporte técnico"
                     >
-                        <BsGearFill size={20} color="var(--color-white)" className="shrink-0" />
+                        <BsGearFill size={18} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
@@ -370,30 +370,30 @@ export function Sidebar() {
             </div>
 
             {/* Footer Settings / User */}
-            <div className={cn('shrink-0 pb-4 relative mt-2', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
+            <div className={cn('shrink-0 pb-3 relative mt-0', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         {!expanded ? (
-                            <button className="flex items-center justify-center w-10 h-10 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
-                                <Settings size={20} color="var(--color-white)" />
+                            <button className="flex items-center justify-center w-9 h-9 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
+                                <Settings size={18} color="var(--color-white)" />
                             </button>
                         ) : (
                             <div
                                 role="button"
-                                className="flex outline-none items-center space-x-3 bg-surface-soft/10 hover:bg-surface-soft/20 p-3 rounded-xl border border-surface-soft/5 transition-all duration-300 cursor-pointer focus-visible:ring-0"
+                                className="flex outline-none items-center space-x-3 bg-surface-soft/10 hover:bg-surface-soft/20 py-2 px-3 rounded-xl border border-surface-soft/5 transition-all duration-300 cursor-pointer focus-visible:ring-0"
                             >
-                                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sm font-bold text-on-primary shrink-0">
+                                <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-on-primary shrink-0">
                                     {user?.name?.charAt(0) || 'U'}
                                 </div>
                                 <div className="flex-1 overflow-hidden text-left">
-                                    <p className="text-sm font-medium text-on-primary truncate">
+                                    <p className="text-[13px] font-medium text-on-primary truncate">
                                         {user?.name || 'Usuario'}
                                     </p>
-                                    <p className="text-xs text-on-primary/60 truncate">
+                                    <p className="text-[11px] text-on-primary/60 truncate">
                                         {user?.email || 'test@email.com'}
                                     </p>
                                 </div>
-                                <Settings size={16} color="var(--color-white)" className="shrink-0" />
+                                <Settings size={14} color="var(--color-white)" className="shrink-0" />
                             </div>
                         )}
                     </DropdownMenuTrigger>
