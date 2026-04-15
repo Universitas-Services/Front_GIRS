@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { UniversitasAPI } from 'sdk-global-universitas';
+import { UniversitasAPI } from '@universitas/sdk-global';
 import { MembershipExpiringModal } from '@/components/Modales/MembershipExpiringModal';
 import { ProfileIncompleteModal } from '@/components/Modales/ProfileIncompleteModal';
 import { FeatureBlockedModal } from '@/components/Modales/FeatureBlockedModal';

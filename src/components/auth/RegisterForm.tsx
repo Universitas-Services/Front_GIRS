@@ -17,7 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
-import { UniversitasAPI, type Estado, type Municipio } from 'sdk-global-universitas';
+import { UniversitasAPI, type Estado, type Municipio } from '@universitas/sdk-global';
 
 const api = new UniversitasAPI(process.env.NEXT_PUBLIC_UNIVERSITAS_SDK_URL);
 
