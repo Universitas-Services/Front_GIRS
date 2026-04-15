@@ -4,9 +4,10 @@ import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
 import { MessageSquare, Settings, LogOut, Menu, X, User } from 'lucide-react';
-import { IoMdBookmarks } from 'react-icons/io';
-import { BsFillTelephoneFill } from 'react-icons/bs';
+import { IoMdBook, IoMdInformationCircleOutline } from 'react-icons/io';
+import { BsGearFill } from 'react-icons/bs';
 import { IoHomeSharp, IoAddCircleOutline } from 'react-icons/io5';
+import { FaGavel, FaBalanceScale } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -103,7 +104,7 @@ export function Sidebar() {
                     <button
                         onClick={() => router.push('/inicio')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors',
+                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
@@ -122,28 +123,78 @@ export function Sidebar() {
                     </button>
                 </div>
 
-                {/* New Chat Button */}
+                {/* Proyecto Ley Button */}
                 <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
-                        onClick={handleNewChat}
+                        onClick={() => toast.info('Próximamente disponible.')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
+                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
                             expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
-                        title="Iniciar nuevo chat"
+                        title="Proyecto ley"
                     >
-                        <IoAddCircleOutline size={22} color="var(--color-white)" className="shrink-0" />
+                        <FaGavel size={20} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
-                            Iniciar nuevo chat
+                            Proyecto ley
                         </span>
                     </button>
+                </div>
+
+                {/* Repositorio Legal Button */}
+                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    <button
+                        onClick={() => toast.info('Próximamente disponible.')}
+                        className={cn(
+                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            expanded
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                        )}
+                        title="Repositorio legal"
+                    >
+                        <FaBalanceScale size={20} color="var(--color-white)" className="shrink-0" />
+                        <span
+                            className={cn(
+                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            )}
+                        >
+                            Repositorio legal
+                        </span>
+                    </button>
+                </div>
+
+                {/* Biblioteca GIRS Button */}
+                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    <a
+                        href="https://universitas.legal/biblioteca-girs/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
+                            expanded
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                        )}
+                        title="Biblioteca girs"
+                    >
+                        <IoMdBook size={20} color="var(--color-white)" className="shrink-0" />
+                        <span
+                            className={cn(
+                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                            )}
+                        >
+                            Biblioteca girs
+                        </span>
+                    </a>
                 </div>
             </div>
 
@@ -166,9 +217,34 @@ export function Sidebar() {
                 ) : (
                     <div className="space-y-6 mt-2 transition-opacity duration-300">
                         <div>
-                            <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider mb-2 px-3">
-                                Historial
+                            <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider mb-2 px-3 pt-4 border-t border-surface-soft/10">
+                                Consultor GIRS IA
                             </p>
+
+                            {/* New Chat Button */}
+                            <div className={cn('shrink-0 mb-2', expanded ? '' : 'w-full flex justify-center')}>
+                                <button
+                                    onClick={handleNewChat}
+                                    className={cn(
+                                        'flex items-center py-2.5 rounded-lg transition-colors border-transparent cursor-pointer',
+                                        expanded
+                                            ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
+                                            : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                                    )}
+                                    title="Iniciar nuevo chat"
+                                >
+                                    <IoAddCircleOutline size={22} color="var(--color-white)" className="shrink-0" />
+                                    <span
+                                        className={cn(
+                                            'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                            expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                                        )}
+                                    >
+                                        Iniciar nuevo chat
+                                    </span>
+                                </button>
+                            </div>
+
                             {/* Filter out empty/new chats with no messages from history */}
                             {(() => {
                                 const validConversations = conversations.filter(
@@ -245,31 +321,29 @@ export function Sidebar() {
                 </div>
 
                 <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <a
-                        href="https://universitas.legal/biblioteca-girs/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <button
+                        onClick={() => toast.info('Próximamente disponible.')}
                         className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors',
+                            'flex items-center py-2.5 rounded-lg transition-colors cursor-pointer',
                             expanded
                                 ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                                 : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
                         )}
-                        title="Biblioteca girs"
+                        title="Acerca de"
                     >
-                        <IoMdBookmarks size={20} color="var(--color-white)" className="shrink-0" />
+                        <IoMdInformationCircleOutline size={20} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
-                            Biblioteca girs
+                            Acerca de
                         </span>
-                    </a>
+                    </button>
                 </div>
 
-                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <a
                         href="https://wa.me/584145051716"
                         target="_blank"
@@ -277,19 +351,19 @@ export function Sidebar() {
                         className={cn(
                             'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
                             expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border cursor-pointer'
+                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 cursor-pointer'
                         )}
-                        title="Contáctanos"
+                        title="Soporte técnico"
                     >
-                        <BsFillTelephoneFill size={20} color="var(--color-white)" className="shrink-0" />
+                        <BsGearFill size={20} color="var(--color-white)" className="shrink-0" />
                         <span
                             className={cn(
                                 'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
                                 expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
                             )}
                         >
-                            Contáctanos
+                            Soporte técnico
                         </span>
                     </a>
                 </div>
@@ -394,6 +468,15 @@ export function Sidebar() {
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
+
+            {/* Copyright Section */}
+            {expanded && (
+                <div className="px-3 pb-4 mt-auto text-center">
+                    <p className="text-[7px] font-bold text-[#8CA8B1] uppercase tracking-tighter">
+                        Copyright © 2026 Universitas Services | AGENTES VIRTUALES
+                    </p>
+                </div>
+            )}
         </div>
     );
 
