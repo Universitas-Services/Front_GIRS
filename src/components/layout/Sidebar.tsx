@@ -3,7 +3,7 @@
 import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
-import { MessageSquare, Settings, LogOut, Menu, X, User } from 'lucide-react';
+import { MessageSquare, Settings, LogOut, Menu, X, User, Headset } from 'lucide-react';
 import { IoMdBook, IoMdInformationCircleOutline } from 'react-icons/io';
 import { BsGearFill } from 'react-icons/bs';
 import { IoHomeSharp, IoAddCircleOutline } from 'react-icons/io5';
@@ -135,7 +135,7 @@ export function Sidebar() {
                         )}
                         title="Proyecto ley"
                     >
-                        <FaGavel size={18} color="var(--color-white)" className="shrink-0" />
+                        <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
                         <span
                             className={cn(
                                 'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -368,7 +368,11 @@ export function Sidebar() {
                         )}
                         title="Acerca de"
                     >
-                        <IoMdInformationCircleOutline size={18} color="var(--color-white)" className="shrink-0" />
+                        <IoMdInformationCircleOutline
+                            size={18}
+                            color="var(--color-white)"
+                            className="shrink-0 info-flash-icon"
+                        />
                         <span
                             className={cn(
                                 'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -393,7 +397,7 @@ export function Sidebar() {
                         )}
                         title="Soporte técnico"
                     >
-                        <BsGearFill size={18} color="var(--color-white)" className="shrink-0" />
+                        <Headset size={18} color="var(--color-white)" className="shrink-0 support-bounce-icon" />
                         <span
                             className={cn(
                                 'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
@@ -412,7 +416,7 @@ export function Sidebar() {
                     <DropdownMenuTrigger asChild>
                         {!expanded ? (
                             <button className="flex items-center justify-center w-9 h-9 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
-                                <Settings size={18} color="var(--color-white)" />
+                                <Settings size={18} color="var(--color-white)" className="gear-spin-icon" />
                             </button>
                         ) : (
                             <div
@@ -430,7 +434,7 @@ export function Sidebar() {
                                         {user?.email || 'test@email.com'}
                                     </p>
                                 </div>
-                                <Settings size={14} color="var(--color-white)" className="shrink-0" />
+                                <Settings size={14} color="var(--color-white)" className="shrink-0 gear-spin-icon" />
                             </div>
                         )}
                     </DropdownMenuTrigger>

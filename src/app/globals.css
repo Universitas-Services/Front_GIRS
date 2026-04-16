@@ -251,3 +251,64 @@
 .descripcion-cards-small li::marker {
     color: #00b800;
 }
+
+/* Gavel Strike Animation */
+.gavel-icon {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.gavel-icon:hover {
+    transform: rotate(45deg);
+}
+
+/* Remove :active animation */
+
+/* Gear/Settings Spin Animation */
+.gear-spin-icon {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Trigger spin when parent button or group is hovered */
+button:hover .gear-spin-icon,
+[role='button']:hover .gear-spin-icon,
+div[role='button']:hover .gear-spin-icon {
+    transform: rotate(180deg);
+}
+
+/* Info Icon Flash/Pulse */
+.info-flash-icon {
+    transition: opacity 0.3s ease;
+}
+
+button:hover .info-flash-icon {
+    animation: flash 1s infinite alternate;
+}
+
+@keyframes flash {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.4;
+    }
+}
+
+/* Support Headset Bounce */
+.support-bounce-icon {
+    transition: transform 0.3s ease;
+}
+
+a:hover .support-bounce-icon {
+    animation: bounce 0.6s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
