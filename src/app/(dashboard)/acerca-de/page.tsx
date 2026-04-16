@@ -11,7 +11,7 @@ export default function AcercaDePage() {
     return (
         <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-4 md:p-6">
             {/* ── Un solo card conteniendo todo el contenido ── */}
-            <div className="w-full max-w-3xl mx-auto rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-6">
+            <div className="w-full max-w-4xl mx-auto rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-6">
                 {/* Header: logo + título */}
                 <div className="flex items-center gap-5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}

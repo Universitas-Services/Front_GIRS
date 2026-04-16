@@ -5,12 +5,10 @@ import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
 import { MessageSquare, Settings, LogOut, Menu, X, User, Headset } from 'lucide-react';
 import { IoMdBook, IoMdInformationCircleOutline } from 'react-icons/io';
-import { BsGearFill } from 'react-icons/bs';
 import { IoHomeSharp, IoAddCircleOutline } from 'react-icons/io5';
 import { FaGavel, FaBalanceScale } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -150,7 +148,7 @@ export function Sidebar() {
                 {/* Repositorio Legal Button */}
                 <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
-                        onClick={() => toast.info('Próximamente disponible.')}
+                        onClick={() => router.push('/repositorio-legal')}
                         className={cn(
                             'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
