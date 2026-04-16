@@ -247,3 +247,14 @@
 .descripcion-cards-small li::marker {
     color: #00b800;
 }
+
+.etiquetas {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: uppercase;
+}

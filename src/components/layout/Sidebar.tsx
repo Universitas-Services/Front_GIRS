@@ -173,10 +173,8 @@ export function Sidebar() {
 
                 {/* Biblioteca GIRS Button */}
                 <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <a
-                        href="https://universitas.legal/biblioteca-girs/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <button
+                        onClick={() => router.push('/biblioteca-girs')}
                         className={cn(
                             'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
@@ -194,7 +192,7 @@ export function Sidebar() {
                         >
                             Biblioteca girs
                         </span>
-                    </a>
+                    </button>
                 </div>
             </div>
 
