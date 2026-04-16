@@ -3,12 +3,13 @@
 import { FaBook } from 'react-icons/fa';
 import { IoDownloadOutline } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export default function ProyectoLeyPage() {
-    const downloadUrl = '#';
-    const imageUrl = '';
+    const downloadUrl = '#'; // TODO: Agregar enlace de descarga si se proporciona
+    const imageUrl = '/proyecto-ley/proyecto-ley.png';
     const descriptionText =
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+        'Propuesta legislativa de vanguardia orientada a sustituir el modelo tradicional de disposición final por un sistema integral enfocado en la economía circular. Establece un marco normativo para minimizar la generación de desechos, maximizar el aprovechamiento de materiales y ejecutar la progresiva clausura de los vertederos a cielo abierto. Para asegurar el financiamiento del sistema, la ley introduce el esquema de responsabilidad extendida del productor y crea un fondo nacional, obligando a los fabricantes a asumir los costos de gestión de sus envases post consumo. Además, plantea una reestructuración operativa al habilitar la transferencia de competencias hacia las comunidades organizadas, integrándolas formalmente en las fases de recolección y reciclaje para garantizar la sustentabilidad técnica, económica y ambiental del servicio a nivel nacional.';
 
     const handleDownload = () => {
         if (downloadUrl && downloadUrl !== '#') {
@@ -33,13 +34,17 @@ export default function ProyectoLeyPage() {
 
                 <div className="grid grid-cols-2 gap-8 items-stretch">
                     <div className="flex flex-col gap-4 h-full">
-                        <div className="rounded-xl bg-white border border-green-500 shadow-sm p-1.5 flex-1 flex flex-col min-h-[280px]">
+                        <div className="rounded-xl bg-white border border-green-500 shadow-sm p-1.5 flex-1 flex flex-col min-h-[280px] relative">
                             {imageUrl ? (
-                                <img
-                                    src={imageUrl}
-                                    alt="Anteproyecto de Ley"
-                                    className="w-full h-full object-cover rounded-lg"
-                                />
+                                <div className="relative w-full h-full flex-1 rounded-lg overflow-hidden">
+                                    <Image
+                                        src={imageUrl}
+                                        alt="Anteproyecto de Ley"
+                                        fill
+                                        className="object-cover"
+                                        priority
+                                    />
+                                </div>
                             ) : (
                                 <div
                                     className="w-full h-full flex-1 flex items-center justify-center rounded-lg"

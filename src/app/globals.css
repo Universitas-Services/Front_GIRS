@@ -72,6 +72,12 @@
     --color-accent-bar: #6391c0;
     --color-heading-dark: #003d52;
 
+    /* Legal Card Types */
+    --color-legal-organica: #e3dbe2;
+    --color-legal-ordinaria: #d1e7d0;
+    --color-legal-norma: #d9e5ef;
+    --color-legal-resolucion: #ece0c5;
+
     /* Custom Animations */
     --animate-fade-in: fadeIn 0.3s ease-out;
     --animate-slide-up: slideUp 0.3s ease-out;
