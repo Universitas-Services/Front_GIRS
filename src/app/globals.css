@@ -215,6 +215,7 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
 }
+
 .titulos-cards {
     font-family:
         'Inter',
@@ -226,6 +227,7 @@
     line-height: 40px;
     color: #003d52;
 }
+
 .descripcion-cards {
     font-family:
         'Inter',
@@ -237,6 +239,7 @@
     line-height: 22px;
     color: #5b686c;
 }
+
 .descripcion-cards-small {
     font-family:
         'Inter',
@@ -250,6 +253,17 @@
 
 .descripcion-cards-small li::marker {
     color: #00b800;
+}
+
+.etiquetas {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
 /* Gavel Strike Animation */
@@ -289,6 +303,7 @@ button:hover .info-flash-icon {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0.4;
     }
@@ -308,6 +323,7 @@ a:hover .support-bounce-icon {
     100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-4px);
     }
