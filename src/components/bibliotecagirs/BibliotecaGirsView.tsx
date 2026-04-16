@@ -11,11 +11,12 @@ export function BibliotecaGirsView() {
                 <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 flex flex-col gap-4">
                     <div className="flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-[#00b800]" />
-                        <span className="text-[#00b800] font-bold text-sm tracking-wider uppercase">
+                        <span className="text-[#00b800] font-medium text-sm tracking-wider uppercase">
                             Documentación Técnica
                         </span>
                     </div>
-                    <h1 className="text-3xl font-bold text-[#003d52]">Biblioteca GIRS</h1>
+                    <h1 className="text-3xl font-extrabold text-[#003d52]">Biblioteca GIRS</h1>
+                    <div className="w-50 h-0.5 bg-[#003d52]"></div>
                     <p className="text-neutral-500 italic max-w-3xl leading-relaxed">
                         Acceda al repositorio centralizado de conocimientos normativos y doctrinales para la Gestión
                         Integral de Residuos Sólidos. Una arquitectura de información diseñada para la soberanía técnica
@@ -69,9 +70,10 @@ export function BibliotecaGirsView() {
                     {/* Especial Promo Card */}
                     <div className="flex flex-col bg-[#003d52] text-white rounded-xl shadow-sm border border-[#003d52] overflow-hidden p-8 justify-between">
                         <div>
-                            <h3 className="text-2xl font-bold mb-4 leading-tight">
+                            <h3 className="text-2xl font-semibold mb-2 leading-tight">
                                 Conoce nuestro medio digital Ágora
                             </h3>
+                            <div className="w-50 h-0.5 bg-white mb-4"></div>
                             <p className="text-white/80 italic text-sm leading-relaxed mb-6">
                                 Nuevo manual de procedimientos para la gestión de residuos biomédicos en zonas urbanas
                                 de alta densidad. Actualizado Mayo 2024.
@@ -79,7 +81,7 @@ export function BibliotecaGirsView() {
                         </div>
                         <a
                             href="#"
-                            className="w-max inline-flex items-center justify-center px-6 py-2.5 bg-[#00b800] hover:bg-[#009900] transition-colors text-white font-medium rounded-lg text-sm group mt-auto"
+                            className="w-full inline-flex items-center justify-center px-6 py-2.5 bg-[#00b800] hover:bg-[#009900] transition-colors text-white font-medium rounded-lg text-sm group mt-auto"
                         >
                             Saber más
                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
