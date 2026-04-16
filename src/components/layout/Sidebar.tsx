@@ -126,7 +126,7 @@ export function Sidebar() {
                 {/* Proyecto Ley Button */}
                 <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
-                        onClick={() => toast.info('Próximamente disponible.')}
+                        onClick={() => router.push('/proyecto-ley')}
                         className={cn(
                             'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded
@@ -359,7 +359,7 @@ export function Sidebar() {
 
                 <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     <button
-                        onClick={() => toast.info('Próximamente disponible.')}
+                        onClick={() => router.push('/acerca-de')}
                         className={cn(
                             'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
                             expanded

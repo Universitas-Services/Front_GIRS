@@ -67,6 +67,10 @@
     --color-avatar-bg: oklch(0.86 0.042 70.788);
     --color-btn-green: oklch(0.627 0.152 144.266);
     --color-btn-green-hover: oklch(0.566 0.136 144.182);
+    --color-icon-green-bg: #bedabe;
+    --color-icon-green: #00b800;
+    --color-accent-bar: #6391c0;
+    --color-heading-dark: #003d52;
 
     /* Custom Animations */
     --animate-fade-in: fadeIn 0.3s ease-out;
