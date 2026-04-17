@@ -14,25 +14,10 @@ export default function ChatDashboardPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
 
-    // Initial fetch mock
     useEffect(() => {
-        const fetchInitialData = async () => {
-            try {
-                const convs = await chatService.getConversations();
-                dispatch({ type: 'SET_CONVERSATIONS', payload: convs });
-
-                // Comentado para que siempre inicie en "Nuevo Chat"
-                // if (convs.length > 0) {
-                //     dispatch({ type: 'SET_ACTIVE', payload: convs[0].id });
-                // }
-            } catch (error) {
-                console.error('Error fetching conversations', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchInitialData();
+        // We set loading to false here to allow the component to render
+        // as the actual fetching of conversations is now done at the DashboardLayout level
+        setIsLoading(false);
     }, [dispatch]);
 
     // Fetch messages when active conversation changes
