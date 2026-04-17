@@ -234,6 +234,18 @@
     color: #003d52;
 }
 
+.titulos-cards-proyecto-ley {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 22px;
+    color: #003d52;
+}
+
 .descripcion-cards {
     font-family:
         'Inter',
@@ -243,6 +255,18 @@
     font-style: italic;
     font-size: 15px;
     line-height: 22px;
+    color: #5b686c;
+}
+
+.descripcion-cards-proyecto-ley {
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 14px;
     color: #5b686c;
 }
 

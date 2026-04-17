@@ -78,8 +78,10 @@ export function LegalCard({
 
                 {/* Body: Title + Description */}
                 <div className="space-y-2">
-                    <h3 className="titulos-cards text-[#003d52] text-base leading-snug font-bold">{title}</h3>
-                    <p className="descripcion-cards text-[11.5px] italic text-gray-500 leading-relaxed">
+                    <h3 className="titulos-cards-proyecto-ley text-[18px] text-[#003d52] text-base leading-snug font-bold">
+                        {title}
+                    </h3>
+                    <p className="descripcion-cards-proyecto-ley text-[11.5px] italic text-gray-500 leading-relaxed">
                         {description}
                     </p>
                 </div>

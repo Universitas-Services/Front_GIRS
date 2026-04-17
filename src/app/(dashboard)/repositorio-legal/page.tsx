@@ -180,6 +180,7 @@ export default function RepositorioLegalPage() {
                             align: 'start',
                             loop: true,
                             slidesToScroll: 1,
+                            watchDrag: false,
                         }}
                         className="w-full"
                     >
