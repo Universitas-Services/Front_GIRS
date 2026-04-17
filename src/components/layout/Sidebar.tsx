@@ -204,10 +204,11 @@ export function Sidebar() {
                 {!expanded ? (
                     <div className="w-full flex justify-center pt-4 text-on-primary/60 transition-opacity duration-300">
                         <button
-                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
+                            onClick={handleNewChat}
+                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors cursor-pointer"
                             title="Historial"
                         >
-                            <MessageSquare size={20} color="var(--color-white)" />
+                            <MessageSquare size={18} color="var(--color-white)" />
                         </button>
                     </div>
                 ) : (
@@ -542,10 +543,11 @@ export function Sidebar() {
             >
                 {isMobile && isSidebarOpen && (
                     <button
-                        onClick={toggleSidebar}
-                        className="absolute top-4 -right-12 p-2 bg-primary text-on-primary rounded-r-lg"
+                        onClick={handleNewChat}
+                        className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
+                        title="Historial"
                     >
-                        <X size={20} />
+                        <MessageSquare size={18} color="var(--color-white)" />
                     </button>
                 )}
                 {sidebarContent}
