@@ -1,9 +1,8 @@
 'use client';
 
-import { useRef, useEffect, useState, useCallback } from 'react';
 import { LegalCard } from '@/components/repositorio-legal/LegalCard';
 import { FaBalanceScale } from 'react-icons/fa';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 // Data real de 12 tarjetas
 type LegalDocType = 'Ley Orgánica' | 'Ley Ordinaria' | 'Norma General' | 'Resolución';
@@ -154,78 +153,12 @@ const BASE_CARDS: LegalCardData[] = [
     },
 ];
 
-const INFINITE_CARDS = [...BASE_CARDS, ...BASE_CARDS, ...BASE_CARDS];
-
 export default function RepositorioLegalPage() {
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const hasInitializedRef = useRef(false);
-    const hoverScrollRef = useRef<number | null>(null);
-
-    // Inicializar el scroll en el set del medio
-    useEffect(() => {
-        if (scrollContainerRef.current && !hasInitializedRef.current) {
-            const container = scrollContainerRef.current;
-            const cardWidth = 300 + 24; // ancho + gap
-            const midPoint = BASE_CARDS.length * cardWidth;
-            container.scrollLeft = midPoint;
-            hasInitializedRef.current = true;
-        }
-    }, []);
-
-    // Manejar el salto infinito cuando se llega a los bordes
-    const handleScroll = useCallback(() => {
-        if (!scrollContainerRef.current) return;
-        const container = scrollContainerRef.current;
-        const { scrollLeft, scrollWidth } = container;
-        const cardWidth = 300 + 24;
-        const setWidth = BASE_CARDS.length * cardWidth;
-
-        // Si entramos en el primer set, saltamos al medio
-        if (scrollLeft < setWidth / 2) {
-            container.scrollLeft = scrollLeft + setWidth;
-        }
-        // Si entramos en el último set, saltamos al medio
-        else if (scrollLeft > scrollWidth - setWidth * 1.5) {
-            container.scrollLeft = scrollLeft - setWidth;
-        }
-    }, []);
-
-    // Función de scroll automático (Hover)
-    const startHoverScroll = (direction: 'left' | 'right') => {
-        const speed = direction === 'left' ? -4 : 4;
-
-        const animate = () => {
-            if (scrollContainerRef.current) {
-                scrollContainerRef.current.scrollLeft += speed;
-                hoverScrollRef.current = requestAnimationFrame(animate);
-            }
-        };
-
-        hoverScrollRef.current = requestAnimationFrame(animate);
-    };
-
-    const stopHoverScroll = () => {
-        if (hoverScrollRef.current) {
-            cancelAnimationFrame(hoverScrollRef.current);
-            hoverScrollRef.current = null;
-        }
-    };
-
-    // Scroll manual por click (salta una tarjeta)
-    const scroll = (direction: 'left' | 'right') => {
-        if (scrollContainerRef.current) {
-            const { scrollLeft } = scrollContainerRef.current;
-            const cardWidth = 300 + 24;
-            const scrollTo = direction === 'left' ? scrollLeft - cardWidth : scrollLeft + cardWidth;
-            scrollContainerRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
-        }
-    };
-
     return (
         <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-4 md:p-6 pb-20">
             <div className="w-full max-w-4xl mx-auto flex flex-col gap-8 py-2">
                 {/* ── Card de Información ── */}
-                <div className="rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-4">
+                <div className="rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-4 w-[88%] mx-auto">
                     <div className="flex items-center gap-2 text-[var(--color-icon-green)] etiquetas font-bold">
                         <FaBalanceScale size={18} />
                         <span>Base de Conocimiento</span>
@@ -241,67 +174,40 @@ export default function RepositorioLegalPage() {
                 </div>
 
                 {/* ── Sección de Carrusel ── */}
-                <div className="relative group overflow-visible">
-                    {/* Botones de Navegación - Posicionados fuera del carrusel */}
-                    <button
-                        onMouseEnter={() => startHoverScroll('left')}
-                        onMouseLeave={stopHoverScroll}
-                        onClick={() => scroll('left')}
-                        className="absolute -left-16 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-gray-300 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/40 transition-all opacity-40 hover:opacity-100 active:scale-90 cursor-pointer"
-                        title="Deslizar a la izquierda"
+                <div className="relative px-8 md:px-12 pb-6 mt-4">
+                    <Carousel
+                        opts={{
+                            align: 'start',
+                            loop: true,
+                            slidesToScroll: 1,
+                        }}
+                        className="w-full"
                     >
-                        <ChevronLeft size={32} />
-                    </button>
-
-                    <button
-                        onMouseEnter={() => startHoverScroll('right')}
-                        onMouseLeave={stopHoverScroll}
-                        onClick={() => scroll('right')}
-                        className="absolute -right-16 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-gray-300 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/40 transition-all opacity-40 hover:opacity-100 active:scale-90 cursor-pointer"
-                        title="Deslizar a la derecha"
-                    >
-                        <ChevronRight size={32} />
-                    </button>
-
-                    {/* Contenedor del Carrusel */}
-                    <div
-                        ref={scrollContainerRef}
-                        onScroll={handleScroll}
-                        className="flex gap-6 overflow-x-auto pb-6 pt-2 px-1 no-scrollbar"
-                        style={{ scrollbarWidth: 'none' }}
-                    >
-                        {INFINITE_CARDS.map((card, idx) => (
-                            <div
-                                key={idx}
-                                className="min-w-[300px] w-[300px] flex-shrink-0 transition-transform duration-300 hover:-translate-y-1"
-                            >
-                                {card.type === 'technical' ? (
-                                    <LegalCard
-                                        type={card.legalType}
-                                        title={card.title}
-                                        description={card.description || ''}
-                                        publishDate={card.publishDate || ''}
-                                        gacetaNumber={card.gacetaNumber || ''}
-                                        gacetaLink={card.gacetaLink || ''}
-                                        downloadLink={card.downloadLink || ''}
-                                        className="h-full"
-                                    />
-                                ) : null}
-                            </div>
-                        ))}
-                    </div>
+                        <CarouselContent className="-ml-4">
+                            {BASE_CARDS.map((card, idx) => (
+                                <CarouselItem key={idx} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                                    <div className="h-full transition-transform duration-300 hover:-translate-y-1 p-1">
+                                        {card.type === 'technical' ? (
+                                            <LegalCard
+                                                type={card.legalType}
+                                                title={card.title}
+                                                description={card.description || ''}
+                                                publishDate={card.publishDate || ''}
+                                                gacetaNumber={card.gacetaNumber || ''}
+                                                gacetaLink={card.gacetaLink || ''}
+                                                downloadLink={card.downloadLink || ''}
+                                                className="h-full flex flex-col"
+                                            />
+                                        ) : null}
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious className="absolute -left-10 md:-left-16 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 text-gray-400 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/40 hover:bg-white" />
+                        <CarouselNext className="absolute -right-10 md:-right-16 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-100 text-gray-400 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/40 hover:bg-white" />
+                    </Carousel>
                 </div>
             </div>
-
-            <style jsx global>{`
-                .no-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-                .no-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            `}</style>
         </div>
     );
 }
