@@ -143,6 +143,15 @@ export default function InicioPage() {
                                 >
                                     <FaLinkedin size={27} />
                                 </a>
+                                <a
+                                    href="https://www.facebook.com/contratacionespublicas"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="Facebook"
+                                >
+                                    <FaFacebook size={27} />
+                                </a>
                             </div>
 
                             <Button

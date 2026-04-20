@@ -26,6 +26,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 
 export function Sidebar() {
     const { isSidebarOpen, dispatch, conversations, activeConversationId } = useChat();
@@ -99,98 +100,113 @@ export function Sidebar() {
 
                 {/* Home Button */}
                 <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => router.push('/inicio')}
-                        className={cn(
-                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Inicio"
-                    >
-                        <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
-                        <span
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/inicio')}
                             className={cn(
-                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                                'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
+                                'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                             )}
                         >
-                            Inicio
-                        </span>
-                    </button>
+                            <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">Inicio</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/inicio')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Inicio</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
 
                 {/* Proyecto Ley Button */}
                 <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => router.push('/proyecto-ley')}
-                        className={cn(
-                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Proyecto ley"
-                    >
-                        <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
-                        <span
-                            className={cn(
-                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/proyecto-ley')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
-                            Proyecto ley
-                        </span>
-                    </button>
+                            <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
+                            <span className="font-medium text-[13px] ml-3">Proyecto ley</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/proyecto-ley')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Proyecto ley</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
 
                 {/* Repositorio Legal Button */}
                 <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => router.push('/repositorio-legal')}
-                        className={cn(
-                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Repositorio legal"
-                    >
-                        <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
-                        <span
-                            className={cn(
-                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/repositorio-legal')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
-                            Repositorio legal
-                        </span>
-                    </button>
+                            <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">Repositorio legal</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/repositorio-legal')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Repositorio legal</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
 
                 {/* Biblioteca GIRS Button */}
                 <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => router.push('/biblioteca-girs')}
-                        className={cn(
-                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Biblioteca girs"
-                    >
-                        <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
-                        <span
-                            className={cn(
-                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/biblioteca-girs')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
-                            Biblioteca girs
-                        </span>
-                    </button>
+                            <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">Biblioteca girs</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/biblioteca-girs')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Biblioteca girs</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
             </div>
 
@@ -203,13 +219,19 @@ export function Sidebar() {
             >
                 {!expanded ? (
                     <div className="w-full flex justify-center pt-4 text-on-primary/60 transition-opacity duration-300">
-                        <button
-                            onClick={handleNewChat}
-                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors cursor-pointer"
-                            title="Historial"
-                        >
-                            <MessageSquare size={18} color="var(--color-white)" />
-                        </button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={handleNewChat}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors cursor-pointer"
+                                >
+                                    <MessageSquare size={18} color="var(--color-white)" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Historial</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 ) : (
                     <div className="space-y-6 mt-2 transition-opacity duration-300">
@@ -355,55 +377,71 @@ export function Sidebar() {
                 </div>
 
                 <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => router.push('/acerca-de')}
-                        className={cn(
-                            'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Acerca de"
-                    >
-                        <IoMdInformationCircleOutline
-                            size={18}
-                            color="var(--color-white)"
-                            className="shrink-0 info-flash-icon"
-                        />
-                        <span
-                            className={cn(
-                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/acerca-de')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
-                            Acerca de
-                        </span>
-                    </button>
+                            <IoMdInformationCircleOutline
+                                size={18}
+                                color="var(--color-white)"
+                                className="shrink-0 info-flash-icon"
+                            />
+                            <span className="font-medium text-[13px] ml-3">Acerca de</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/acerca-de')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <IoMdInformationCircleOutline
+                                        size={18}
+                                        color="var(--color-white)"
+                                        className="shrink-0 info-flash-icon"
+                                    />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Acerca de</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
 
                 <div className={cn('shrink-0 mb-0', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <a
-                        href="https://wa.me/584145051716"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                            'flex items-center py-1.5 rounded-lg transition-colors border-transparent',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border cursor-pointer'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 cursor-pointer'
-                        )}
-                        title="Soporte técnico"
-                    >
-                        <Headset size={18} color="var(--color-white)" className="shrink-0 support-bounce-icon" />
-                        <span
-                            className={cn(
-                                'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                    {expanded ? (
+                        <a
+                            href="https://wa.me/584145051716"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center py-1.5 rounded-lg transition-colors border-transparent w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border cursor-pointer"
                         >
-                            Soporte técnico
-                        </span>
-                    </a>
+                            <Headset size={18} color="var(--color-white)" className="shrink-0 support-bounce-icon" />
+                            <span className="font-medium text-[13px] ml-3">Soporte técnico</span>
+                        </a>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <a
+                                    href="https://wa.me/584145051716"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <Headset
+                                        size={18}
+                                        color="var(--color-white)"
+                                        className="shrink-0 support-bounce-icon"
+                                    />
+                                </a>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" sideOffset={15.4}>
+                                <p>Soporte técnico</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
             </div>
 
@@ -412,9 +450,16 @@ export function Sidebar() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         {!expanded ? (
-                            <button className="flex items-center justify-center w-9 h-9 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
-                                <Settings size={18} color="var(--color-white)" className="gear-spin-icon" />
-                            </button>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <button className="flex items-center justify-center w-9 h-9 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
+                                        <Settings size={18} color="var(--color-white)" className="gear-spin-icon" />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent side="left" sideOffset={15.4}>
+                                    <p>Configuración</p>
+                                </TooltipContent>
+                            </Tooltip>
                         ) : (
                             <div
                                 role="button"
@@ -519,39 +564,45 @@ export function Sidebar() {
     );
 
     return (
-        <>
-            {/* Mobile Overlay */}
-            {isMobile && isSidebarOpen && (
-                <div
-                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity"
-                    onClick={toggleSidebar}
-                />
-            )}
-
-            {/* Sidebar Container */}
-            <aside
-                className={cn(
-                    'fixed md:relative top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none border-r border-surface-soft/10',
-                    isMobile
-                        ? isSidebarOpen
-                            ? 'translate-x-0 w-72'
-                            : '-translate-x-full w-72'
-                        : isSidebarOpen
-                          ? 'w-[280px]'
-                          : 'w-[72px]'
-                )}
-            >
+        <TooltipProvider delayDuration={300}>
+            <>
                 {isMobile && isSidebarOpen && (
-                    <button
-                        onClick={handleNewChat}
-                        className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
-                        title="Historial"
-                    >
-                        <MessageSquare size={18} color="var(--color-white)" />
-                    </button>
+                    <div
+                        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity"
+                        onClick={toggleSidebar}
+                    />
                 )}
-                {sidebarContent}
-            </aside>
-        </>
+
+                <aside
+                    className={cn(
+                        'fixed md:relative top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none border-r border-surface-soft/10',
+                        isMobile
+                            ? isSidebarOpen
+                                ? 'translate-x-0 w-72'
+                                : '-translate-x-full w-72'
+                            : isSidebarOpen
+                              ? 'w-[280px]'
+                              : 'w-[72px]'
+                    )}
+                >
+                    {isMobile && isSidebarOpen && (
+                        <button
+                            onClick={handleNewChat}
+                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
+                        >
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <MessageSquare size={18} color="var(--color-white)" />
+                                </TooltipTrigger>
+                                <TooltipContent side="left" sideOffset={15.4}>
+                                    <p>Historial</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </button>
+                    )}
+                    {sidebarContent}
+                </aside>
+            </>
+        </TooltipProvider>
     );
 }
