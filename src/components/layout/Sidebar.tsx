@@ -121,7 +121,7 @@ export function Sidebar() {
                                     <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
                                 </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Inicio</p>
                             </TooltipContent>
                         </Tooltip>
@@ -148,7 +148,7 @@ export function Sidebar() {
                                     <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
                                 </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Proyecto ley</p>
                             </TooltipContent>
                         </Tooltip>
@@ -175,7 +175,7 @@ export function Sidebar() {
                                     <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
                                 </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Repositorio legal</p>
                             </TooltipContent>
                         </Tooltip>
@@ -202,7 +202,7 @@ export function Sidebar() {
                                     <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
                                 </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Biblioteca girs</p>
                             </TooltipContent>
                         </Tooltip>
@@ -228,7 +228,7 @@ export function Sidebar() {
                                     <MessageSquare size={18} color="var(--color-white)" />
                                 </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Historial</p>
                             </TooltipContent>
                         </Tooltip>
@@ -403,7 +403,7 @@ export function Sidebar() {
                                     />
                                 </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Acerca de</p>
                             </TooltipContent>
                         </Tooltip>
@@ -437,7 +437,7 @@ export function Sidebar() {
                                     />
                                 </a>
                             </TooltipTrigger>
-                            <TooltipContent side="left" sideOffset={15.4}>
+                            <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Soporte técnico</p>
                             </TooltipContent>
                         </Tooltip>
@@ -448,19 +448,21 @@ export function Sidebar() {
             {/* Footer Settings / User */}
             <div className={cn('shrink-0 pb-3 relative mt-0', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        {!expanded ? (
-                            <Tooltip>
-                                <TooltipTrigger asChild>
+                    {!expanded ? (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <DropdownMenuTrigger asChild>
                                     <button className="flex items-center justify-center w-9 h-9 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
                                         <Settings size={18} color="var(--color-white)" className="gear-spin-icon" />
                                     </button>
-                                </TooltipTrigger>
-                                <TooltipContent side="left" sideOffset={15.4}>
-                                    <p>Configuración</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        ) : (
+                                </DropdownMenuTrigger>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Configuración</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    ) : (
+                        <DropdownMenuTrigger asChild>
                             <div
                                 role="button"
                                 className="flex outline-none items-center space-x-3 bg-surface-soft/10 hover:bg-surface-soft/20 py-2 px-3 rounded-xl border border-surface-soft/5 transition-all duration-300 cursor-pointer focus-visible:ring-0"
@@ -478,13 +480,13 @@ export function Sidebar() {
                                 </div>
                                 <Settings size={14} color="var(--color-white)" className="shrink-0 gear-spin-icon" />
                             </div>
-                        )}
-                    </DropdownMenuTrigger>
+                        </DropdownMenuTrigger>
+                    )}
 
                     <DropdownMenuContent
-                        align={expanded ? 'start' : 'center'}
-                        alignOffset={expanded ? 0 : 0}
-                        sideOffset={12}
+                        side={expanded ? 'top' : 'right'}
+                        align="start"
+                        sideOffset={18}
                         className="w-[260px] bg-white border-surface-soft/30 shadow-2xl rounded-xl p-0"
                     >
                         {/* User Info Header Block */}
@@ -594,7 +596,7 @@ export function Sidebar() {
                                 <TooltipTrigger asChild>
                                     <MessageSquare size={18} color="var(--color-white)" />
                                 </TooltipTrigger>
-                                <TooltipContent side="left" sideOffset={15.4}>
+                                <TooltipContent side="right" sideOffset={15.4}>
                                     <p>Historial</p>
                                 </TooltipContent>
                             </Tooltip>
