@@ -81,7 +81,7 @@ export function ProfileIncompleteModal({ isOpen, onSuccess }: ProfileIncompleteM
                     </div>
                     <DialogHeader className="p-0">
                         <DialogTitle className="text-[20px] sm:text-[22px] font-bold text-[#002D3A] text-center leading-tight">
-                            Falta información por agregar a tu cuenta, por favor completa dichos campos para continuar.
+                            Indica la siguiente información para continuar:
                         </DialogTitle>
                     </DialogHeader>
                 </div>

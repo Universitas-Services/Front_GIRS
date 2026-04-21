@@ -7,10 +7,13 @@ import { useRouter } from 'next/navigation';
 import { authService } from '@/lib/services/auth.service';
 import { UserProfile } from '@/types/auth.types';
 import { MembershipExpiringModal, ProfileIncompleteModal } from '@/components/Modales';
+import { useChat } from '@/store/chat.context';
+import { chatService } from '@/lib/services/chat.service';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
+    const { dispatch } = useChat();
 
     const [isMembershipModalOpen, setIsMembershipModalOpen] = useState(false);
     const [membershipDaysLeft, setMembershipDaysLeft] = useState<number>(0);
@@ -67,12 +70,24 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
         if (!isLoading) {
             checkMembershipStatus();
+
+            if (isAuthenticated) {
+                const loadConversations = async () => {
+                    try {
+                        const convs = await chatService.getConversations();
+                        dispatch({ type: 'SET_CONVERSATIONS', payload: convs });
+                    } catch (error) {
+                        console.error('Failed to fetch conversations', error);
+                    }
+                };
+                loadConversations();
+            }
         }
 
         return () => {
             if (timeoutId) clearTimeout(timeoutId);
         };
-    }, [isAuthenticated, isLoading]);
+    }, [isAuthenticated, isLoading, dispatch]);
 
     if (isLoading || !isAuthenticated) {
         return (

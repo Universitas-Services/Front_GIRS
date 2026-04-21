@@ -3,13 +3,12 @@
 import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
-import { MessageSquare, Settings, LogOut, Menu, X, User } from 'lucide-react';
-import { IoMdBookmarks } from 'react-icons/io';
-import { BsFillTelephoneFill } from 'react-icons/bs';
+import { MessageSquare, Settings, LogOut, Menu, X, User, Headset } from 'lucide-react';
+import { IoMdBook, IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoHomeSharp, IoAddCircleOutline } from 'react-icons/io5';
+import { FaGavel, FaBalanceScale } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -27,6 +26,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 
 export function Sidebar() {
     const { isSidebarOpen, dispatch, conversations, activeConversationId } = useChat();
@@ -60,7 +60,7 @@ export function Sidebar() {
     const sidebarContent = (
         <div className="flex flex-col h-full bg-primary text-on-primary border-r border-surface-soft/10">
             {/* Header */}
-            <div className={cn('flex items-center h-[72px] shrink-0', expanded ? 'p-4' : 'justify-center w-full')}>
+            <div className={cn('flex items-center h-[60px] shrink-0', expanded ? 'p-4' : 'justify-center w-full')}>
                 <button
                     onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
                     className={cn(
@@ -88,7 +88,7 @@ export function Sidebar() {
             </div>
 
             {/* Menú Principal Section */}
-            <div className="w-full flex-shrink-0 mt-4">
+            <div className="w-full flex-shrink-0 mt-2">
                 <div
                     className={cn(
                         'mb-2 transition-opacity duration-300',
@@ -99,51 +99,114 @@ export function Sidebar() {
                 </div>
 
                 {/* Home Button */}
-                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={() => router.push('/inicio')}
-                        className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Inicio"
-                    >
-                        <IoHomeSharp size={20} color="var(--color-white)" className="shrink-0" />
-                        <span
+                <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/inicio')}
                             className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                                'flex items-center py-1.5 rounded-lg transition-colors cursor-pointer',
+                                'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
                             )}
                         >
-                            Inicio
-                        </span>
-                    </button>
+                            <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">Inicio</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/inicio')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <IoHomeSharp size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Inicio</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
 
-                {/* New Chat Button */}
-                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <button
-                        onClick={handleNewChat}
-                        className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Iniciar nuevo chat"
-                    >
-                        <IoAddCircleOutline size={22} color="var(--color-white)" className="shrink-0" />
-                        <span
-                            className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                {/* Proyecto Ley Button */}
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/proyecto-ley')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
-                            Iniciar nuevo chat
-                        </span>
-                    </button>
+                            <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
+                            <span className="font-medium text-[13px] ml-3">Proyecto ley</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/proyecto-ley')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <FaGavel size={18} color="var(--color-white)" className="shrink-0 gavel-icon" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Proyecto ley</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
+                </div>
+
+                {/* Repositorio Legal Button */}
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/repositorio-legal')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
+                        >
+                            <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">Repositorio legal</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/repositorio-legal')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <FaBalanceScale size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Repositorio legal</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
+                </div>
+
+                {/* Biblioteca GIRS Button */}
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/biblioteca-girs')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
+                        >
+                            <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">Biblioteca girs</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/biblioteca-girs')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Biblioteca girs</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
             </div>
 
@@ -156,19 +219,51 @@ export function Sidebar() {
             >
                 {!expanded ? (
                     <div className="w-full flex justify-center pt-4 text-on-primary/60 transition-opacity duration-300">
-                        <button
-                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
-                            title="Historial"
-                        >
-                            <MessageSquare size={20} color="var(--color-white)" />
-                        </button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={handleNewChat}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors cursor-pointer"
+                                >
+                                    <MessageSquare size={18} color="var(--color-white)" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Historial</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 ) : (
                     <div className="space-y-6 mt-2 transition-opacity duration-300">
                         <div>
-                            <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider mb-2 px-3">
-                                Historial
+                            <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider mb-2 px-3 pt-4 border-t border-surface-soft/10">
+                                Consultor GIRS IA
                             </p>
+
+                            {/* New Chat Button */}
+                            <div className={cn('shrink-0 mb-1', expanded ? '' : 'w-full flex justify-center')}>
+                                <button
+                                    onClick={handleNewChat}
+                                    className={cn(
+                                        'flex items-center py-1.5 rounded-lg transition-colors border-transparent cursor-pointer',
+                                        expanded
+                                            ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
+                                            : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
+                                    )}
+                                    title="Iniciar nuevo chat"
+                                >
+                                    <IoAddCircleOutline size={20} color="var(--color-white)" className="shrink-0" />
+                                    <span
+                                        className={cn(
+                                            'font-medium text-[13px] transition-all duration-300 whitespace-nowrap overflow-hidden',
+                                            expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
+                                        )}
+                                    >
+                                        Iniciar nuevo chat
+                                    </span>
+                                </button>
+                            </div>
+
                             {/* Filter out empty/new chats with no messages from history */}
                             {(() => {
                                 const validConversations = conversations.filter(
@@ -177,11 +272,48 @@ export function Sidebar() {
                                         (!('messageCount' in c) || (c.messageCount as number) > 0)
                                 );
 
+                                const todayDate = new Date();
+                                todayDate.setHours(0, 0, 0, 0);
+
+                                const yesterdayDate = new Date(todayDate);
+                                yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+
+                                const startOfWeekDate = new Date(todayDate);
+                                startOfWeekDate.setDate(startOfWeekDate.getDate() - 7);
+
+                                const grouped = {
+                                    Hoy: [] as typeof validConversations,
+                                    Ayer: [] as typeof validConversations,
+                                    'Esta semana': [] as typeof validConversations,
+                                    Anteriores: [] as typeof validConversations,
+                                };
+
+                                validConversations.forEach((conv) => {
+                                    const convDateStr = conv.lastMessageAt;
+                                    if (!convDateStr) {
+                                        grouped.Anteriores.push(conv);
+                                        return;
+                                    }
+
+                                    const convDate = new Date(convDateStr);
+                                    convDate.setHours(0, 0, 0, 0);
+
+                                    if (convDate.getTime() === todayDate.getTime()) {
+                                        grouped.Hoy.push(conv);
+                                    } else if (convDate.getTime() === yesterdayDate.getTime()) {
+                                        grouped.Ayer.push(conv);
+                                    } else if (convDate.getTime() >= startOfWeekDate.getTime()) {
+                                        grouped['Esta semana'].push(conv);
+                                    } else {
+                                        grouped.Anteriores.push(conv);
+                                    }
+                                });
+
                                 const groups = [
-                                    { label: 'Hoy', items: validConversations.slice(0, 2) },
-                                    { label: 'Ayer', items: validConversations.slice(2, 4) },
-                                    { label: 'Esta semana', items: validConversations.slice(4, 6) },
-                                    { label: 'Anteriores', items: validConversations.slice(6) },
+                                    { label: 'Hoy', items: grouped.Hoy },
+                                    { label: 'Ayer', items: grouped.Ayer },
+                                    { label: 'Esta semana', items: grouped['Esta semana'] },
+                                    { label: 'Anteriores', items: grouped.Anteriores },
                                 ].filter((g) => g.items.length > 0);
 
                                 if (groups.length === 0) {
@@ -207,7 +339,7 @@ export function Sidebar() {
                                                             router.push('/chat');
                                                         }}
                                                         className={cn(
-                                                            'group flex items-center justify-between px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors whitespace-nowrap overflow-hidden',
+                                                            'group flex items-center justify-between px-3 py-1.5 rounded-lg text-[13px] cursor-pointer transition-colors whitespace-nowrap overflow-hidden',
                                                             isActive
                                                                 ? 'bg-accent/20 border-l-2 border-accent text-on-primary'
                                                                 : 'text-on-primary/80 hover:bg-on-primary/10 border-l-2 border-transparent'
@@ -244,90 +376,117 @@ export function Sidebar() {
                     <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider">Otros Servicios</p>
                 </div>
 
-                <div className={cn('shrink-0 mb-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <a
-                        href="https://universitas.legal/biblioteca-girs/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Biblioteca girs"
-                    >
-                        <IoMdBookmarks size={20} color="var(--color-white)" className="shrink-0" />
-                        <span
-                            className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/acerca-de')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
-                            Biblioteca girs
-                        </span>
-                    </a>
+                            <IoMdInformationCircleOutline
+                                size={18}
+                                color="var(--color-white)"
+                                className="shrink-0 info-flash-icon"
+                            />
+                            <span className="font-medium text-[13px] ml-3">Acerca de</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/acerca-de')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <IoMdInformationCircleOutline
+                                        size={18}
+                                        color="var(--color-white)"
+                                        className="shrink-0 info-flash-icon"
+                                    />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Acerca de</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
 
-                <div className={cn('shrink-0 my-1', expanded ? 'px-3' : 'w-full flex justify-center')}>
-                    <a
-                        href="https://wa.me/584145051716"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                            'flex items-center py-2.5 rounded-lg transition-colors border-transparent',
-                            expanded
-                                ? 'w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border'
-                                : 'w-10 h-10 justify-center text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10'
-                        )}
-                        title="Contáctanos"
-                    >
-                        <BsFillTelephoneFill size={20} color="var(--color-white)" className="shrink-0" />
-                        <span
-                            className={cn(
-                                'font-medium text-sm transition-all duration-300 whitespace-nowrap overflow-hidden',
-                                expanded ? 'ml-3 opacity-100' : 'opacity-0 w-0 hidden'
-                            )}
+                <div className={cn('shrink-0 mb-0', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <a
+                            href="https://wa.me/584145051716"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center py-1.5 rounded-lg transition-colors border-transparent w-full px-3 text-on-primary/80 hover:bg-surface-soft/10 border cursor-pointer"
                         >
-                            Contáctanos
-                        </span>
-                    </a>
+                            <Headset size={18} color="var(--color-white)" className="shrink-0 support-bounce-icon" />
+                            <span className="font-medium text-[13px] ml-3">Soporte técnico</span>
+                        </a>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <a
+                                    href="https://wa.me/584145051716"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <Headset
+                                        size={18}
+                                        color="var(--color-white)"
+                                        className="shrink-0 support-bounce-icon"
+                                    />
+                                </a>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Soporte técnico</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
             </div>
 
             {/* Footer Settings / User */}
-            <div className={cn('shrink-0 pb-4 relative mt-2', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
+            <div className={cn('shrink-0 pb-3 relative mt-0', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        {!expanded ? (
-                            <button className="flex items-center justify-center w-10 h-10 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
-                                <Settings size={20} color="var(--color-white)" />
-                            </button>
-                        ) : (
+                    {!expanded ? (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="flex items-center justify-center w-9 h-9 rounded-lg outline-none hover:bg-surface-soft/10 hover:text-on-primary transition-colors text-on-primary/60 focus-visible:ring-0">
+                                        <Settings size={18} color="var(--color-white)" className="gear-spin-icon" />
+                                    </button>
+                                </DropdownMenuTrigger>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>Configuración</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    ) : (
+                        <DropdownMenuTrigger asChild>
                             <div
                                 role="button"
-                                className="flex outline-none items-center space-x-3 bg-surface-soft/10 hover:bg-surface-soft/20 p-3 rounded-xl border border-surface-soft/5 transition-all duration-300 cursor-pointer focus-visible:ring-0"
+                                className="flex outline-none items-center space-x-3 bg-surface-soft/10 hover:bg-surface-soft/20 py-2 px-3 rounded-xl border border-surface-soft/5 transition-all duration-300 cursor-pointer focus-visible:ring-0"
                             >
-                                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sm font-bold text-on-primary shrink-0">
+                                <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-on-primary shrink-0">
                                     {user?.name?.charAt(0) || 'U'}
                                 </div>
                                 <div className="flex-1 overflow-hidden text-left">
-                                    <p className="text-sm font-medium text-on-primary truncate">
+                                    <p className="text-[13px] font-medium text-on-primary truncate">
                                         {user?.name || 'Usuario'}
                                     </p>
-                                    <p className="text-xs text-on-primary/60 truncate">
+                                    <p className="text-[11px] text-on-primary/60 truncate">
                                         {user?.email || 'test@email.com'}
                                     </p>
                                 </div>
-                                <Settings size={16} color="var(--color-white)" className="shrink-0" />
+                                <Settings size={14} color="var(--color-white)" className="shrink-0 gear-spin-icon" />
                             </div>
-                        )}
-                    </DropdownMenuTrigger>
+                        </DropdownMenuTrigger>
+                    )}
 
                     <DropdownMenuContent
-                        align={expanded ? 'start' : 'center'}
-                        alignOffset={expanded ? 0 : 0}
-                        sideOffset={12}
+                        side={expanded ? 'top' : 'right'}
+                        align="start"
+                        sideOffset={18}
                         className="w-[260px] bg-white border-surface-soft/30 shadow-2xl rounded-xl p-0"
                     >
                         {/* User Info Header Block */}
@@ -394,42 +553,58 @@ export function Sidebar() {
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
+
+            {/* Copyright Section */}
+            {expanded && (
+                <div className="px-3 pb-4 mt-auto text-center">
+                    <p className="text-[7px] font-bold text-[#8CA8B1] uppercase tracking-tighter">
+                        Copyright © 2026 Universitas Services | AGENTES VIRTUALES
+                    </p>
+                </div>
+            )}
         </div>
     );
 
     return (
-        <>
-            {/* Mobile Overlay */}
-            {isMobile && isSidebarOpen && (
-                <div
-                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity"
-                    onClick={toggleSidebar}
-                />
-            )}
-
-            {/* Sidebar Container */}
-            <aside
-                className={cn(
-                    'fixed md:relative top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none border-r border-surface-soft/10',
-                    isMobile
-                        ? isSidebarOpen
-                            ? 'translate-x-0 w-72'
-                            : '-translate-x-full w-72'
-                        : isSidebarOpen
-                          ? 'w-[280px]'
-                          : 'w-[72px]'
-                )}
-            >
+        <TooltipProvider delayDuration={300}>
+            <>
                 {isMobile && isSidebarOpen && (
-                    <button
+                    <div
+                        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity"
                         onClick={toggleSidebar}
-                        className="absolute top-4 -right-12 p-2 bg-primary text-on-primary rounded-r-lg"
-                    >
-                        <X size={20} />
-                    </button>
+                    />
                 )}
-                {sidebarContent}
-            </aside>
-        </>
+
+                <aside
+                    className={cn(
+                        'fixed md:relative top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none border-r border-surface-soft/10',
+                        isMobile
+                            ? isSidebarOpen
+                                ? 'translate-x-0 w-72'
+                                : '-translate-x-full w-72'
+                            : isSidebarOpen
+                              ? 'w-[280px]'
+                              : 'w-[72px]'
+                    )}
+                >
+                    {isMobile && isSidebarOpen && (
+                        <button
+                            onClick={handleNewChat}
+                            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-soft/10 hover:text-on-primary transition-colors"
+                        >
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <MessageSquare size={18} color="var(--color-white)" />
+                                </TooltipTrigger>
+                                <TooltipContent side="right" sideOffset={15.4}>
+                                    <p>Historial</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </button>
+                    )}
+                    {sidebarContent}
+                </aside>
+            </>
+        </TooltipProvider>
     );
 }

@@ -14,25 +14,10 @@ export default function ChatDashboardPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
 
-    // Initial fetch mock
     useEffect(() => {
-        const fetchInitialData = async () => {
-            try {
-                const convs = await chatService.getConversations();
-                dispatch({ type: 'SET_CONVERSATIONS', payload: convs });
-
-                // Comentado para que siempre inicie en "Nuevo Chat"
-                // if (convs.length > 0) {
-                //     dispatch({ type: 'SET_ACTIVE', payload: convs[0].id });
-                // }
-            } catch (error) {
-                console.error('Error fetching conversations', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchInitialData();
+        // We set loading to false here to allow the component to render
+        // as the actual fetching of conversations is now done at the DashboardLayout level
+        setIsLoading(false);
     }, [dispatch]);
 
     // Fetch messages when active conversation changes
@@ -113,7 +98,7 @@ export default function ChatDashboardPage() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full bg-[var(--color-chat-bg)] relative animate-fade-in">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)] flex flex-col relative animate-fade-in">
             {/* Mobile Header */}
             <div className="md:hidden sticky top-0 z-10 flex items-center p-4 bg-surface-light/95 backdrop-blur-sm border-b border-surface-soft/40 shadow-sm">
                 <button

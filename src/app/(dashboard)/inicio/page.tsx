@@ -3,146 +3,178 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { FaInstagram, FaLinkedin, FaTwitter, FaFacebook, FaXTwitter } from 'react-icons/fa6';
-import { IoSettingsSharp } from 'react-icons/io5';
+import { FaInstagram, FaLinkedin, FaTwitter, FaXTwitter, FaFacebook, FaBook } from 'react-icons/fa6';
+import { BsChatRight } from 'react-icons/bs';
 
 export default function InicioPage() {
     const router = useRouter();
 
-    const handleIniciarChat = () => {
+    const handleIniciarConsulta = () => {
         router.push('/chat');
     };
 
-    const handleSoporteTecnico = () => {
-        window.open('https://wa.me/584145051716', '_blank');
-    };
-
     const handleMasInformacion = () => {
-        toast.info('Más información próximamente disponible.');
+        window.open('https://agora.universitasfundacion.com/', '_blank');
     };
 
     return (
-        <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex items-center justify-center p-6 sm:p-10">
-            {/* Contenedor Macro / Gran Tarjeta Blanca */}
-            <div className="w-full max-w-5xl bg-white rounded-2xl border border-gray-200/60 shadow-sm p-8 md:p-12 shrink-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-stretch">
-                    {/* Left Section - Profile info */}
-                    <div className="flex flex-col justify-center">
-                        {/* Character Avatar Box */}
-                        <div className="w-40 h-40 rounded-xl overflow-hidden border border-gray-200 shadow-sm mb-5 bg-[var(--color-avatar-bg)]">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src="/asset/Julio-AI-Fospuca.png"
-                                alt="Asistente IA GIRS"
-                                className="w-full h-full object-cover"
-                            />
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
+            {/* Contenedor principal — se centra verticalmente y permite scroll si no cabe */}
+            <div className="max-w-6xl mx-auto space-y-6">
+                {/* ── Card 1: ¿Qué es la Plataforma GIRS? ── */}
+                <div className="rounded-xl bg-white border border-gray-200/70 text-gray-800 px-4 py-2 shadow-sm">
+                    <h1 className="titulos-cards mb-0 tracking-tight leading-tight mb-2">
+                        ¿Qué es la Plataforma GIRS?
+                    </h1>
+                    <p className="text-xs md:text-[0.8rem] font-semibold italic text-[var(--color-btn-green)] mb-2 leading-snug">
+                        Tu infraestructura jurídica y técnica para la Gestión Integral de Residuos Sólidos (GIRS)
+                    </p>
+                    <p className="descripcion-cards leading-snug">
+                        La Plataforma GIRS es el sistema más completo de Venezuela para la gestión de residuos sólidos,
+                        integrando normativa, criterios técnicos, estudios tarifarios y herramientas inteligentes que
+                        fortalecen la toma de decisiones municipales.
+                    </p>
+                </div>
+
+                {/* ── Card 2: Dos tarjetas lado a lado ── */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {/* Biblioteca Legal */}
+                    <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm px-4 py-2 flex flex-col justify-between">
+                        <div>
+                            <div className="flex items-center gap-2 mb-1">
+                                <div
+                                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                                    style={{ backgroundColor: '#BEDABE' }}
+                                >
+                                    <FaBook className="w-3.5 h-3.5" style={{ color: '#00B800' }} />
+                                </div>
+                                <h2 className="titulos-cards leading-tight">Biblioteca legal - GIRS</h2>
+                            </div>
+
+                            <p className="descripcion-cards mb-1 leading-[22px]">
+                                El repositorio jurídico más completo del país en materia de residuos sólidos.
+                            </p>
                         </div>
 
-                        <h1 className="text-3xl font-black text-primary tracking-tight mb-1">¿Quien soy?</h1>
-                        <p className="italic text-gray-500 text-[15px] mb-4">Tu consultor legal inteligente</p>
+                        <div className="border-t border-gray-100 pt-1">
+                            <p className="descripcion-cards-small mb-0.5 leading-[25px]">Accede a:</p>
+                            <ul className="descripcion-cards-small space-y-0 list-disc list-inside leading-[25px]">
+                                <li>Leyes nacionales</li>
+                                <li>Ordenanzas municipales</li>
+                                <li>Sentencias del TSJ</li>
+                                <li>Estudios técnicos de tarifas</li>
+                                <li>Documentos históricos y criterios especializados</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                        <p className="italic text-gray-500 text-sm leading-relaxed mb-6">
-                            Soy el Consultor IA de GIRS, un asistente especializado en gestión documental y orientación
-                            jurídica. Estoy aquí para ayudarte a resolver dudas, redactar documentos y navegar procesos
-                            legales de manera ágil y eficiente.
+                    {/* Consultor IA */}
+                    <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm px-4 py-2 flex flex-col justify-between">
+                        <div>
+                            <div className="flex items-center gap-2 mb-1">
+                                <div
+                                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                                    style={{ backgroundColor: '#BEDABE' }}
+                                >
+                                    <BsChatRight className="w-3.5 h-3.5" style={{ color: '#00B800' }} />
+                                </div>
+                                <h2 className="titulos-cards leading-tight">Consultor IA – GIRS</h2>
+                            </div>
+
+                            <p className="descripcion-cards leading-snug mb-7">
+                                Es un agente IA conversacional especializado en normativa de residuos sólidos. El
+                                Consultor responde preguntas y aclara conceptos jurídicos usando exclusivamente la
+                                Biblioteca Digital GIRS.
+                            </p>
+
+                            <p className="descripcion-cards leading-none mb-2 text-sm line-clamp-2">
+                                Trabajamos para hacerlo mejor: si notas un error, repórtalo al equipo de soporte.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ── Card 3: Conócenos ── */}
+                <div className="rounded-xl bg-white border border-gray-200/70 text-gray-800 px-4 pt-4 pb-12 shadow-sm relative overflow-hidden">
+                    <div className="relative z-10">
+                        <h2 className="titulos-cards mb-0 leading-tight">Conócenos</h2>
+
+                        <p className="descripcion-cards leading-none mb-2 line-clamp-2">
+                            Forma parte de nuestra comunidad. Accede a todos nuestros cursos sobre diversos temas de la
+                            Administración Pública. Infórmate de temas de interés en nuestro medio digital, Ágora.
                         </p>
 
-                        <div className="flex items-center gap-4 mt-auto">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                            {/* Social Icons */}
+                            <div className="flex items-center gap-3.5 text-primary">
+                                <a
+                                    href="https://www.instagram.com/universitas.legal/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="Instagram"
+                                >
+                                    <FaInstagram size={27} />
+                                </a>
+                                <a
+                                    href="https://twitter.com/contratosve"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="Twitter"
+                                >
+                                    <FaTwitter size={27} />
+                                </a>
+                                <a
+                                    href="https://twitter.com/contratarve"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="X"
+                                >
+                                    <FaXTwitter size={27} />
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/company/universitas-legal/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="LinkedIn"
+                                >
+                                    <FaLinkedin size={27} />
+                                </a>
+                                <a
+                                    href="https://www.facebook.com/contratacionespublicas"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:opacity-80 transition-all hover:scale-110"
+                                    title="Facebook"
+                                >
+                                    <FaFacebook size={27} />
+                                </a>
+                            </div>
+
                             <Button
-                                onClick={handleIniciarChat}
-                                className="bg-[var(--color-btn-green)] hover:bg-[var(--color-btn-green-hover)] text-white font-bold rounded-full px-6 h-10 transition-all active:scale-95"
+                                onClick={handleMasInformacion}
+                                className="bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg px-5 h-8 text-xs transition-all active:scale-95 w-fit cursor-pointer"
                             >
-                                Iniciar chat
-                            </Button>
-                            <span className="text-gray-500 font-semibold font-sans text-sm">o</span>
-                            <Button
-                                onClick={handleSoporteTecnico}
-                                className="bg-primary hover:bg-primary-hover text-white font-bold rounded-full px-5 h-10 transition-all active:scale-95 flex items-center gap-2"
-                            >
-                                <IoSettingsSharp size={18} color="white" />
-                                Soporte técnico
+                                Más Información
                             </Button>
                         </div>
                     </div>
-
-                    {/* Right Section - Social Inner Card */}
-                    <div className="bg-white rounded-xl border border-gray-200/60 shadow-sm p-8 flex flex-col">
-                        <h2 className="text-xl font-bold text-primary leading-snug mb-6 pr-4">
-                            Conócenos y síguenos en nuestras redes sociales
-                        </h2>
-
-                        <p className="italic text-gray-500 text-sm leading-relaxed mb-8 flex-1">
-                            Forma parte de nuestra <br />
-                            comunidad. Accede a todos <br />
-                            nuestros cursos sobre <br />
-                            diversos temas de la <br />
-                            Administración Pública. <br />
-                            Infórmate de temas de interés <br />
-                            en nuestro medio digital, <br />
-                            Ágora.
-                        </p>
-
-                        <Button
-                            onClick={handleMasInformacion}
-                            className="bg-primary hover:bg-primary-hover text-white font-semibold rounded-md px-6 h-10 self-start transition-all active:scale-95 mb-8"
-                        >
-                            Más Información
-                        </Button>
-
-                        {/* Social Icons */}
-                        <div className="flex items-center gap-5 mt-auto text-primary">
-                            {/* Instagram */}
-                            <a
-                                href="https://www.instagram.com/universitas.legal/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary-hover transition-all hover:scale-110"
-                                title="Instagram"
-                            >
-                                <FaInstagram size={28} />
-                            </a>
-                            {/* Facebook */}
-                            <a
-                                href="https://www.facebook.com/contratacionespublicas"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary-hover transition-all hover:scale-110"
-                                title="Facebook"
-                            >
-                                <FaFacebook size={28} />
-                            </a>
-                            {/* LinkedIn */}
-                            <a
-                                href="https://www.linkedin.com/company/universitas-legal/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary-hover transition-all hover:scale-110"
-                                title="LinkedIn"
-                            >
-                                <FaLinkedin size={28} />
-                            </a>
-                            {/* Twitter (Pájaro) */}
-                            <a
-                                href="https://twitter.com/contratosve"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary-hover transition-all hover:scale-110"
-                                title="X (Twitter)"
-                            >
-                                <FaTwitter size={28} />
-                            </a>
-                            {/* X (Moderno) */}
-                            <a
-                                href="https://twitter.com/contratarve"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary-hover transition-all hover:scale-110"
-                                title="X"
-                            >
-                                <FaXTwitter size={26} />
-                            </a>
-                        </div>
-                    </div>
+                    {/* Ola / Wave SVG en la parte inferior */}
+                    <svg
+                        className="absolute bottom-0 left-0 w-full z-0 h-[40px] object-cover pointer-events-none"
+                        viewBox="0 0 1440 320"
+                        preserveAspectRatio="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            fill="#00b800"
+                            fillOpacity="1"
+                            d="M0,160L80,144C160,128,320,96,480,101.3C640,107,800,149,960,165.3C1120,181,1280,171,1360,165.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+                        ></path>
+                    </svg>
                 </div>
             </div>
         </div>
