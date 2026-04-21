@@ -45,7 +45,7 @@ export function BibliotecaGirsCard({
                 {/* Header (Title + Tag) */}
                 <div className="flex justify-between items-start mb-2 gap-2">
                     <h3 className="titulos-cards text-lg leading-tight flex-1">{title}</h3>
-                    <span className={cn('etiquetas px-2 py-1 rounded whitespace-nowrap', tagBgColor, tagTextColor)}>
+                    <span className={cn('etiquetas px-0 py-1 rounded whitespace-nowrap', tagBgColor, tagTextColor)}>
                         {tagLabel}
                     </span>
                 </div>

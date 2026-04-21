@@ -83,7 +83,8 @@ export function BibliotecaGirsView() {
                             </p>
                         </div>
                         <a
-                            href="#"
+                            href="https://drive.google.com/file/d/1SuWQpzY8ik0tgykwrEt3UkFNhtqnLGUT/view?usp=drive_link"
+                            target="_blank"
                             className="w-full inline-flex items-center justify-center px-6 py-2.5 bg-[#00b800] hover:bg-[#009900] transition-colors text-white font-medium rounded-lg text-sm group mt-auto"
                         >
                             Saber más

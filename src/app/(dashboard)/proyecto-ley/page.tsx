@@ -6,15 +6,13 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 export default function ProyectoLeyPage() {
-    const downloadUrl = '#'; // TODO: Agregar enlace de descarga si se proporciona
+    const downloadUrl = 'https://drive.google.com/file/d/1SuWQpzY8ik0tgykwrEt3UkFNhtqnLGUT/view?usp=drive_link';
     const imageUrl = '/proyecto-ley/proyecto-ley.png';
     const descriptionText =
         'Propuesta legislativa de vanguardia orientada a sustituir el modelo tradicional de disposición final por un sistema integral enfocado en la economía circular. Establece un marco normativo para minimizar la generación de desechos, maximizar el aprovechamiento de materiales y ejecutar la progresiva clausura de los vertederos a cielo abierto. Para asegurar el financiamiento del sistema, la ley introduce el esquema de responsabilidad extendida del productor y crea un fondo nacional, obligando a los fabricantes a asumir los costos de gestión de sus envases post consumo. Además, plantea una reestructuración operativa al habilitar la transferencia de competencias hacia las comunidades organizadas, integrándolas formalmente en las fases de recolección y reciclaje para garantizar la sustentabilidad técnica, económica y ambiental del servicio a nivel nacional.';
 
     const handleDownload = () => {
-        if (downloadUrl && downloadUrl !== '#') {
-            window.open(downloadUrl, '_blank');
-        }
+        window.open(downloadUrl, '_blank');
     };
 
     return (

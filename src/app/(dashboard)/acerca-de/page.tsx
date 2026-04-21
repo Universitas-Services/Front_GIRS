@@ -23,10 +23,10 @@ export default function AcercaDePage() {
                         />
                         <div>
                             <h1 className="titulos-cards leading-tight mb-0 text-xl md:text-[23px]">
-                                Acerca de <span style={{ color: 'var(--color-primary)' }}>AGENTES VIRTUALES</span>
+                                Acerca de la <span style={{ color: 'var(--color-primary)' }}>PLATAFORMA GIRS</span>
                             </h1>
                             <p className="descripcion-cards mt-0.5">
-                                Una solución innovadora de Universitas Services C.A.
+                                La infraestructura jurídica y técnica para la Gestión Ambiental en Venezuela.
                             </p>
                         </div>
                     </div>
@@ -34,18 +34,14 @@ export default function AcercaDePage() {
                     {/* Descripción principal */}
                     <div className="space-y-4">
                         <p className="descripcion-cards leading-relaxed">
-                            Actas de entrega es una innovadora plataforma digital diseñada para ser el principal
-                            asistente tecnológico de los servidores públicos en Venezuela. Nuestra aplicación transforma
-                            un proceso tradicionalmente complejo en una experiencia de usuario simple, estructurada y
-                            segura.
+                            La Plataforma GIRS es el ecosistema digital definitivo diseñado para transformar la{' '}
+                            <strong>Gestión de Residuos Sólidos </strong>
+                            en Venezuela, desarrollada por Universitas Services C.A.
                         </p>
                         <p className="descripcion-cards leading-relaxed">
-                            El núcleo de nuestra plataforma es una interfaz intuitiva que guía al usuario a través de
-                            formularios inteligentes, facilitando la recopilación de toda la información necesaria de
-                            manera ordenada. Hemos creado un ecosistema que se adapta a las distintas necesidades de
-                            nuestros usuarios a través de dos versiones: una versión express, ideal para generar un
-                            documento de forma rápida y directa, y una versión pro, pensada para una gestión integral y
-                            a largo plazo.
+                            Nuestra misión es cerrar el &quot;abismo de información&quot; y el caos normativo que
+                            enfrentan municipios, empresas y asesores, proporcionando una base sólida para la toma de
+                            decisiones desinformadas.
                         </p>
                     </div>
 
@@ -60,21 +56,38 @@ export default function AcercaDePage() {
                                 className="font-bold"
                                 style={{ color: 'var(--color-heading-dark)', fontStyle: 'normal' }}
                             >
-                                La versión pro es el corazón de nuestra innovación.
+                                El Corazón de nuestra Innovación: Biblioteca Digital GIRS
                             </span>{' '}
-                            Ofrece un entorno robusto con almacenamiento seguro en la nube, permitiendo al usuario
-                            guardar, gestionar y editar sus documentos en cualquier momento y desde cualquier lugar.
-                            Además, integramos herramientas de inteligencia artificial que actúan como un asesor
-                            proactivo, generando alertas y sugerencias para asegurar la debida diligencia en cada paso.
+                            Nuestra plataforma centraliza el repositorio de conocimientos más completo del país.
+                            Contamos con más de 130 instrumentos normativos, técnicos y doctrinales previamente curados,
+                            digitalizados y validados por expertos. Eliminamos la dispersión de la información,
+                            permitiendo que incluso los municipios con menos recursos tengan acceso a una asesoría de
+                            nivel global.
                         </p>
                     </div>
 
                     {/* Cierre */}
                     <p className="descripcion-cards leading-relaxed">
-                        En Universitas Services C.A. estamos comprometidos con el desarrollo de soluciones digitales
-                        profesionales. Actas de entrega es un reflejo de esa visión: una aplicación potente, confiable y
-                        segura, diseñada no solo para generar un documento, sino para aportar tranquilidad, control y
-                        eficiencia a la importante labor de los servidores públicos de nuestro país.
+                        Contamos con el Consultor IA, a diferencia de las inteligencias artificiales genéricas que
+                        suelen &quot;alucinar&quot; o inventar datos legales, nuestro Agente GIRS opera bajo una
+                        arquitectura de circuito cerrado (RAG). No improvisa, sus respuestas están ancladas
+                        exclusivamente a nuestra Biblioteca Digital GIRS, logrando una precisión actual superior al 80%
+                        (aún se encuentra en entrenamiento); Cada respuesta incluye la cita oficial exacta (Gaceta y
+                        número de artículo), permitiendo una validación instantánea.
+                        <br />
+                        <br />
+                        Un Copiloto, no un sustituto. En Universitas Services C.A., creemos en el empoderamiento del
+                        criterio humano. El Agente GIRS está diseñado para actuar como una supervisión especializada y
+                        un copiloto experto que asiste en tiempo real, permitiendo que el funcionario decida con base en
+                        datos ciertos en menos de 3.2 segundos.
+                        <br />
+                        <br />
+                        <strong>Nuestro Compromiso</strong>
+                        <br />
+                        Estamos comprometidos con la mitigación de la discrecionalidad administrativa y la
+                        democratización del saber experto. Plataforma GIRS es una herramienta potente, confiable y
+                        segura, creada no solo para consultar leyes, sino para habilitar una verdadera economía circular
+                        y alcanzar la justicia ambiental en cada territorio.
                     </p>
 
                     {/* Footer: términos y privacidad */}
