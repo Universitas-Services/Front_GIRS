@@ -98,7 +98,7 @@ export default function ChatDashboardPage() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full bg-[var(--color-chat-bg)] relative animate-fade-in">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)] flex flex-col relative animate-fade-in">
             {/* Mobile Header */}
             <div className="md:hidden sticky top-0 z-10 flex items-center p-4 bg-surface-light/95 backdrop-blur-sm border-b border-surface-soft/40 shadow-sm">
                 <button

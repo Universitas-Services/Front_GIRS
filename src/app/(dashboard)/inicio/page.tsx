@@ -18,9 +18,9 @@ export default function InicioPage() {
     };
 
     return (
-        <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-2 sm:p-4 md:p-6">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
             {/* Contenedor principal — se centra verticalmente y permite scroll si no cabe */}
-            <div className="w-full max-w-4xl mx-auto my-auto flex flex-col gap-2 shrink-0 py-2">
+            <div className="max-w-6xl mx-auto space-y-6">
                 {/* ── Card 1: ¿Qué es la Plataforma GIRS? ── */}
                 <div className="rounded-xl bg-white border border-gray-200/70 text-gray-800 px-4 py-2 shadow-sm">
                     <h1 className="titulos-cards mb-0 tracking-tight leading-tight mb-2">

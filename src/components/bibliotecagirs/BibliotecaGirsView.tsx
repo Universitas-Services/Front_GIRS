@@ -5,7 +5,7 @@ import { BookOpen, ArrowRight } from 'lucide-react';
 
 export function BibliotecaGirsView() {
     return (
-        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[#f4f7f6]">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
             <div className="max-w-6xl mx-auto space-y-6">
                 {/* Header Section */}
                 <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 flex flex-col gap-4">
@@ -75,13 +75,11 @@ export function BibliotecaGirsView() {
                     {/* Especial Promo Card */}
                     <div className="flex flex-col bg-[#003d52] text-white rounded-xl shadow-sm border border-[#003d52] overflow-hidden p-8 justify-between">
                         <div>
-                            <h3 className="text-2xl font-semibold mb-2 leading-tight">
-                                Conoce nuestro medio digital Ágora
-                            </h3>
+                            <h3 className="text-2xl font-semibold mb-2 leading-tight">Conoce el anteproyecto de Ley</h3>
                             <div className="w-50 h-0.5 bg-white mb-4"></div>
                             <p className="text-white/80 italic text-sm leading-relaxed mb-6">
-                                Nuevo manual de procedimientos para la gestión de residuos biomédicos en zonas urbanas
-                                de alta densidad. Actualizado Mayo 2024.
+                                Propuesta legislativa de vanguardia orientada a sustituir el modelo tradicional de
+                                disposición final por un sistema integral enfocado en la economía circular.
                             </p>
                         </div>
                         <a

@@ -18,8 +18,8 @@ export default function ProyectoLeyPage() {
     };
 
     return (
-        <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-2 sm:p-4 md:p-6">
-            <div className="w-full max-w-4xl mx-auto flex flex-col gap-4 py-2">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
+            <div className="max-w-6xl mx-auto space-y-6">
                 <div className="rounded-xl bg-white border border-gray-200/70 shadow-sm px-4 py-3 flex items-center gap-3">
                     <div
                         className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"

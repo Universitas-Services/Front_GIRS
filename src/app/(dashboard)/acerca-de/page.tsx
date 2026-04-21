@@ -9,80 +9,89 @@ export default function AcercaDePage() {
     const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
     return (
-        <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-4 md:p-6">
-            {/* ── Un solo card conteniendo todo el contenido ── */}
-            <div className="w-full max-w-4xl mx-auto rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-6">
-                {/* Header: logo + título */}
-                <div className="flex items-center gap-5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        src="/asset/LOGO UNIVERSITAS LEGAL.png"
-                        alt="Universitas Legal"
-                        className="h-14 w-auto object-contain shrink-0"
-                    />
-                    <div>
-                        <h1 className="titulos-cards leading-tight mb-0 text-xl md:text-[23px]">
-                            Acerca de <span style={{ color: 'var(--color-primary)' }}>AGENTES VIRTUALES</span>
-                        </h1>
-                        <p className="descripcion-cards mt-0.5">Una solución innovadora de Universitas Services C.A.</p>
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
+            <div className="max-w-6xl mx-auto space-y-6">
+                {/* ── Un solo card conteniendo todo el contenido ── */}
+                <div className="w-full rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-6">
+                    {/* Header: logo + título */}
+                    <div className="flex items-center gap-5">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/asset/LOGO UNIVERSITAS LEGAL.png"
+                            alt="Universitas Legal"
+                            className="h-14 w-auto object-contain shrink-0"
+                        />
+                        <div>
+                            <h1 className="titulos-cards leading-tight mb-0 text-xl md:text-[23px]">
+                                Acerca de <span style={{ color: 'var(--color-primary)' }}>AGENTES VIRTUALES</span>
+                            </h1>
+                            <p className="descripcion-cards mt-0.5">
+                                Una solución innovadora de Universitas Services C.A.
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                {/* Descripción principal */}
-                <div className="space-y-4">
+                    {/* Descripción principal */}
+                    <div className="space-y-4">
+                        <p className="descripcion-cards leading-relaxed">
+                            Actas de entrega es una innovadora plataforma digital diseñada para ser el principal
+                            asistente tecnológico de los servidores públicos en Venezuela. Nuestra aplicación transforma
+                            un proceso tradicionalmente complejo en una experiencia de usuario simple, estructurada y
+                            segura.
+                        </p>
+                        <p className="descripcion-cards leading-relaxed">
+                            El núcleo de nuestra plataforma es una interfaz intuitiva que guía al usuario a través de
+                            formularios inteligentes, facilitando la recopilación de toda la información necesaria de
+                            manera ordenada. Hemos creado un ecosistema que se adapta a las distintas necesidades de
+                            nuestros usuarios a través de dos versiones: una versión express, ideal para generar un
+                            documento de forma rápida y directa, y una versión pro, pensada para una gestión integral y
+                            a largo plazo.
+                        </p>
+                    </div>
+
+                    {/* Versión Pro: barra vertical color primario */}
+                    <div className="flex gap-4">
+                        <div
+                            className="w-1 rounded-full shrink-0 self-stretch"
+                            style={{ backgroundColor: 'var(--color-accent-bar)' }}
+                        />
+                        <p className="descripcion-cards leading-relaxed">
+                            <span
+                                className="font-bold"
+                                style={{ color: 'var(--color-heading-dark)', fontStyle: 'normal' }}
+                            >
+                                La versión pro es el corazón de nuestra innovación.
+                            </span>{' '}
+                            Ofrece un entorno robusto con almacenamiento seguro en la nube, permitiendo al usuario
+                            guardar, gestionar y editar sus documentos en cualquier momento y desde cualquier lugar.
+                            Además, integramos herramientas de inteligencia artificial que actúan como un asesor
+                            proactivo, generando alertas y sugerencias para asegurar la debida diligencia en cada paso.
+                        </p>
+                    </div>
+
+                    {/* Cierre */}
                     <p className="descripcion-cards leading-relaxed">
-                        Actas de entrega es una innovadora plataforma digital diseñada para ser el principal asistente
-                        tecnológico de los servidores públicos en Venezuela. Nuestra aplicación transforma un proceso
-                        tradicionalmente complejo en una experiencia de usuario simple, estructurada y segura.
+                        En Universitas Services C.A. estamos comprometidos con el desarrollo de soluciones digitales
+                        profesionales. Actas de entrega es un reflejo de esa visión: una aplicación potente, confiable y
+                        segura, diseñada no solo para generar un documento, sino para aportar tranquilidad, control y
+                        eficiencia a la importante labor de los servidores públicos de nuestro país.
                     </p>
-                    <p className="descripcion-cards leading-relaxed">
-                        El núcleo de nuestra plataforma es una interfaz intuitiva que guía al usuario a través de
-                        formularios inteligentes, facilitando la recopilación de toda la información necesaria de manera
-                        ordenada. Hemos creado un ecosistema que se adapta a las distintas necesidades de nuestros
-                        usuarios a través de dos versiones: una versión express, ideal para generar un documento de
-                        forma rápida y directa, y una versión pro, pensada para una gestión integral y a largo plazo.
-                    </p>
-                </div>
 
-                {/* Versión Pro: barra vertical color primario */}
-                <div className="flex gap-4">
-                    <div
-                        className="w-1 rounded-full shrink-0 self-stretch"
-                        style={{ backgroundColor: 'var(--color-accent-bar)' }}
-                    />
-                    <p className="descripcion-cards leading-relaxed">
-                        <span className="font-bold" style={{ color: 'var(--color-heading-dark)', fontStyle: 'normal' }}>
-                            La versión pro es el corazón de nuestra innovación.
-                        </span>{' '}
-                        Ofrece un entorno robusto con almacenamiento seguro en la nube, permitiendo al usuario guardar,
-                        gestionar y editar sus documentos en cualquier momento y desde cualquier lugar. Además,
-                        integramos herramientas de inteligencia artificial que actúan como un asesor proactivo,
-                        generando alertas y sugerencias para asegurar la debida diligencia en cada paso.
-                    </p>
-                </div>
-
-                {/* Cierre */}
-                <p className="descripcion-cards leading-relaxed">
-                    En Universitas Services C.A. estamos comprometidos con el desarrollo de soluciones digitales
-                    profesionales. Actas de entrega es un reflejo de esa visión: una aplicación potente, confiable y
-                    segura, diseñada no solo para generar un documento, sino para aportar tranquilidad, control y
-                    eficiencia a la importante labor de los servidores públicos de nuestro país.
-                </p>
-
-                {/* Footer: términos y privacidad */}
-                <div className="flex items-center gap-8 pt-2">
-                    <button
-                        onClick={() => setIsTermsOpen(true)}
-                        className="text-sm text-[var(--color-neutral-dark)] hover:text-[var(--color-primary)] underline-offset-2 hover:underline transition-colors cursor-pointer"
-                    >
-                        Ver términos y condiciones
-                    </button>
-                    <button
-                        onClick={() => setIsPrivacyOpen(true)}
-                        className="text-sm text-[var(--color-neutral-dark)] hover:text-[var(--color-primary)] underline-offset-2 hover:underline transition-colors cursor-pointer"
-                    >
-                        Políticas de privacidad
-                    </button>
+                    {/* Footer: términos y privacidad */}
+                    <div className="flex items-center gap-8 pt-2">
+                        <button
+                            onClick={() => setIsTermsOpen(true)}
+                            className="text-sm text-[var(--color-neutral-dark)] hover:text-[var(--color-primary)] underline-offset-2 hover:underline transition-colors cursor-pointer"
+                        >
+                            Ver términos y condiciones
+                        </button>
+                        <button
+                            onClick={() => setIsPrivacyOpen(true)}
+                            className="text-sm text-[var(--color-neutral-dark)] hover:text-[var(--color-primary)] underline-offset-2 hover:underline transition-colors cursor-pointer"
+                        >
+                            Políticas de privacidad
+                        </button>
+                    </div>
                 </div>
             </div>
 

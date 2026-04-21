@@ -155,10 +155,10 @@ const BASE_CARDS: LegalCardData[] = [
 
 export default function RepositorioLegalPage() {
     return (
-        <div className="flex-1 overflow-y-auto bg-[var(--color-dashboard-bg)] flex flex-col p-4 md:p-6 pb-20">
-            <div className="w-full max-w-4xl mx-auto flex flex-col gap-8 py-2">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
+            <div className="max-w-6xl mx-auto space-y-6">
                 {/* ── Card de Información ── */}
-                <div className="rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-4 w-[88%] mx-auto">
+                <div className="rounded-xl bg-white border border-gray-200/70 shadow-sm p-6 md:p-8 flex flex-col gap-4">
                     <div className="flex items-center gap-2 text-[var(--color-icon-green)] etiquetas font-bold">
                         <FaBalanceScale size={18} />
                         <span>Base de Conocimiento</span>
@@ -167,8 +167,8 @@ export default function RepositorioLegalPage() {
                     <div className="space-y-3">
                         <h1 className="titulos-cards text-3xl md:text-[34px] leading-tight mb-0">Repositorio Legal</h1>
                         <p className="descripcion-cards text-base md:text-[17px] leading-relaxed max-w-3xl">
-                            Acceda a la normativa vigente, decretos legislativos y marcos regulatorios que rigen la
-                            Gestión Integral de Residuos Sólidos.
+                            Acceda a nuestro Repositorio Legal para consultar las leyes orgánicas, leyes especiales y
+                            decretos nacionales que rigen la Gestión Integral de Residuos Sólidos (GIRS).
                         </p>
                     </div>
                 </div>

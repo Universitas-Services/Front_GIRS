@@ -184,8 +184,8 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="flex-1 overflow-y-auto bg-surface flex flex-col pt-4 px-4 sm:px-8 pb-4">
-            <div className="w-full max-w-5xl mx-auto flex flex-col flex-1">
+        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)]">
+            <div className="max-w-6xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="mb-2 flex justify-center">
                     <h1 className="text-xl font-bold text-neutral-dark">Gestión de perfil</h1>
