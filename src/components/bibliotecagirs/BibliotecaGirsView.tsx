@@ -32,7 +32,8 @@ export function BibliotecaGirsView() {
                         tagBgColor="bg-blue-100"
                         tagTextColor="text-blue-700"
                         imageSrc="/bibliotecagirs/legislacionn.png"
-                        description="Compendio integral de leyes nacionales, decretos reglamentarios y normativas..."
+                        description="Compendio especializado de leyes orgánicas, leyes especiales, decretos y resoluciones que rigen la materia ambiental, la organización municipal y la tributación vinculada al servicio de aseo urbano."
+                        href="https://universitas.legal/biblioteca-girs-legislacion/"
                     />
                     <BibliotecaGirsCard
                         title="Ordenanzas"
@@ -40,7 +41,8 @@ export function BibliotecaGirsView() {
                         tagBgColor="bg-green-100"
                         tagTextColor="text-green-700"
                         imageSrc="/bibliotecagirs/ordenanzass.png"
-                        description="Repositorio de disposiciones municipales y resoluciones regionales específicas que..."
+                        description="Compendio especializado de los instrumentos dictados por los Concejos Municipales que regulan el servicio local de aseo urbano, los regímenes tarifarios, la participación ciudadana y el control ambiental territorial."
+                        href="https://universitas.legal/biblioteca-girs-ordenanzas/"
                     />
                     <BibliotecaGirsCard
                         title="Sentencias"
@@ -48,23 +50,26 @@ export function BibliotecaGirsView() {
                         tagBgColor="bg-slate-200"
                         tagTextColor="text-slate-600"
                         imageSrc="/bibliotecagirs/sentenciass.png"
-                        description="Análisis detallado de fallos jurisprudenciales y dictámenes de tribunales superiores..."
+                        description="Compendio especializado de fallos dictados por el Tribunal Supremo de Justicia que interpretan la normativa del aseo urbano, los regímenes tarifarios y los contratos de concesión municipal."
+                        href="https://universitas.legal/biblioteca-girs-sentencias/"
                     />
                     <BibliotecaGirsCard
-                        title="Doctrinas Administrativas"
-                        tagLabel="TÉCNICO"
+                        title="Doctrina administrativa"
+                        tagLabel="ADMINISTRATIVO"
                         tagBgColor="bg-fuchsia-100"
                         tagTextColor="text-fuchsia-700"
                         imageSrc="/bibliotecagirs/doctrinas_administrativass.png"
-                        description="Criterios interpretativos emitidos por entes reguladores y autoridades ambientales....."
+                        description="Compendio especializado de informes de control fiscal, auditorías ambientales y dictámenes emitidos por los órganos del Estado sobre la gestión operativa del servicio de aseo urbano."
+                        href="https://universitas.legal/biblioteca-girs-doctrina-administrativa/"
                     />
                     <BibliotecaGirsCard
-                        title="Doctrinas"
-                        tagLabel="ACADEMICO"
+                        title="Doctrina"
+                        tagLabel="ACADÉMICO"
                         tagBgColor="bg-orange-100"
                         tagTextColor="text-orange-700"
                         imageSrc="/bibliotecagirs/doctrinass.png"
-                        description="Artículos de investigación, ensayos académicos y tesis especializadas que exploran las..."
+                        description="Compendio especializado de artículos académicos, ensayos e investigaciones que analizan críticamente los fundamentos teóricos, las competencias municipales y los debates tributarios en el manejo de residuos sólidos."
+                        href="https://universitas.legal/biblioteca-girs-doctrina/"
                     />
 
                     {/* Especial Promo Card */}
