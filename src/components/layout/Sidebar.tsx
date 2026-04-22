@@ -190,7 +190,7 @@ export function Sidebar() {
                             className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
                         >
                             <IoMdBook size={18} color="var(--color-white)" className="shrink-0" />
-                            <span className="font-medium text-[13px] ml-3">Biblioteca girs</span>
+                            <span className="font-medium text-[13px] ml-3">Biblioteca GIRS</span>
                         </button>
                     ) : (
                         <Tooltip>
@@ -203,7 +203,7 @@ export function Sidebar() {
                                 </button>
                             </TooltipTrigger>
                             <TooltipContent side="right" sideOffset={15.4}>
-                                <p>Biblioteca girs</p>
+                                <p>Biblioteca GIRS</p>
                             </TooltipContent>
                         </Tooltip>
                     )}

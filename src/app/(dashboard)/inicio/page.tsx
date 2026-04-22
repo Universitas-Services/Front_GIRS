@@ -39,7 +39,7 @@ export default function InicioPage() {
                 {/* ── Card 2: Dos tarjetas lado a lado ── */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {/* Biblioteca Legal */}
-                    <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm px-4 py-2 flex flex-col justify-between">
+                    <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm px-4 py-2 flex flex-col justify-between relative">
                         <div>
                             <div className="flex items-center gap-2 mb-1">
                                 <div
@@ -66,10 +66,17 @@ export default function InicioPage() {
                                 <li>Documentos históricos y criterios especializados</li>
                             </ul>
                         </div>
+
+                        <Button
+                            onClick={() => router.push('/biblioteca-girs')}
+                            className="absolute bottom-2 right-2 bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg px-5 h-8 text-xs transition-all active:scale-95 cursor-pointer"
+                        >
+                            Ir a biblioteca
+                        </Button>
                     </div>
 
                     {/* Consultor IA */}
-                    <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm px-4 py-2 flex flex-col justify-between">
+                    <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm px-4 py-2 flex flex-col justify-between relative">
                         <div>
                             <div className="flex items-center gap-2 mb-1">
                                 <div
@@ -83,7 +90,7 @@ export default function InicioPage() {
 
                             <p className="descripcion-cards leading-snug mb-7">
                                 Es un agente IA conversacional especializado en normativa de residuos sólidos. El
-                                Consultor responde preguntas y aclara conceptos jurídicos usando exclusivamente la
+                                Consultor responde preguntas y aclaran conceptos jurídicos usando exclusivamente la
                                 Biblioteca Digital GIRS.
                             </p>
 
@@ -91,6 +98,13 @@ export default function InicioPage() {
                                 Trabajamos para hacerlo mejor: si notas un error, repórtalo al equipo de soporte.
                             </p>
                         </div>
+
+                        <Button
+                            onClick={() => router.push('/chat')}
+                            className="absolute bottom-2 right-2 bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg px-5 h-8 text-xs transition-all active:scale-95 cursor-pointer"
+                        >
+                            Consulta aquí
+                        </Button>
                     </div>
                 </div>
 
