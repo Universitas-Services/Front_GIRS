@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { FaInstagram, FaLinkedin, FaTwitter, FaXTwitter, FaFacebook, FaBook } from 'react-icons/fa6';
+import { FaInstagram, FaLinkedin, FaTwitter, FaXTwitter, FaFacebook, FaBook, FaGavel } from 'react-icons/fa6';
 import { BsChatRight } from 'react-icons/bs';
 
 export default function InicioPage() {
@@ -105,6 +105,36 @@ export default function InicioPage() {
                         >
                             Consulta aquí
                         </Button>
+                    </div>
+                </div>
+
+                {/* ── Card: Anteproyecto de Ley ── */}
+                <div className="rounded-xl bg-white border border-gray-200/70 text-gray-800 px-4 pt-4 pb-2 shadow-sm relative overflow-hidden">
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-2 mb-1">
+                            <div
+                                className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                                style={{ backgroundColor: '#BEDABE' }}
+                            >
+                                <FaGavel className="w-3.5 h-3.5" style={{ color: '#00B800' }} />
+                            </div>
+                            <h2 className="titulos-cards mb-0 leading-tight">Anteproyecto de Ley Orgánica GIRS</h2>
+                        </div>
+
+                        <p className="descripcion-cards leading-snug mt-2">
+                            Propuesta legislativa de vanguardia que impulsa el modelo de Economía Circular en Venezuela.
+                            Conoce el marco normativo diseñado para transformar la disposición final de residuos en un
+                            sistema sustentable y moderno.
+                        </p>
+
+                        <div className="flex justify-end mt-4">
+                            <Button
+                                onClick={() => router.push('/proyecto-ley')}
+                                className="bg-primary hover:bg-primary-hover text-white font-semibold rounded-lg px-5 h-8 text-xs transition-all active:scale-95 w-fit cursor-pointer"
+                            >
+                                Ver proyecto
+                            </Button>
+                        </div>
                     </div>
                 </div>
 
