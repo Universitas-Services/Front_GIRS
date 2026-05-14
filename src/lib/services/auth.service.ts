@@ -102,4 +102,8 @@ export const authService = {
     changePassword: async (data: ChangePasswordInput): Promise<void> => {
         await api.post('/users/password/change', data);
     },
+
+    acceptNews: async (): Promise<void> => {
+        await api.post('/users/accept-news');
+    },
 };
