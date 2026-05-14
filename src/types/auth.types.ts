@@ -8,6 +8,13 @@ export interface User {
     avatar?: string | null;
     createdAt?: string;
     role?: string;
+    hasUnreadNews?: boolean;
+    latestNews?: {
+        id: string;
+        title: string;
+        content: string;
+        createdAt: string;
+    } | null;
 }
 
 export interface UserProfile {

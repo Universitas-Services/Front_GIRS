@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { authService } from '@/lib/services/auth.service';
 import { UserProfile } from '@/types/auth.types';
 import { MembershipExpiringModal, ProfileIncompleteModal } from '@/components/Modales';
+import { DisruptiveNewsModal } from '@/components/layout/DisruptiveNewsModal';
 import { useChat } from '@/store/chat.context';
 import { chatService } from '@/lib/services/chat.service';
 
@@ -109,6 +110,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             />
 
             <ProfileIncompleteModal isOpen={isProfileModalOpen} onSuccess={() => setIsProfileModalOpen(false)} />
+
+            <DisruptiveNewsModal />
         </div>
     );
 }
