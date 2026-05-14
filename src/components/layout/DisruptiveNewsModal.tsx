@@ -54,12 +54,14 @@ export function DisruptiveNewsModal() {
 
                     <div className="flex flex-col items-center gap-1.5 mt-2">
                         <Avatar className="h-7 w-7 border-2 border-white shadow-sm">
-                            <AvatarImage src="https://github.com/shadcn.png" alt="Admin" />
+                            <AvatarImage src="/asset/Julio-AI-Fospuca.png" alt="Universitas" />
                             <AvatarFallback className="text-[9px] font-bold bg-slate-100 text-slate-600">
-                                AD
+                                UN
                             </AvatarFallback>
                         </Avatar>
-                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-500">Admin</span>
+                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-500">
+                            Universitas
+                        </span>
                     </div>
                 </div>
 
