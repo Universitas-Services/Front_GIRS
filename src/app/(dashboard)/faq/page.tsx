@@ -104,7 +104,7 @@ export default function FaqPage() {
             <div className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 animate-in fade-in duration-500">
                 {/* CARD PARA EL TÍTULO (Estilo página de Inicio) */}
                 <div className="bg-white rounded-2xl shadow-sm border border-surface-soft/20 p-6 md:p-8 mb-6">
-                    <h1 className="text-2xl md:text-3xl font-bold text-[#003B4A] mb-2">Preguntas Frecuentes</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold text-[#003B4A] mb-2">Preguntas frecuentes</h1>
                     <p className="text-[#388E3C] italic font-medium text-[15px] md:text-[16px] mb-2">
                         Respuestas a las dudas más comunes sobre la Plataforma GIRS
                     </p>
