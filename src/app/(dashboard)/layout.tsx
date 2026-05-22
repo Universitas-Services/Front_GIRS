@@ -1,5 +1,5 @@
 'use client';
-
+import { CopyrightFooter } from '@/components/layout/CopyrightFooter';
 import { ReactNode, useEffect, useState } from 'react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { useAuth } from '@/store/auth.context';
@@ -101,7 +101,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return (
         <div className="flex h-[100dvh] overflow-hidden bg-surface-light text-neutral-dark">
             <Sidebar />
-            <main className="flex-1 flex flex-col min-w-0 relative overflow-hidden">{children}</main>
+            <main className="flex-1 flex flex-col min-w-0 relative overflow-y-auto custom-scrollbar">
+                <div className="flex-1 flex flex-col">{children}</div>
+                <CopyrightFooter />
+            </main>
 
             <MembershipExpiringModal
                 isOpen={isMembershipModalOpen}

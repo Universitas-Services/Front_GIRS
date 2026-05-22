@@ -99,36 +99,34 @@ export default function FaqPage() {
     ];
 
     return (
-        <div className="h-screen w-full overflow-y-auto pb-24">
+        <div className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 animate-in fade-in duration-500">
             {/* Se cambió max-w-4xl por max-w-7xl para que fluya y respete los márgenes del Sidebar */}
-            <div className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 animate-in fade-in duration-500">
-                {/* CARD PARA EL TÍTULO (Estilo página de Inicio) */}
-                <div className="bg-white rounded-2xl shadow-sm border border-surface-soft/20 p-6 md:p-8 mb-6">
-                    <h1 className="text-2xl md:text-3xl font-bold text-[#003B4A] mb-2">Preguntas frecuentes</h1>
-                    <p className="text-[#388E3C] italic font-medium text-[15px] md:text-[16px] mb-2">
-                        Respuestas a las dudas más comunes sobre la Plataforma GIRS
-                    </p>
-                    <p className="text-neutral-dark/70 italic text-[14px] md:text-[15px] leading-relaxed">
-                        Explora nuestro centro de ayuda para conocer más sobre el acceso, los servicios, la Biblioteca
-                        Legal y el funcionamiento del Consultor IA.
-                    </p>
-                </div>
+            {/* CARD PARA EL TÍTULO (Estilo página de Inicio) */}
+            <div className="bg-white rounded-2xl shadow-sm border border-surface-soft/20 p-6 md:p-8 mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold text-[#003B4A] mb-2">Preguntas frecuentes</h1>
+                <p className="text-[#388E3C] italic font-medium text-[15px] md:text-[16px] mb-2">
+                    Respuestas a las dudas más comunes sobre la Plataforma GIRS
+                </p>
+                <p className="text-neutral-dark/70 italic text-[14px] md:text-[15px] leading-relaxed">
+                    Explora nuestro centro de ayuda para conocer más sobre el acceso, los servicios, la Biblioteca Legal
+                    y el funcionamiento del Consultor IA.
+                </p>
+            </div>
 
-                {/* CARD DEL ACORDEÓN */}
-                <div className="bg-white rounded-2xl shadow-sm border border-surface-soft/20 p-6 md:p-8">
-                    <Accordion type="single" collapsible className="w-full space-y-2">
-                        {faqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="border-surface-soft/30 px-2">
-                                <AccordionTrigger className="text-left font-semibold text-neutral-dark hover:text-[#003B4A] transition-colors hover:no-underline py-4">
-                                    {faq.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-neutral-dark/80 leading-relaxed pb-4 pt-1">
-                                    {faq.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
+            {/* CARD DEL ACORDEÓN */}
+            <div className="bg-white rounded-2xl shadow-sm border border-surface-soft/20 p-6 md:p-8">
+                <Accordion type="single" collapsible className="w-full space-y-2">
+                    {faqs.map((faq, index) => (
+                        <AccordionItem key={index} value={`item-${index}`} className="border-surface-soft/30 px-2">
+                            <AccordionTrigger className="text-left font-semibold text-neutral-dark hover:text-[#003B4A] transition-colors hover:no-underline py-4">
+                                {faq.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="text-neutral-dark/80 leading-relaxed pb-4 pt-1">
+                                {faq.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
             </div>
         </div>
     );
