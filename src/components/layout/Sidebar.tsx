@@ -3,7 +3,7 @@
 import { useChat } from '@/store/chat.context';
 import { useAuth } from '@/store/auth.context';
 import { cn } from '@/lib/utils';
-import { MessageSquare, Settings, LogOut, Menu, X, User, Headset } from 'lucide-react';
+import { MessageSquare, Settings, LogOut, Menu, X, User, Headset, HelpCircle } from 'lucide-react';
 import { IoMdBook, IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoHomeSharp, IoAddCircleOutline } from 'react-icons/io5';
 import { FaGavel, FaBalanceScale } from 'react-icons/fa';
@@ -367,15 +367,6 @@ export function Sidebar() {
 
             {/* Otros Servicios Section */}
             <div className="w-full flex-shrink-0 mb-2 mt-4 pt-4 border-t border-surface-soft/10">
-                <div
-                    className={cn(
-                        'mb-2 transition-opacity duration-300',
-                        expanded ? 'px-3 opacity-100' : 'opacity-0 hidden'
-                    )}
-                >
-                    <p className="text-[11px] font-semibold text-on-primary/50 tracking-wider">Otros Servicios</p>
-                </div>
-
                 <div className={cn('shrink-0 mb-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
                     {expanded ? (
                         <button
@@ -405,6 +396,33 @@ export function Sidebar() {
                             </TooltipTrigger>
                             <TooltipContent side="right" sideOffset={15.4}>
                                 <p>Acerca de</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    )}
+                </div>
+
+                {/* FAQ Button */}
+                <div className={cn('shrink-0 my-0.5', expanded ? 'px-3' : 'w-full flex justify-center')}>
+                    {expanded ? (
+                        <button
+                            onClick={() => router.push('/faq')}
+                            className="flex items-center py-1.5 rounded-lg transition-colors cursor-pointer w-full px-3 text-on-primary/80 hover:bg-surface-soft/10"
+                        >
+                            <HelpCircle size={18} color="var(--color-white)" className="shrink-0" />
+                            <span className="font-medium text-[13px] ml-3">FAQ</span>
+                        </button>
+                    ) : (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <button
+                                    onClick={() => router.push('/faq')}
+                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-surface-soft/10 transition-colors cursor-pointer"
+                                >
+                                    <HelpCircle size={18} color="var(--color-white)" className="shrink-0" />
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={15.4}>
+                                <p>FAQ</p>
                             </TooltipContent>
                         </Tooltip>
                     )}
@@ -446,7 +464,12 @@ export function Sidebar() {
             </div>
 
             {/* Footer Settings / User */}
-            <div className={cn('shrink-0 pb-3 relative mt-0', expanded ? 'px-3' : 'w-full flex flex-col items-center')}>
+            <div
+                className={cn(
+                    'shrink-0 pb-3 relative mt-auto',
+                    expanded ? 'px-3' : 'w-full flex flex-col items-center'
+                )}
+            >
                 <DropdownMenu>
                     {!expanded ? (
                         <Tooltip>
@@ -553,15 +576,6 @@ export function Sidebar() {
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
-
-            {/* Copyright Section */}
-            {expanded && (
-                <div className="px-3 pb-4 mt-auto text-center">
-                    <p className="text-[7px] font-bold text-[#8CA8B1] uppercase tracking-tighter">
-                        Copyright © 2026 Universitas Services | AGENTES VIRTUALES
-                    </p>
-                </div>
-            )}
         </div>
     );
 

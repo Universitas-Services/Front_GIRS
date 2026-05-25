@@ -32,6 +32,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                             Consultoría experta en Gestión Integral de Residuos Sólidos.
                         </p>
                     </div>
+                    {/* NUEVO: Copyright fijado al fondo del panel azul */}
+                    <div className="absolute bottom-6 left-0 w-full px-4 text-center z-10">
+                        <p className="text-[11px] md:text-[12px] text-on-primary/60 font-medium">
+                            © 2026 Universitas Services, C.A. Todos los derechos reservados.
+                        </p>
+                    </div>
                 </div>
 
                 {/* Panel Derecho (Formularios) */}
