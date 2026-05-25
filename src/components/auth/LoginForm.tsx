@@ -7,14 +7,7 @@ import { loginSchema } from '@/lib/validations/auth.schemas';
 import { useAuth } from '@/store/auth.context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -36,21 +29,29 @@ export function LoginForm() {
         try {
             await login(values);
             toast.success('¡Bienvenido!');
-            router.push('/chat');
-        } catch (error: any) {
-            toast.error(error.message || 'Credenciales incorrectas');
+            router.replace('/inicio');
+        } catch (error) {
+            toast.error((error as Error).message || 'Credenciales incorrectas');
         }
     }
 
     return (
-        <div className="w-full max-w-md mx-auto space-y-8 animate-fade-in">
-            <div className="space-y-2 text-center">
+        <div className="w-full animate-fade-in">
+            <div className="flex justify-center mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src="/asset/LOGO UNIVERSITAS LEGAL.png"
+                    alt="Universitas Legal Logo"
+                    className="h-14 sm:h-16 w-auto object-contain drop-shadow-sm"
+                />
+            </div>
+            <div className="space-y-1 text-center mb-6">
                 <h2 className="text-3xl font-bold text-primary">Bienvenido</h2>
                 <p className="text-neutral-dark/60 text-sm">Ingresa tus credenciales para continuar</p>
             </div>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     <FormField
                         control={form.control}
                         name="email"
@@ -60,7 +61,20 @@ export function LoginForm() {
                                 <FormControl>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-dark/40">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="18"
+                                                height="18"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <rect width="20" height="16" x="2" y="4" rx="2" />
+                                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                                            </svg>
                                         </div>
                                         <Input
                                             placeholder="nombre@empresa.com"
@@ -83,7 +97,20 @@ export function LoginForm() {
                                 <FormControl>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-dark/40">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="18"
+                                                height="18"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                            </svg>
                                         </div>
                                         <Input
                                             type={showPassword ? 'text' : 'password'}
@@ -107,7 +134,10 @@ export function LoginForm() {
 
                     <div className="flex justify-between items-center px-1">
                         <label className="flex items-center space-x-2 text-sm text-neutral-dark/60 cursor-pointer">
-                            <input type="checkbox" className="rounded border-neutral-bg text-accent focus:ring-accent" />
+                            <input
+                                type="checkbox"
+                                className="rounded border-neutral-bg text-accent focus:ring-accent"
+                            />
                             <span>Recordarme</span>
                         </label>
                         <Link href="/forgot-password" className="text-sm text-accent hover:underline font-medium">

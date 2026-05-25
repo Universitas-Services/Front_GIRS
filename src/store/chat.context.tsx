@@ -55,11 +55,7 @@ const ChatContext = createContext<ChatContextProps | undefined>(undefined);
 export function ChatProvider({ children }: { children: ReactNode }) {
     const [state, dispatch] = useReducer(chatReducer, initialState);
 
-    return (
-        <ChatContext.Provider value={{ ...state, dispatch }}>
-            {children}
-        </ChatContext.Provider>
-    );
+    return <ChatContext.Provider value={{ ...state, dispatch }}>{children}</ChatContext.Provider>;
 }
 
 export function useChat() {
