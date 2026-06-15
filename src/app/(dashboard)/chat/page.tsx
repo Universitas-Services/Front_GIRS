@@ -11,14 +11,7 @@ import { FeatureBlockedModal } from '@/components/Modales';
 export default function ChatDashboardPage() {
     const { dispatch, activeConversationId, conversations, messages } = useChat();
 
-    const [isLoading, setIsLoading] = useState(true);
     const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
-
-    useEffect(() => {
-        // We set loading to false here to allow the component to render
-        // as the actual fetching of conversations is now done at the DashboardLayout level
-        setIsLoading(false);
-    }, [dispatch]);
 
     // Fetch messages when active conversation changes
     useEffect(() => {
@@ -98,7 +91,7 @@ export default function ChatDashboardPage() {
     };
 
     return (
-        <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-[var(--color-dashboard-bg)] flex flex-col relative animate-fade-in">
+        <div className="flex-1 overflow-hidden p-6 flex flex-col min-h-0 relative animate-fade-in">
             {/* Mobile Header */}
             <div className="md:hidden sticky top-0 z-10 flex items-center p-4 bg-surface-light/95 backdrop-blur-sm border-b border-surface-soft/40 shadow-sm">
                 <button
@@ -117,19 +110,11 @@ export default function ChatDashboardPage() {
             </div>
 
             {/* Main Chat Area */}
-            <div className="flex-1 overflow-hidden flex flex-col pt-0">
-                {isLoading ? (
-                    <div className="flex-1 flex items-center justify-center">
-                        <div className="animate-pulse flex flex-col items-center">
-                            <div className="w-12 h-12 bg-surface-soft/40 rounded-full mb-4"></div>
-                            <div className="h-4 w-32 bg-surface-soft/40 rounded mb-2"></div>
-                            <div className="h-3 w-48 bg-surface-soft/40 rounded"></div>
-                        </div>
-                    </div>
-                ) : messages.length > 0 ? (
-                    <div className="flex-1 max-w-5xl mx-auto w-full flex flex-col bg-white shadow-xl md:rounded-[24px] overflow-hidden md:mt-4 md:mb-6 border border-surface-soft/40">
+            <div className="flex-1 overflow-hidden flex flex-col min-h-0 pt-0">
+                {messages.length > 0 ? (
+                    <div className="flex-1 max-w-5xl mx-auto w-full flex flex-col min-h-0 bg-white shadow-xl md:rounded-[24px] md:mb-3 border border-surface-soft/40">
                         {/* Header for Active Conversation inside the White Card */}
-                        <div className="flex items-center px-6 py-4 border-b border-surface-soft/60 bg-white shrink-0 z-10 transition-all">
+                        <div className="flex items-center px-6 py-4 border-b border-surface-soft/60 bg-white md:rounded-t-[24px] shrink-0 z-10 transition-all">
                             <div className="relative mr-3 flex shrink-0">
                                 <AgentAvatar size="sm" className="ring-2 ring-white shadow-sm" />
                                 <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-[var(--color-status-online)] ring-[1.5px] ring-white shadow-sm"></span>
@@ -148,7 +133,7 @@ export default function ChatDashboardPage() {
                         <ChatInput onSendMessage={handleSendMessage} variant="inline" />
                     </div>
                 ) : (
-                    <div className="flex-1 flex flex-col w-full relative">
+                    <div className="flex-1 flex flex-col min-h-0 w-full relative">
                         <MessageList />
                         <ChatInput onSendMessage={handleSendMessage} variant="floating" />
                     </div>
