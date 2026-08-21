@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Message } from '@/types/chat.types';
 import { AgentAvatar } from './AgentAvatar';
 import { cn } from '@/lib/utils';
@@ -11,26 +12,29 @@ interface MessageBubbleProps {
     isLast: boolean;
 }
 
+const CHARS_PER_TICK = 8;
+const TICK_MS = 12;
+
 export function MessageBubble({ message, isLast }: MessageBubbleProps) {
     const isAgent = message.role === 'assistant';
     const [displayedText, setDisplayedText] = useState(isAgent && isLast ? '' : message.content);
     const [isTyping, setIsTyping] = useState(isAgent && isLast);
 
     useEffect(() => {
-        if (isAgent && isLast && isTyping) {
-            let currentIndex = 1; // start at 1 to show first char, or 0
-            const interval = setInterval(() => {
-                if (currentIndex <= message.content.length) {
-                    setDisplayedText(message.content.substring(0, currentIndex));
-                    currentIndex++;
-                } else {
-                    setIsTyping(false);
-                    clearInterval(interval);
-                }
-            }, 20); // 20ms per character typing effect
+        if (!(isAgent && isLast && isTyping)) return;
 
-            return () => clearInterval(interval);
-        }
+        let currentIndex = 0;
+        const interval = setInterval(() => {
+            currentIndex = Math.min(currentIndex + CHARS_PER_TICK, message.content.length);
+            setDisplayedText(message.content.substring(0, currentIndex));
+
+            if (currentIndex >= message.content.length) {
+                setIsTyping(false);
+                clearInterval(interval);
+            }
+        }, TICK_MS);
+
+        return () => clearInterval(interval);
     }, [message.content, isAgent, isLast, isTyping]);
 
     const dateObj = new Date(message.createdAt);
@@ -61,12 +65,57 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps) {
                                 : 'bg-primary text-on-primary rounded-[20px] rounded-tr-sm'
                         )}
                     >
-                        <p className="text-[15px] leading-relaxed break-words whitespace-pre-wrap">
-                            {displayedText}
+                        <div
+                            className={cn(
+                                'chat-markdown text-[15px] leading-relaxed break-words',
+                                !isAgent && 'chat-markdown--user'
+                            )}
+                        >
+                            <ReactMarkdown
+                                components={{
+                                    p: ({ children }) => (
+                                        <p className="mb-2 last:mb-0 whitespace-pre-wrap">{children}</p>
+                                    ),
+                                    strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                                    em: ({ children }) => <em className="italic">{children}</em>,
+                                    ul: ({ children }) => (
+                                        <ul className="my-2 list-disc space-y-1 pl-5 last:mb-0">{children}</ul>
+                                    ),
+                                    ol: ({ children }) => (
+                                        <ol className="my-2 list-decimal space-y-1 pl-5 last:mb-0">{children}</ol>
+                                    ),
+                                    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                                    a: ({ href, children }) => (
+                                        <a
+                                            href={href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={cn(
+                                                'underline underline-offset-2',
+                                                isAgent ? 'text-primary' : 'text-on-primary/90'
+                                            )}
+                                        >
+                                            {children}
+                                        </a>
+                                    ),
+                                    code: ({ children }) => (
+                                        <code
+                                            className={cn(
+                                                'rounded px-1 py-0.5 text-[0.9em]',
+                                                isAgent ? 'bg-black/5' : 'bg-white/15'
+                                            )}
+                                        >
+                                            {children}
+                                        </code>
+                                    ),
+                                }}
+                            >
+                                {displayedText}
+                            </ReactMarkdown>
                             {isTyping && (
                                 <span className="inline-block w-1.5 h-4 ml-1 bg-accent animate-pulse align-middle" />
                             )}
-                        </p>
+                        </div>
                     </div>
 
                     <div className={cn('flex items-center gap-2', isAgent ? 'justify-start ml-1' : 'justify-end mr-1')}>
